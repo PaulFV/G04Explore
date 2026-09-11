@@ -6,7 +6,7 @@
  * Deploy weiter die alte Version.
  */
 
-const CACHE = "g04explore-v3";
+const CACHE = "g04explore-v4";
 
 const ASSETS = [
   "./",
