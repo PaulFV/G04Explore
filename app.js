@@ -206,6 +206,19 @@ function distanceKm(place) {
   return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
+function googleMapsDestination(place) {
+  return place.latitude && place.longitude
+    ? String(place.latitude) + "," + String(place.longitude)
+    : [place.name, place.address].filter(Boolean).join(" ");
+}
+
+function googleMapsUrl(place, route = true) {
+  const destination = encodeURIComponent(googleMapsDestination(place));
+  const path = route ? "dir" : "search";
+  const parameter = route ? "destination" : "query";
+  return "https://www.google.com/maps/" + path + "/?api=1&" + parameter + "=" + destination;
+}
+
 /* --------------------------------------------------------------- Rendering */
 
 function render() {
@@ -438,10 +451,7 @@ function showDetail(id) {
   if (!place) return;
 
   const memberships = trips.filter((trip) => trip.placeIds.includes(place.id));
-  const destination =
-    place.latitude && place.longitude ? place.latitude + "," + place.longitude : place.address || place.name;
-  const mapsUrl =
-    place.mapsUrl || "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(destination);
+  const mapsUrl = googleMapsUrl(place);
 
   openModal(
     `<div class="modal detail-modal">
@@ -506,11 +516,13 @@ function showDetail(id) {
 
   $(".route", root).onclick = () => {
     noteField.blur();
-    window.open(mapsUrl, "_blank", "noopener");
+    // Navigation in the same user gesture ist auf iPhone/iPad zuverlässiger
+    // als window.open und öffnet bei installiertem Google Maps die App.
+    window.location.assign(mapsUrl);
   };
 
   $(".share", root).onclick = async () => {
-    const shareData = { title: place.name, text: place.name + " — " + place.address, url: place.mapsUrl || mapsUrl };
+    const shareData = { title: place.name, text: place.name + " — " + place.address, url: googleMapsUrl(place, false) };
     try {
       if (navigator.share) await navigator.share(shareData);
       else {
@@ -939,10 +951,7 @@ async function renderGoogleSearchPanel(results, query) {
               </div>
               <div class="result-actions">
                 <button class="primary" type="button" data-google-place="${esc(place.id)}">＋ Speichern</button>
-                <a class="secondary" data-map-link href="${esc(
-                  place.mapsUrl ||
-                    "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(place.name + " " + place.address),
-                )}" target="_blank" rel="noopener noreferrer">↗ Navigation</a>
+                <a class="secondary" data-map-link href="${esc(googleMapsUrl(place))}" target="_blank" rel="noopener noreferrer">↗ Navigation</a>
               </div>
             </div>
           </article>`;
