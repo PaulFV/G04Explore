@@ -1,0 +1,7 @@
+# Einheitliche Zeilenenden, unabhängig vom Betriebssystem.
+* text=auto eol=lf
+
+# Binärdateien nicht anfassen.
+*.png -text
+*.ico -text
+*.woff2 -text

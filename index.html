@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="Dein persönlicher Speicher und digitaler Planer für Lieblingsorte." />
+    <meta name="theme-color" content="#1769ff" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="G04Explore" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icons/icon-192.png" sizes="192x192" type="image/png" />
+    <link rel="icon" href="icons/icon-512.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+    <title>G04Explore — Deine Orte. Deine Karte.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">G<span>04</span><i>EX</i></span>
+          <span>G04Explore</span>
+        </div>
+        <p class="eyebrow">DEIN ENTDECKER-SPACE</p>
+        <nav aria-label="Hauptnavigation">
+          <button class="nav-item active" data-view="home" aria-current="page">
+            <span aria-hidden="true">⌂</span>Übersicht
+          </button>
+          <button class="nav-item" data-view="saved"><span aria-hidden="true">♡</span>Alle Orte</button>
+          <button class="nav-item" data-view="trips"><span aria-hidden="true">✦</span>Reise-Listen</button>
+          <button class="nav-item" data-view="settings"><span aria-hidden="true">⚙</span>Einstellungen</button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="offline-pill"><i aria-hidden="true"></i>Offline verfügbar</div>
+          <p>Deine Sammlung bleibt auch unterwegs bei dir.</p>
+        </div>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <div class="mobile-brand">
+            <span class="brand-mark" aria-hidden="true">G<span>04</span><i>EX</i></span> G04Explore
+          </div>
+          <div class="profile">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Dark Mode umschalten" aria-pressed="false">
+              ☾
+            </button>
+            <div class="avatar" id="avatar" aria-hidden="true">MF</div>
+            <div><strong id="greeting">Hi</strong><small>Dein nächstes Abenteuer?</small></div>
+            <span class="chevron" aria-hidden="true">⌄</span>
+          </div>
+        </header>
+
+        <section class="content">
+          <div class="welcome-row">
+            <div>
+              <p class="eyebrow" id="today"></p>
+              <h1><em>Hello World!</em></h1>
+            </div>
+            <button class="primary add-place-btn">＋ Ort speichern</button>
+          </div>
+
+          <div class="search-wrap" role="search">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <label class="sr-only" for="search">Orte durchsuchen</label>
+            <input
+              id="search"
+              type="search"
+              autocomplete="off"
+              role="combobox"
+              aria-expanded="false"
+              aria-controls="suggestions"
+              aria-autocomplete="list"
+              placeholder="Nach Orten, Städten oder Kategorien suchen..."
+            />
+            <kbd aria-hidden="true">⌘ K</kbd>
+            <div id="suggestions" class="suggestions hidden" role="listbox" aria-label="Suchvorschläge"></div>
+          </div>
+
+          <div id="home-view" class="view-panel">
+            <div class="section-heading">
+              <div><h2>Was möchtest du entdecken?</h2></div>
+              <button class="text-btn" data-view="saved">Alle anzeigen <span aria-hidden="true">→</span></button>
+            </div>
+            <div id="category-grid" class="bento-grid"></div>
+          </div>
+
+          <div id="saved-view" class="view-panel hidden">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow" id="saved-eyebrow">DEINE ORTE</p>
+                <h2 id="saved-title">Alle gespeicherten Orte</h2>
+              </div>
+              <button class="text-btn hidden" id="clear-filter">Filter zurücksetzen</button>
+            </div>
+            <div id="saved-grid" class="place-grid"></div>
+          </div>
+
+          <div id="trips-view" class="view-panel hidden">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">REISE-LISTEN</p>
+                <h2>Gemeinsam unterwegs</h2>
+              </div>
+              <button class="secondary" id="new-trip">＋ Neue Liste</button>
+            </div>
+            <div id="trips-page-grid" class="trip-grid"></div>
+          </div>
+
+          <div id="settings-view" class="view-panel hidden">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">APP EINSTELLUNGEN</p>
+                <h2>Deine Einstellungen</h2>
+              </div>
+            </div>
+            <div class="settings-card">
+              <div class="setting-row">
+                <span class="setting-icon" aria-hidden="true">☺</span>
+                <div><strong>Dein Name</strong><small>Für die Begrüßung auf der Übersicht</small></div>
+                <input
+                  id="settings-name"
+                  class="setting-input"
+                  type="text"
+                  maxlength="24"
+                  placeholder="Max"
+                  aria-label="Dein Name"
+                />
+              </div>
+              <div class="setting-row">
+                <span class="setting-icon" aria-hidden="true">☾</span>
+                <div><strong>Dark Mode</strong><small>Schont deine Augen bei wenig Licht</small></div>
+                <label class="switch">
+                  <span class="sr-only">Dark Mode</span>
+                  <input id="settings-theme" type="checkbox" />
+                  <span aria-hidden="true"></span>
+                </label>
+              </div>
+              <div class="setting-row">
+                <span class="setting-icon" aria-hidden="true">⌁</span>
+                <div>
+                  <strong>Offline-Modus</strong>
+                  <small id="offline-hint">Gespeicherte Orte offline verfügbar</small>
+                </div>
+                <label class="switch">
+                  <span class="sr-only">Offline-Modus</span>
+                  <input id="settings-offline" type="checkbox" />
+                  <span aria-hidden="true"></span>
+                </label>
+              </div>
+              <div class="setting-row">
+                <span class="setting-icon" aria-hidden="true">♢</span>
+                <div>
+                  <strong>Benachrichtigungen</strong>
+                  <small id="notifications-hint">Tipps und Erinnerungen zu deinen Orten</small>
+                </div>
+                <label class="switch">
+                  <span class="sr-only">Benachrichtigungen</span>
+                  <input id="settings-notifications" type="checkbox" />
+                  <span aria-hidden="true"></span>
+                </label>
+              </div>
+              <div class="setting-row">
+                <span class="setting-icon" aria-hidden="true">文</span>
+                <div><strong>Sprache</strong><small>Deutsch</small></div>
+                <button class="language-btn" disabled>Deutsch</button>
+              </div>
+            </div>
+            <p class="settings-note">G04EX · Deine Daten bleiben auf diesem Gerät gespeichert.</p>
+          </div>
+        </section>
+
+        <nav class="bottom-nav" aria-label="Hauptnavigation mobil">
+          <button class="active" data-view="home" aria-current="page">
+            <span aria-hidden="true">⌂</span><small>Übersicht</small>
+          </button>
+          <button data-view="saved"><span aria-hidden="true">♡</span><small>Orte</small></button>
+          <button data-view="trips"><span aria-hidden="true">✦</span><small>Listen</small></button>
+          <button data-view="settings"><span aria-hidden="true">⚙</span><small>Settings</small></button>
+        </nav>
+      </main>
+    </div>
+
+    <div id="modal-root"></div>
+    <p id="live-region" class="sr-only" role="status" aria-live="polite"></p>
+
+    <noscript>
+      <p style="padding: 24px">G04Explore braucht JavaScript, um deine gespeicherten Orte anzuzeigen.</p>
+    </noscript>
+
+    <script src="app.js"></script>
+  </body>
+</html>
