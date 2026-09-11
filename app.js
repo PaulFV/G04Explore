@@ -840,8 +840,15 @@ function inferCategory(types = [], query = "") {
   return "Sehenswürdigkeiten";
 }
 
+function googlePlacesKey() {
+  const globalKey = window.G04_CONFIG?.googleMapsKey;
+  return typeof globalKey === "string" && globalKey.trim()
+    ? globalKey.trim()
+    : readSetting("g04-google-key", "").trim();
+}
+
 function loadGooglePlaces() {
-  const key = readSetting("g04-google-key", "").trim();
+  const key = googlePlacesKey();
   if (!key) return Promise.reject(new Error("missing-key"));
   if (window.google?.maps?.importLibrary) return window.google.maps.importLibrary("places");
   if (googleLoaderPromise) return googleLoaderPromise;
@@ -1018,7 +1025,7 @@ function renderSearchSuggestions(rawQuery, localHits, remoteHits = [], message =
   const status = message
     ? message === "missing-key"
       ? `<button class="search-message search-message-action" type="button" data-open-settings>
-          Google Places ist noch nicht verbunden. <span>Settings öffnen →</span>
+          Google Places ist für diese App noch nicht eingerichtet. <span>Hinweise öffnen →</span>
         </button>`
       : `<div class="search-message">${esc(message)}</div>`
     : "";
@@ -1099,7 +1106,7 @@ function runSearch(rawQuery) {
   const hits = places.filter((place) =>
     (place.name + " " + place.address + " " + place.category).toLowerCase().includes(query),
   );
-  const hasGoogleKey = Boolean(readSetting("g04-google-key", "").trim());
+  const hasGoogleKey = Boolean(googlePlacesKey());
   renderSearchSuggestions(
     rawQuery,
     hits,
@@ -1373,29 +1380,14 @@ function bindEvents() {
   $("#theme-toggle").onclick = () => applyTheme(!document.body.classList.contains("dark"));
   $("#settings-theme").onchange = (event) => applyTheme(event.target.checked);
   $("#settings-name").oninput = (event) => applyProfile(event.target.value);
-  $("#save-google-key").onclick = () => {
-    const input = $("#settings-google-key");
-    const hint = $("#google-places-hint");
-    const key = input.value.trim();
-    writeSetting("g04-google-key", key);
-    googleLoaderPromise = null;
-    const previousScript = $("#g04-google-maps-api");
-    if (previousScript && !window.google?.maps?.importLibrary) previousScript.remove();
-    hint.textContent = key
-      ? "Verbunden — suche oben zum Beispiel nach „Hotel Bamberg“"
-      : "API-Schlüssel eintragen, um Orte weltweit zu suchen";
-    announce(key ? "Google Places wurde gespeichert." : "Google Places wurde getrennt.");
-  };
 }
 
 function init() {
   const storedName = readSetting("g04-name", "");
-  const storedGoogleKey = readSetting("g04-google-key", "");
   $("#settings-name").value = storedName;
-  $("#settings-google-key").value = storedGoogleKey;
-  if (storedGoogleKey) {
-    $("#google-places-hint").textContent = "Verbunden — suche oben zum Beispiel nach „Hotel Bamberg“";
-  }
+  $("#google-places-hint").textContent = googlePlacesKey()
+    ? "Zentral verbunden — suche oben zum Beispiel nach „Hotel Bamberg“"
+    : "Noch nicht konfiguriert — der App-Administrator muss Google Places verbinden";
   applyProfile(storedName);
   applyTheme(readSetting("g04-theme", "light") === "dark");
   renderToday();

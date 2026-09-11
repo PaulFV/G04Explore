@@ -53,10 +53,16 @@ Die globale Suche unterstützt Google Places Text Search. Damit funktionieren Ei
 
 1. In Google Cloud die **Maps JavaScript API** und **Places API (New)** aktivieren.
 2. Einen Browser-API-Schlüssel erstellen und per HTTP-Referrer auf die eigene GitHub-Pages-Adresse beschränken.
-3. In G04Explore **Settings → Google Places** öffnen, den Schlüssel eintragen und **Verbinden** wählen.
-4. In der Hauptsuche einen Suchbegriff eingeben, ein Ergebnis auswählen und anschließend speichern.
+3. Im Repository unter **Settings → Secrets and variables → Actions** ein Secret mit dem Namen
+   `GOOGLE_MAPS_BROWSER_KEY` anlegen.
+4. Der GitHub-Pages-Workflow erzeugt beim Deployment daraus automatisch `config.js`. Nutzer müssen
+   keinen Schlüssel eingeben.
+5. In der Hauptsuche einen Suchbegriff eingeben, ein Ergebnis auswählen und anschließend speichern.
 
-Der Schlüssel wird nur im lokalen Browser-Speicher abgelegt und nicht in dieses Repository geschrieben.
+`config.js` ist in `.gitignore` eingetragen und wird nicht committed. Für lokale Entwicklung kann
+`config.example.js` als `config.js` kopiert und mit einem eigenen eingeschränkten Schlüssel ergänzt werden.
+Da ein Browser-Schlüssel an Google Maps im Browser übertragen werden muss, ist er im ausgelieferten
+Frontend technisch sichtbar. Deshalb sind HTTP-Referrer- und API-Einschränkungen zwingend erforderlich.
 
 ## Auf iPhone und Android installieren
 

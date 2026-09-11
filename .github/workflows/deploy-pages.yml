@@ -23,6 +23,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - name: Create runtime configuration
+        env:
+          GOOGLE_MAPS_BROWSER_KEY: ${{ secrets.GOOGLE_MAPS_BROWSER_KEY }}
+        run: |
+          node -e "const fs = require('node:fs'); const key = (process.env.GOOGLE_MAPS_BROWSER_KEY || '').trim(); if (!key) throw new Error('Missing repository secret GOOGLE_MAPS_BROWSER_KEY'); fs.writeFileSync('config.js', 'window.G04_CONFIG = ' + JSON.stringify({ googleMapsKey: key }) + ';\\n');"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .

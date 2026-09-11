@@ -215,19 +215,9 @@
                 <span class="setting-icon" aria-hidden="true">⌖</span>
                 <div>
                   <strong>Google Places</strong>
-                  <small id="google-places-hint">API-Schlüssel eintragen, um Orte weltweit zu suchen</small>
+                  <small id="google-places-hint">Wird zentral für alle Nutzer bereitgestellt</small>
                 </div>
-                <div class="setting-action">
-                  <input
-                    id="settings-google-key"
-                    class="setting-input api-key-input"
-                    type="password"
-                    autocomplete="off"
-                    placeholder="API-Schlüssel"
-                    aria-label="Google Maps API-Schlüssel"
-                  />
-                  <button class="language-btn" id="save-google-key" type="button">Verbinden</button>
-                </div>
+                <span class="setting-status">ZENTRAL</span>
               </div>
               <div class="setting-row">
                 <span class="setting-icon" aria-hidden="true">文</span>
@@ -257,6 +247,8 @@
       <p style="padding: 24px">G04Explore braucht JavaScript, um deine gespeicherten Orte anzuzeigen.</p>
     </noscript>
 
+    <!-- config.js wird beim GitHub-Pages-Deployment aus dem Repository-Secret erzeugt. -->
+    <script src="config.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
