@@ -46,8 +46,17 @@ eigenen Orte weg — eine Export-Funktion gibt es noch nicht.
 2. Unter **Settings → Pages** als Source **GitHub Actions** auswählen.
 3. Der Workflow veröffentlicht die statischen Dateien automatisch.
 
-Die Google-Places- und Firebase-Anbindung kann später in `app.js` ergänzt werden. API-Schlüssel
-bitte ausschließlich über eine sichere Backend- oder Secret-Konfiguration einbinden.
+## Google-Places-Suche
+
+Die globale Suche unterstützt Google Places Text Search. Damit funktionieren Eingaben wie
+`Hotel Bamberg`, `Restaurants Nürnberg` oder `Museen Berlin`.
+
+1. In Google Cloud die **Maps JavaScript API** und **Places API (New)** aktivieren.
+2. Einen Browser-API-Schlüssel erstellen und per HTTP-Referrer auf die eigene GitHub-Pages-Adresse beschränken.
+3. In G04Explore **Settings → Google Places** öffnen, den Schlüssel eintragen und **Verbinden** wählen.
+4. In der Hauptsuche einen Suchbegriff eingeben, ein Ergebnis auswählen und anschließend speichern.
+
+Der Schlüssel wird nur im lokalen Browser-Speicher abgelegt und nicht in dieses Repository geschrieben.
 
 ## Auf iPhone und Android installieren
 

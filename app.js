@@ -107,6 +107,14 @@ let trips = readStore("g04-trips", SEED_TRIPS);
 let activeCategory = null;
 let activeTrip = null;
 let currentView = "home";
+let googleLoaderPromise = null;
+let googleSearchTimer = null;
+let googleSearchVersion = 0;
+const googleSearchResults = new Map();
+let searchMap = null;
+let searchMarkers = [];
+let currentLocation = null;
+let lastGoogleQuery = "";
 
 /* ----------------------------------------------------------------- Speicher */
 
@@ -179,12 +187,32 @@ function countLabel(n, singular, plural) {
   return n + " " + (n === 1 ? singular : plural);
 }
 
+const VISIT_STATUS = {
+  wishlist: "Möchte ich besuchen",
+  planned: "Geplant",
+  visited: "Besucht",
+};
+
+function distanceKm(place) {
+  if (!currentLocation || !place.latitude || !place.longitude) return null;
+  const toRad = (value) => (Number(value) * Math.PI) / 180;
+  const dLat = toRad(Number(place.latitude) - currentLocation.lat);
+  const dLng = toRad(Number(place.longitude) - currentLocation.lng);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(currentLocation.lat)) *
+      Math.cos(toRad(Number(place.latitude))) *
+      Math.sin(dLng / 2) ** 2;
+  return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
 /* --------------------------------------------------------------- Rendering */
 
 function render() {
   renderCategories();
   renderTrips();
   renderSavedView();
+  renderHomeInsights();
 }
 
 function renderCategories() {
@@ -206,15 +234,28 @@ function renderPlaces(list, target, emptyText) {
   grid.innerHTML = list.length
     ? list
         .map(
-          (place) => `<article class="place-card" data-place="${esc(place.id)}" role="button" tabindex="0"
-        aria-label="${esc(place.name)}, ${esc(place.address)}">
-        <div class="place-top">
-          <span class="place-emoji">${iconFor(place.category)}</span>
-          <span class="status ${place.open ? "" : "closed"}">${place.open ? "● Jetzt geöffnet" : "● Geschlossen"}</span>
-        </div>
-        <h3>${esc(place.name)}</h3>
-        <p>${esc(place.address)}</p>
-      </article>`,
+          (place) => {
+            const distance = distanceKm(place);
+            return `<article class="place-card ${place.photoUrl ? "has-photo" : ""}" data-place="${esc(place.id)}"
+              role="button" tabindex="0" aria-label="${esc(place.name)}, ${esc(place.address)}">
+              ${place.photoUrl ? `<img class="place-card-photo" src="${esc(place.photoUrl)}" alt="" loading="lazy" />` : ""}
+              <div class="place-card-body">
+                <div class="place-top">
+                  <span class="place-emoji">${iconFor(place.category)}</span>
+                  <span class="favorite-mark" aria-label="${place.favorite ? "Favorit" : "Kein Favorit"}">${
+                    place.favorite ? "♥" : "♡"
+                  }</span>
+                </div>
+                <h3>${esc(place.name)}</h3>
+                <p>${esc(place.address)}</p>
+                <div class="place-meta">
+                  ${place.rating ? `<span>★ ${esc(place.rating)}</span>` : ""}
+                  <span>${esc(VISIT_STATUS[place.visitStatus] || "Möchte ich besuchen")}</span>
+                  ${distance !== null ? `<span>${distance.toFixed(1)} km</span>` : ""}
+                </div>
+              </div>
+            </article>`;
+          },
         )
         .join("")
     : `<div class="empty">${esc(emptyText)}</div>`;
@@ -235,6 +276,34 @@ function renderTrips() {
         })
         .join("")
     : `<div class="empty">Noch keine Liste angelegt. Leg deine erste mit „＋ Neue Liste“ an.</div>`;
+}
+
+function renderInsightList(target, list, emptyText) {
+  const node = $(target);
+  if (!node) return;
+  node.innerHTML = list.length
+    ? list
+        .slice(0, 3)
+        .map(
+          (place) => `<button class="insight-place" type="button" data-place="${esc(place.id)}">
+            <span class="insight-icon">${iconFor(place.category)}</span>
+            <span><strong>${esc(place.name)}</strong><small>${esc(place.address)}</small></span>
+          </button>`,
+        )
+        .join("")
+    : `<p class="insight-empty">${esc(emptyText)}</p>`;
+}
+
+function renderHomeInsights() {
+  const recent = [...places].sort((a, b) => String(b.createdAt || b.id).localeCompare(String(a.createdAt || a.id)));
+  renderInsightList("#recent-places", recent, "Noch keine Orte gespeichert.");
+  renderInsightList("#favorite-places", places.filter((place) => place.favorite), "Markiere Orte als Favorit.");
+  const nearby = places
+    .map((place) => ({ place, distance: distanceKm(place) }))
+    .filter((entry) => entry.distance !== null)
+    .sort((a, b) => a.distance - b.distance)
+    .map((entry) => entry.place);
+  renderInsightList("#nearby-places", nearby, "Standort auf Anfrage verwenden.");
 }
 
 function renderSavedView() {
@@ -259,6 +328,21 @@ function renderSavedView() {
     title.textContent = "Alle gespeicherten Orte";
     eyebrow.textContent = "DEINE ORTE";
   }
+
+  const categoryFilter = $("#filter-category")?.value || "";
+  const statusFilter = $("#filter-status")?.value || "";
+  const favoritesOnly = $("#filter-favorites")?.checked || false;
+  const sort = $("#sort-places")?.value || "recent";
+  if (categoryFilter) list = list.filter((place) => place.category === categoryFilter);
+  if (statusFilter) list = list.filter((place) => (place.visitStatus || "wishlist") === statusFilter);
+  if (favoritesOnly) list = list.filter((place) => place.favorite);
+  list = [...list].sort((a, b) => {
+    if (sort === "name") return a.name.localeCompare(b.name, "de");
+    if (sort === "ownRating") return Number(b.ownRating || 0) - Number(a.ownRating || 0);
+    if (sort === "googleRating") return Number(b.rating || 0) - Number(a.rating || 0);
+    if (sort === "distance") return (distanceKm(a) ?? Infinity) - (distanceKm(b) ?? Infinity);
+    return String(b.createdAt || b.id).localeCompare(String(a.createdAt || a.id));
+  });
 
   clearButton.classList.toggle("hidden", !activeCategory && !activeTrip);
   renderPlaces(list, "#saved-grid", empty);
@@ -354,20 +438,32 @@ function showDetail(id) {
   if (!place) return;
 
   const memberships = trips.filter((trip) => trip.placeIds.includes(place.id));
+  const destination =
+    place.latitude && place.longitude ? place.latitude + "," + place.longitude : place.address || place.name;
   const mapsUrl =
-    "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(place.address || place.name);
+    place.mapsUrl || "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(destination);
 
   openModal(
     `<div class="modal detail-modal">
       <button class="close" type="button" aria-label="Schließen">×</button>
-      <div class="detail-hero" aria-hidden="true">${iconFor(place.category)}</div>
+      <div class="detail-hero" aria-hidden="true">${
+        place.photoUrl ? `<img src="${esc(place.photoUrl)}" alt="" />` : iconFor(place.category)
+      }</div>
       <span class="status ${place.open ? "" : "closed"}">${place.open ? "● Jetzt geöffnet" : "● Geschlossen"}</span>
       <h2>${esc(place.name)}</h2>
       <p class="address">${esc(place.address)}</p>
-      ${place.rating ? `<div class="rating">★ ${esc(place.rating)} <span>· ${esc(place.category)}</span></div>` : ""}
+      ${
+        place.rating
+          ? `<div class="rating">★ ${esc(place.rating)} ${
+              place.userRatingCount ? `(${esc(place.userRatingCount)} Bewertungen)` : ""
+            } <span>· ${esc(place.category)}</span></div>`
+          : ""
+      }
       <div class="detail-info">
         <div><small>ÖFFNUNGSZEITEN</small><strong>${esc(place.hours) || "—"}</strong></div>
-        <div><small>KATEGORIE</small><strong>${esc(place.category)}</strong></div>
+        <div><small>STATUS</small><strong>${esc(VISIT_STATUS[place.visitStatus] || "Möchte ich besuchen")}</strong></div>
+        <div><small>EIGENE BEWERTUNG</small><strong>${place.ownRating ? "★ " + esc(place.ownRating) : "—"}</strong></div>
+        <div><small>PREIS</small><strong>${esc(String(place.priceLevel || "—").replaceAll("PRICE_LEVEL_", ""))}</strong></div>
       </div>
       ${
         memberships.length
@@ -379,6 +475,7 @@ function showDetail(id) {
       <textarea id="note" rows="3">${esc(place.note)}</textarea>
       <div class="actions">
         <button class="secondary edit" type="button">Bearbeiten</button>
+        <button class="secondary share" type="button">Teilen</button>
         <button class="primary route" type="button">↗ Route starten</button>
       </div>
       <div class="quick-actions">
@@ -412,6 +509,19 @@ function showDetail(id) {
     window.open(mapsUrl, "_blank", "noopener");
   };
 
+  $(".share", root).onclick = async () => {
+    const shareData = { title: place.name, text: place.name + " — " + place.address, url: place.mapsUrl || mapsUrl };
+    try {
+      if (navigator.share) await navigator.share(shareData);
+      else {
+        await navigator.clipboard?.writeText(shareData.text + " / " + shareData.url);
+        announce("Ort-Link kopiert.");
+      }
+    } catch {
+      /* Teilen wurde abgebrochen. */
+    }
+  };
+
   $(".edit", root).onclick = () => {
     place.note = noteField.value;
     savePlaces();
@@ -434,7 +544,7 @@ function showDetail(id) {
 
 /* ------------------------------------------------------------ Ort: Formular */
 
-function showPlaceForm(existing) {
+function showPlaceForm(existing, forceNew = false) {
   const place = existing || {
     id: "",
     name: "",
@@ -446,8 +556,12 @@ function showPlaceForm(existing) {
     note: "",
     phone: "",
     website: "",
+    ownRating: "",
+    visitDate: "",
+    visitStatus: "wishlist",
+    favorite: false,
   };
-  const isNew = !existing;
+  const isNew = !existing || forceNew;
 
   openModal(
     `<div class="modal form-modal">
@@ -480,6 +594,25 @@ function showPlaceForm(existing) {
               placeholder="4.5" value="${esc(place.rating)}" />
           </div>
         </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-own-rating">EIGENE BEWERTUNG</label>
+            <input id="f-own-rating" name="ownRating" type="number" min="0" max="5" step="0.5"
+              placeholder="5" value="${esc(place.ownRating)}" />
+          </div>
+          <div class="field">
+            <label for="f-visit-date">BESUCHSDATUM</label>
+            <input id="f-visit-date" name="visitDate" type="date" value="${esc(place.visitDate)}" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-visit-status">BESUCHSSTATUS</label>
+          <select id="f-visit-status" name="visitStatus">
+            <option value="wishlist" ${place.visitStatus === "wishlist" || !place.visitStatus ? "selected" : ""}>Möchte ich besuchen</option>
+            <option value="planned" ${place.visitStatus === "planned" ? "selected" : ""}>Geplant</option>
+            <option value="visited" ${place.visitStatus === "visited" ? "selected" : ""}>Besucht</option>
+          </select>
+        </div>
         <div class="field">
           <label for="f-hours">ÖFFNUNGSZEITEN</label>
           <input id="f-hours" name="hours" type="text" placeholder="Heute 09:00 – 18:00" value="${esc(place.hours)}" />
@@ -501,6 +634,10 @@ function showPlaceForm(existing) {
         <label class="check-row">
           <input id="f-open" name="open" type="checkbox" ${place.open ? "checked" : ""} />
           <span>Aktuell geöffnet</span>
+        </label>
+        <label class="check-row">
+          <input id="f-favorite" name="favorite" type="checkbox" ${place.favorite ? "checked" : ""} />
+          <span>Als Favorit markieren</span>
         </label>
         <p class="form-error hidden" id="form-error" role="alert"></p>
         <div class="actions">
@@ -531,18 +668,40 @@ function showPlaceForm(existing) {
 
     const record = {
       id: place.id || uid("p_"),
+      placeId: place.placeId || "",
       name,
       category: data.category,
       address: data.address.trim(),
+      latitude: place.latitude || "",
+      longitude: place.longitude || "",
       rating: data.rating.trim(),
       hours: data.hours.trim(),
       phone: data.phone.trim(),
       website: data.website.trim(),
+      mapsUrl: place.mapsUrl || "",
       note: data.note,
       open: $("#f-open", root).checked,
+      ownRating: data.ownRating.trim(),
+      visitDate: data.visitDate,
+      visitStatus: data.visitStatus,
+      favorite: $("#f-favorite", root).checked,
+      createdAt: place.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      photoUrl: place.photoUrl || "",
+      userRatingCount: place.userRatingCount || 0,
+      priceLevel: place.priceLevel || "",
     };
 
-    if (isNew) places.push(record);
+    if (isNew) {
+      const duplicate = record.placeId && places.find((item) => item.placeId === record.placeId);
+      if (duplicate) {
+        closeModal();
+        showDetail(duplicate.id);
+        announce(name + " ist bereits gespeichert.");
+        return;
+      }
+      places.push(record);
+    }
     else places = places.map((item) => (item.id === record.id ? record : item));
 
     savePlaces();
@@ -653,12 +812,276 @@ function createTrip() {
 
 /* -------------------------------------------------------------------- Suche */
 
+function inferCategory(types = [], query = "") {
+  const values = new Set(types);
+  const text = query.toLowerCase();
+  if (values.has("hotel") || values.has("lodging") || /hotel|unterkunft|pension/.test(text)) return "Hotels";
+  if (values.has("restaurant") || values.has("meal_takeaway") || /restaurant|essen|food/.test(text)) {
+    return "Restaurants";
+  }
+  if (values.has("cafe") || /café|cafe|kaffee/.test(text)) return "Cafés";
+  if (values.has("museum") || values.has("art_gallery") || /museum|galerie/.test(text)) return "Museen";
+  if (values.has("gym") || values.has("stadium") || values.has("sports_complex") || /sport|fitness/.test(text)) {
+    return "Sport";
+  }
+  if (values.has("event_venue") || /event|veranstaltung|konzert/.test(text)) return "Events";
+  return "Sehenswürdigkeiten";
+}
+
+function loadGooglePlaces() {
+  const key = readSetting("g04-google-key", "").trim();
+  if (!key) return Promise.reject(new Error("missing-key"));
+  if (window.google?.maps?.importLibrary) return window.google.maps.importLibrary("places");
+  if (googleLoaderPromise) return googleLoaderPromise;
+
+  googleLoaderPromise = new Promise((resolve, reject) => {
+    const callback = "__g04GooglePlacesReady";
+    const timeout = window.setTimeout(() => reject(new Error("Google Places antwortet nicht.")), 15000);
+    window[callback] = async () => {
+      window.clearTimeout(timeout);
+      try {
+        resolve(await window.google.maps.importLibrary("places"));
+      } catch (error) {
+        reject(error);
+      } finally {
+        delete window[callback];
+      }
+    };
+    const script = document.createElement("script");
+    script.id = "g04-google-maps-api";
+    script.async = true;
+    script.src =
+      "https://maps.googleapis.com/maps/api/js?key=" +
+      encodeURIComponent(key) +
+      "&loading=async&libraries=places&v=weekly&language=de&region=DE&callback=" +
+      callback;
+    script.onerror = () => {
+      window.clearTimeout(timeout);
+      googleLoaderPromise = null;
+      reject(new Error("Google Places konnte nicht geladen werden."));
+    };
+    document.head.appendChild(script);
+  });
+  return googleLoaderPromise;
+}
+
+function googlePlaceToRecord(place, query) {
+  const location = place.location;
+  const name = typeof place.displayName === "string" ? place.displayName : place.displayName?.text || "Unbekannter Ort";
+  const descriptions = place.regularOpeningHours?.weekdayDescriptions || [];
+  const todayIndex = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1;
+  let photoUrl = "";
+  try {
+    photoUrl = place.photos?.[0]?.getURI({ maxWidth: 900, maxHeight: 600 }) || "";
+  } catch {
+    photoUrl = "";
+  }
+  let isOpen = place.businessStatus !== "CLOSED_PERMANENTLY";
+  try {
+    const liveOpen = place.regularOpeningHours?.isOpen?.();
+    if (typeof liveOpen === "boolean") isOpen = liveOpen;
+  } catch {
+    /* Öffnungsstatus ist optional. */
+  }
+  return {
+    id: "g_" + place.id,
+    placeId: place.id,
+    name,
+    category: inferCategory(place.types || [], query),
+    address: place.formattedAddress || "",
+    latitude: location && typeof location.lat === "function" ? String(location.lat()) : "",
+    longitude: location && typeof location.lng === "function" ? String(location.lng()) : "",
+    rating: place.rating ? String(place.rating) : "",
+    userRatingCount: place.userRatingCount || 0,
+    priceLevel: place.priceLevel || "",
+    openingHours: descriptions,
+    hours: descriptions[todayIndex] || "",
+    photoUrl,
+    note: "",
+    phone: place.nationalPhoneNumber || "",
+    website: place.websiteURI || "",
+    mapsUrl: place.googleMapsURI || "",
+    open: isOpen,
+    visitStatus: "wishlist",
+    favorite: false,
+    ownRating: "",
+    visitDate: "",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+async function renderGoogleSearchPanel(results, query) {
+  const panel = $("#search-explorer");
+  const list = $("#places-result-list");
+  lastGoogleQuery = query;
+  panel.classList.remove("hidden");
+  $("#search-results-title").textContent = results.length + " Ergebnisse für „" + query.trim() + "“";
+  list.innerHTML = results.length
+    ? results
+        .map((place) => {
+          const distance = distanceKm(place);
+          return `<article class="map-result-card">
+            ${
+              place.photoUrl
+                ? `<img src="${esc(place.photoUrl)}" alt="Foto von ${esc(place.name)}" loading="lazy" />`
+                : `<div class="map-result-placeholder">${iconFor(place.category)}</div>`
+            }
+            <div class="map-result-content">
+              <span class="result-category">${esc(place.category)}</span>
+              <h3>${esc(place.name)}</h3>
+              <p>${esc(place.address)}</p>
+              <div class="result-facts">
+                ${place.rating ? `<span>★ ${esc(place.rating)} (${esc(place.userRatingCount)})</span>` : ""}
+                ${place.priceLevel ? `<span>${esc(String(place.priceLevel).replaceAll("PRICE_LEVEL_", ""))}</span>` : ""}
+                ${distance !== null ? `<span>${distance.toFixed(1)} km entfernt</span>` : ""}
+                ${place.hours ? `<span>${esc(place.hours)}</span>` : ""}
+              </div>
+              <div class="result-actions">
+                <button class="primary" type="button" data-google-place="${esc(place.id)}">＋ Speichern</button>
+                <a class="secondary" data-map-link href="${esc(
+                  place.mapsUrl ||
+                    "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(place.name + " " + place.address),
+                )}" target="_blank" rel="noopener noreferrer">↗ Navigation</a>
+              </div>
+            </div>
+          </article>`;
+        })
+        .join("")
+    : '<div class="empty">Keine passenden Orte gefunden.</div>';
+
+  try {
+    await loadGooglePlaces();
+    const [{ Map }, { AdvancedMarkerElement }, { LatLngBounds }] = await Promise.all([
+      window.google.maps.importLibrary("maps"),
+      window.google.maps.importLibrary("marker"),
+      window.google.maps.importLibrary("core"),
+    ]);
+    const located = results.filter((place) => place.latitude && place.longitude);
+    const center = currentLocation ||
+      (located[0] ? { lat: Number(located[0].latitude), lng: Number(located[0].longitude) } : { lat: 51, lng: 10 });
+    if (!searchMap) {
+      searchMap = new Map($("#places-map"), { center, zoom: located.length ? 13 : 6, mapId: "DEMO_MAP_ID" });
+    }
+    searchMarkers.forEach((marker) => (marker.map = null));
+    searchMarkers = [];
+    const bounds = new LatLngBounds();
+    located.forEach((place) => {
+      const position = { lat: Number(place.latitude), lng: Number(place.longitude) };
+      bounds.extend(position);
+      const marker = new AdvancedMarkerElement({ map: searchMap, position, title: place.name, gmpClickable: true });
+      marker.addEventListener("gmp-click", () => showPlaceForm(place, true));
+      searchMarkers.push(marker);
+    });
+    if (located.length > 1) searchMap.fitBounds(bounds, 60);
+    else if (located.length === 1) {
+      searchMap.setCenter(center);
+      searchMap.setZoom(14);
+    }
+  } catch {
+    $("#places-map").innerHTML = '<div class="map-unavailable">Karte momentan nicht verfügbar.</div>';
+  }
+}
+
+function renderSearchSuggestions(rawQuery, localHits, remoteHits = [], message = "") {
+  const box = $("#suggestions");
+  const localIds = new Set(localHits.map((place) => place.placeId).filter(Boolean));
+  const remote = remoteHits.filter((place) => !localIds.has(place.placeId));
+  const localMarkup = localHits
+    .map(
+      (place) => `<div class="suggestion" role="option" tabindex="0" data-place="${esc(place.id)}">
+        <span class="suggestion-icon">${iconFor(place.category)}</span>
+        <div><strong>${esc(place.name)}</strong><small>${esc(place.address)} · Gespeichert</small></div>
+      </div>`,
+    )
+    .join("");
+  const remoteMarkup = remote
+    .map(
+      (place) => `<div class="suggestion remote-suggestion" role="option" tabindex="0"
+        data-google-place="${esc(place.id)}">
+        <span class="suggestion-icon">${iconFor(place.category)}</span>
+        <div><strong>${esc(place.name)}</strong><small>${esc(place.address)}</small></div>
+        ${place.rating ? `<span class="search-rating">★ ${esc(place.rating)}</span>` : ""}
+      </div>`,
+    )
+    .join("");
+  const source = remote.length ? '<div class="search-source">Ergebnisse von Google Places</div>' : "";
+  const status = message
+    ? message === "missing-key"
+      ? `<button class="search-message search-message-action" type="button" data-open-settings>
+          Google Places ist noch nicht verbunden. <span>Settings öffnen →</span>
+        </button>`
+      : `<div class="search-message">${esc(message)}</div>`
+    : "";
+  const manual = `<div class="suggestion manual-suggestion" role="option" tabindex="0" data-new>
+    <span class="suggestion-icon" aria-hidden="true">＋</span>
+    <div><strong>„${esc(rawQuery.trim())}“ manuell speichern</strong><small>Eigenen Ort anlegen</small></div>
+  </div>`;
+  box.innerHTML = source + localMarkup + remoteMarkup + status + manual;
+  box.classList.remove("hidden");
+  $("#search").setAttribute("aria-expanded", "true");
+}
+
+async function searchGooglePlaces(rawQuery, localHits, version, locationRestriction = null) {
+  try {
+    const library = await loadGooglePlaces();
+    const Place = library.Place || window.google.maps.places.Place;
+    const request = {
+      textQuery: rawQuery.trim(),
+      fields: [
+        "id",
+        "displayName",
+        "formattedAddress",
+        "location",
+        "rating",
+        "userRatingCount",
+        "priceLevel",
+        "photos",
+        "regularOpeningHours",
+        "businessStatus",
+        "types",
+        "nationalPhoneNumber",
+        "websiteURI",
+        "googleMapsURI",
+      ],
+      maxResultCount: 20,
+      language: "de",
+      region: "de",
+    };
+    if (locationRestriction) request.locationRestriction = locationRestriction;
+    else if (currentLocation) request.locationBias = currentLocation;
+    const response = await Place.searchByText(request);
+    if (version !== googleSearchVersion) return;
+    const results = (response.places || []).map((place) => googlePlaceToRecord(place, rawQuery));
+    googleSearchResults.clear();
+    results.forEach((place) => googleSearchResults.set(place.id, place));
+    renderGoogleSearchPanel(results, rawQuery);
+    renderSearchSuggestions(
+      rawQuery,
+      localHits,
+      results,
+      results.length ? "" : "Keine passenden Orte bei Google gefunden.",
+    );
+  } catch (error) {
+    if (version !== googleSearchVersion) return;
+    const missing = error.message === "missing-key";
+    renderSearchSuggestions(
+      rawQuery,
+      localHits,
+      [],
+      missing ? "missing-key" : "Google Places ist momentan nicht erreichbar.",
+    );
+  }
+}
+
 function runSearch(rawQuery) {
   const input = $("#search");
   const box = $("#suggestions");
   const query = rawQuery.trim().toLowerCase();
 
   if (!query) {
+    window.clearTimeout(googleSearchTimer);
+    googleSearchVersion += 1;
     box.classList.add("hidden");
     input.setAttribute("aria-expanded", "false");
     return;
@@ -667,23 +1090,18 @@ function runSearch(rawQuery) {
   const hits = places.filter((place) =>
     (place.name + " " + place.address + " " + place.category).toLowerCase().includes(query),
   );
-
-  box.innerHTML = hits.length
-    ? hits
-        .map(
-          (place) => `<div class="suggestion" role="option" tabindex="0" data-place="${esc(place.id)}">
-            <span class="suggestion-icon">${iconFor(place.category)}</span>
-            <div><strong>${esc(place.name)}</strong><small>${esc(place.address)}</small></div>
-          </div>`,
-        )
-        .join("")
-    : `<div class="suggestion" role="option" tabindex="0" data-new>
-        <span class="suggestion-icon" aria-hidden="true">＋</span>
-        <div><strong>„${esc(rawQuery.trim())}“ als neuen Ort speichern</strong><small>Manuell anlegen</small></div>
-      </div>`;
-
-  box.classList.remove("hidden");
-  input.setAttribute("aria-expanded", "true");
+  const hasGoogleKey = Boolean(readSetting("g04-google-key", "").trim());
+  renderSearchSuggestions(
+    rawQuery,
+    hits,
+    [],
+    hasGoogleKey ? "Suche bei Google Places …" : "missing-key",
+  );
+  window.clearTimeout(googleSearchTimer);
+  const version = ++googleSearchVersion;
+  if (query.length >= 3) {
+    googleSearchTimer = window.setTimeout(() => searchGooglePlaces(rawQuery, hits, version), 650);
+  }
 }
 
 function hideSuggestions() {
@@ -834,8 +1252,23 @@ function bindEvents() {
 
   // Kategorien, Orte und Listen sind Karten — Klick und Tastatur müssen gleich wirken.
   document.addEventListener("click", (event) => {
+    const openSettings = event.target.closest("[data-open-settings]");
+    if (openSettings) {
+      hideSuggestions();
+      return showView("settings");
+    }
+
     const category = event.target.closest("[data-category]");
     if (category) return showView("saved", { category: category.dataset.category });
+
+    const googlePlace = event.target.closest("[data-google-place]");
+    if (googlePlace) {
+      const result = googleSearchResults.get(googlePlace.dataset.googlePlace);
+      if (!result) return;
+      hideSuggestions();
+      $("#search").value = "";
+      return showPlaceForm(result, true);
+    }
 
     const place = event.target.closest("[data-place]");
     if (place) {
@@ -883,16 +1316,77 @@ function bindEvents() {
 
   // Suche
   $("#search").oninput = (event) => runSearch(event.target.value);
+  $("#close-search-results").onclick = () => {
+    $("#search-explorer").classList.add("hidden");
+    searchMarkers.forEach((marker) => (marker.map = null));
+    searchMarkers = [];
+  };
+  $("#use-location").onclick = () => {
+    if (!navigator.geolocation) {
+      announce("Dieser Browser unterstützt keinen Standort.");
+      return;
+    }
+    announce("Standortfreigabe wird angefragt.");
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        currentLocation = { lat: position.coords.latitude, lng: position.coords.longitude };
+        const query = $("#search").value.trim() || lastGoogleQuery || "Orte in meiner Nähe";
+        const localHits = places.filter((place) =>
+          (place.name + " " + place.address + " " + place.category).toLowerCase().includes(query.toLowerCase()),
+        );
+        const version = ++googleSearchVersion;
+        searchGooglePlaces(query, localHits, version);
+        announce("Standort verwendet — Ergebnisse werden geladen.");
+      },
+      () => announce("Standort nicht freigegeben. Die Suche funktioniert auch ohne Standort.")
+    );
+  };
+  $("#search-map-area").onclick = () => {
+    if (!searchMap) {
+      announce("Erst eine Kartensuche starten.");
+      return;
+    }
+    const bounds = searchMap.getBounds();
+    const query = lastGoogleQuery || $("#search").value.trim();
+    if (!query || !bounds) return;
+    const localHits = places.filter((place) =>
+      (place.name + " " + place.address + " " + place.category).toLowerCase().includes(query.toLowerCase()),
+    );
+    const version = ++googleSearchVersion;
+    searchGooglePlaces(query, localHits, version, bounds);
+  };
+  $("#home-location").onclick = () => $("#use-location").click();
+  ["#filter-category", "#filter-status", "#filter-favorites", "#sort-places"].forEach((selector) => {
+    $(selector).onchange = () => renderSavedView();
+  });
 
   // Einstellungen
   $("#theme-toggle").onclick = () => applyTheme(!document.body.classList.contains("dark"));
   $("#settings-theme").onchange = (event) => applyTheme(event.target.checked);
   $("#settings-name").oninput = (event) => applyProfile(event.target.value);
+  $("#save-google-key").onclick = () => {
+    const input = $("#settings-google-key");
+    const hint = $("#google-places-hint");
+    const key = input.value.trim();
+    writeSetting("g04-google-key", key);
+    googleLoaderPromise = null;
+    const previousScript = $("#g04-google-maps-api");
+    if (previousScript && !window.google?.maps?.importLibrary) previousScript.remove();
+    hint.textContent = key
+      ? "Verbunden — suche oben zum Beispiel nach „Hotel Bamberg“"
+      : "API-Schlüssel eintragen, um Orte weltweit zu suchen";
+    announce(key ? "Google Places wurde gespeichert." : "Google Places wurde getrennt.");
+  };
 }
 
 function init() {
   const storedName = readSetting("g04-name", "");
+  const storedGoogleKey = readSetting("g04-google-key", "");
   $("#settings-name").value = storedName;
+  $("#settings-google-key").value = storedGoogleKey;
+  if (storedGoogleKey) {
+    $("#google-places-hint").textContent = "Verbunden — suche oben zum Beispiel nach „Hotel Bamberg“";
+  }
   applyProfile(storedName);
   applyTheme(readSetting("g04-theme", "light") === "dark");
   renderToday();
