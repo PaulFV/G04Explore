@@ -7,6 +7,470 @@
 
 "use strict";
 
+/* ------------------------------------------------------------- Sprache */
+
+const TRANSLATIONS = {
+  en: {
+    "meta.title": "G04Explore — Your places. Your map.",
+    "meta.description": "Your personal space for saving and planning favorite places.",
+    "brand.eyebrow": "YOUR EXPLORER SPACE",
+    "nav.main": "Main navigation",
+    "nav.home": "Overview",
+    "nav.saved": "All places",
+    "nav.trips": "Travel lists",
+    "nav.settings": "Settings",
+    "offline.available": "Available offline",
+    "offline.description": "Your collection stays with you on the go.",
+    "theme.toggle": "Toggle dark mode",
+    "profile.next": "Your next adventure?",
+    "place.save": "＋ Save place",
+    "search.label": "Search places",
+    "search.placeholder": "Search places, cities or categories...",
+    "search.suggestions": "Search suggestions",
+    "search.resultsLabel": "Google Maps search results",
+    "search.results": "Search results",
+    "search.photoAlt": "Photo of {{name}}",
+    "search.navigation": "↗ Navigation",
+    "search.nearby": "⌖ Near me",
+    "search.area": "Search this area",
+    "search.close": "Close search results",
+    "home.heading": "What would you like to discover?",
+    "home.all": "View all",
+    "home.recent": "Recently saved",
+    "home.favorites": "Favorites",
+    "home.nearby": "Near you",
+    "home.search": "⌖ Search",
+    "home.insights": "Overview insights",
+    "saved.eyebrow": "YOUR PLACES",
+    "saved.title": "All saved places",
+    "saved.reset": "Reset filters",
+    "saved.categoryEyebrow": "CATEGORY",
+    "saved.tripEyebrow": "TRAVEL LIST",
+    "filter.aria": "Filter and sort places",
+    "filter.categoryLabel": "Filter by category",
+    "filter.statusLabel": "Filter by visit status",
+    "filter.sortLabel": "Sort places",
+    "filter.categories": "All categories",
+    "filter.status": "All statuses",
+    "filter.favorites": "Favorites only",
+    "sort.recent": "Recently saved",
+    "sort.name": "Name A–Z",
+    "sort.ownRating": "Your rating",
+    "sort.googleRating": "Google rating",
+    "sort.distance": "Distance",
+    "trips.eyebrow": "TRAVEL LISTS",
+    "trips.heading": "Let's explore together",
+    "trips.new": "＋ New list",
+    "settings.eyebrow": "APP SETTINGS",
+    "settings.heading": "Your settings",
+    "settings.name": "Your name",
+    "settings.nameHint": "For the greeting on the overview",
+    "settings.namePlaceholder": "Alex",
+    "settings.dark": "Dark mode",
+    "settings.darkHint": "Easier on your eyes in low light",
+    "settings.offline": "Offline mode",
+    "settings.offlineHint": "Saved places available offline",
+    "settings.notifications": "Notifications",
+    "settings.notificationsHint": "Tips and reminders about your places",
+    "settings.google": "Google Places",
+    "settings.googleHint": "Provided centrally for all users",
+    "settings.central": "CENTRAL",
+    "settings.language": "Language",
+    "settings.languageHint": "Choose your app language",
+    "settings.english": "English",
+    "settings.german": "German",
+    "settings.footer": "G04EX · Your data stays on this device. © 2026 G04Explore.",
+    "settings.privacy": "Privacy policy",
+    "settings.privacyHint": "How G04Explore handles your data",
+    "settings.copyright": "Copyright & imprint",
+    "settings.copyrightHint": "Publisher and app rights",
+    "noscript": "G04Explore needs JavaScript to show your saved places.",
+    "category.Restaurants": "Restaurants",
+    "category.Hotels": "Hotels",
+    "category.Events": "Events",
+    "category.Sport": "Sports",
+    "category.Museen": "Museums",
+    "category.Sehenswürdigkeiten": "Sights",
+    "category.Cafés": "Cafés",
+    "tagline.Restaurants": "Great addresses for every taste",
+    "tagline.Hotels": "Sleep & settle in",
+    "tagline.Events": "Dates you don't want to miss",
+    "tagline.Sport": "Movement and fresh air",
+    "tagline.Museen": "Art, history and ideas",
+    "tagline.Sehenswürdigkeiten": "Places that stay with you",
+    "tagline.Cafés": "Short breaks, great coffee",
+    "place.singular": "place",
+    "place.plural": "places",
+    "saved.suffix": "saved",
+    "device.only": "Only on this device",
+    "status.wishlist": "Want to visit",
+    "status.planned": "Planned",
+    "status.visited": "Visited",
+    "status.open": "● Open now",
+    "status.closed": "● Closed",
+    "favorite.yes": "Favorite",
+    "favorite.no": "Not a favorite",
+    "empty.places": "No places saved yet. Add your first with “＋ Save place”.",
+    "empty.category": "Nothing saved in this category yet.",
+    "empty.trip": "This list is empty.",
+    "empty.trips": "No lists yet. Create your first one with “＋ New list”.",
+    "empty.recent": "No places saved yet.",
+    "empty.favorites": "Mark places as favorites.",
+    "empty.nearby": "Use your location when asked.",
+    "category.aria": "Category {{category}}, {{count}}",
+    "trip.aria": "List {{name}}, {{count}}",
+    "profile.hi": "Hi",
+    "saved.list": "List",
+    "detail.reviews": "reviews",
+    "detail.close": "Close",
+    "detail.opening": "OPENING HOURS",
+    "detail.status": "STATUS",
+    "detail.ownRating": "YOUR RATING",
+    "detail.price": "PRICE",
+    "detail.lists": "On {{count}} list(s):",
+    "detail.notes": "YOUR NOTES",
+    "detail.edit": "Edit",
+    "detail.share": "Share",
+    "detail.route": "↗ Start route",
+    "detail.call": "☎ Call",
+    "detail.website": "↗ Website",
+    "detail.delete": "🗑 Delete",
+    "detail.dialog": "Details for {{name}}",
+    "detail.noteSaved": "Note saved.",
+    "detail.linkCopied": "Place link copied.",
+    "detail.confirmDelete": "Do you really want to delete {{name}}?",
+    "detail.deleted": "{{name}} was deleted.",
+    "form.close": "Close",
+    "form.saveTitle": "Save place",
+    "form.editTitle": "Edit place",
+    "form.name": "NAME",
+    "form.address": "ADDRESS",
+    "form.category": "CATEGORY",
+    "form.rating": "RATING",
+    "form.ownRating": "YOUR RATING",
+    "form.visitDate": "VISIT DATE",
+    "form.visitStatus": "VISIT STATUS",
+    "form.hours": "OPENING HOURS",
+    "form.hoursPlaceholder": "Today 09:00 – 18:00",
+    "form.phone": "PHONE",
+    "form.website": "WEBSITE",
+    "form.note": "NOTE",
+    "form.open": "Open now",
+    "form.favorite": "Mark as favorite",
+    "form.cancel": "Cancel",
+    "form.save": "Save",
+    "form.saveChanges": "Save changes",
+    "form.dialogNew": "Save new place",
+    "form.dialogEdit": "Edit place",
+    "form.requiredName": "Please enter a name.",
+    "form.duplicate": "{{name}} is already saved.",
+    "form.saved": "{{name}} was saved.",
+    "form.updated": "Changes to {{name}} saved.",
+    "trip.name": "LIST NAME",
+    "trip.symbol": "SYMBOL",
+    "trip.chooseSymbol": "Choose symbol",
+    "trip.places": "PLACES IN THIS LIST",
+    "trip.noPlaces": "You have no saved places yet.",
+    "trip.delete": "Delete list",
+    "trip.save": "Save",
+    "trip.dialog": "List {{name}}",
+    "trip.saved": "List {{name}} saved.",
+    "trip.confirmDelete": "Delete list “{{name}}”? The places themselves will stay saved.",
+    "trip.deleted": "List deleted.",
+    "trip.newName": "New list",
+    "search.googleSource": "Results from Google Places",
+    "search.googleSearching": "Searching Google Places …",
+    "search.googleMissing": "Google Places is not set up for this app yet. <span>Open help →</span>",
+    "search.googleDenied": "Google is blocking this website. Check the API key's HTTP referrer.",
+    "search.googleBilling": "Google Maps needs an active billing account for this project.",
+    "search.googleApis": "Enable Maps JavaScript API and Places API (New) in Google Cloud.",
+    "search.googleQuota": "The Google Maps quota was reached. Check quota and billing in Google Cloud.",
+    "search.googleKey": "The central Google API key was rejected. Check the key, referrer and API restrictions.",
+    "search.googleUnavailable": "Google Places is currently unavailable. Check the API key, billing and network.",
+    "search.googleNone": "No matching places found on Google.",
+    "search.manualTitle": "Save “{{query}}” manually",
+    "search.manualSubtitle": "Create your own place",
+    "search.ratingCount": "★ {{rating}} ({{count}})",
+    "search.distance": "{{distance}} km away",
+    "search.resultCount": "{{count}} results for “{{query}}”",
+    "search.mapLabel": "Search results map",
+    "search.mapUnavailable": "Map currently unavailable.",
+    "search.locationRequest": "Location permission requested.",
+    "search.nearbyQuery": "Places near me",
+    "search.locationDisclosure": "G04Explore will use your device location only to find nearby places. With your permission, it is sent to Google Places and is not saved by this app. Continue?",
+    "search.locationUsed": "Location used — loading results.",
+    "search.locationDenied": "Location not shared. Search also works without it.",
+    "search.noLocation": "This browser does not support location.",
+    "search.mapFirst": "Start a map search first.",
+    "storage.error": "Could not save — browser storage is full or blocked.",
+    "offline.httpOnly": "Available only over http(s) — not when opening the file directly.",
+    "offline.unavailable": "Offline mode is not available in this browser.",
+    "offline.enabled": "Saved places available offline",
+    "offline.enableError": "Could not enable — please reload the page.",
+    "offline.removed": "Offline cache removed. The app now needs a connection.",
+    "notifications.unsupported": "This browser does not support notifications.",
+    "notifications.blocked": "Blocked in browser settings.",
+    "notifications.hint": "Tips and reminders about your places",
+    "notifications.active": "Active — you will receive reminders.",
+    "notifications.denied": "The browser did not allow notifications.",
+    "google.connected": "Centrally connected — search above, for example “Hotel Bamberg”",
+    "google.notConfigured": "Not configured yet — the app administrator must connect Google Places",
+    "language.changed": "Language changed to {{language}}.",
+  },
+  de: {
+    "meta.title": "G04Explore — Deine Orte. Deine Karte.",
+    "meta.description": "Dein persönlicher Speicher und digitaler Planer für Lieblingsorte.",
+    "brand.eyebrow": "DEIN ENTDECKER-SPACE",
+    "nav.main": "Hauptnavigation",
+    "nav.home": "Übersicht",
+    "nav.saved": "Alle Orte",
+    "nav.trips": "Reise-Listen",
+    "nav.settings": "Einstellungen",
+    "offline.available": "Offline verfügbar",
+    "offline.description": "Deine Sammlung bleibt auch unterwegs bei dir.",
+    "theme.toggle": "Dark Mode umschalten",
+    "profile.next": "Dein nächstes Abenteuer?",
+    "place.save": "＋ Ort speichern",
+    "search.label": "Orte durchsuchen",
+    "search.placeholder": "Nach Orten, Städten oder Kategorien suchen...",
+    "search.suggestions": "Suchvorschläge",
+    "search.resultsLabel": "Google-Maps-Suchergebnisse",
+    "search.results": "Suchergebnisse",
+    "search.photoAlt": "Foto von {{name}}",
+    "search.navigation": "↗ Navigation",
+    "search.nearby": "⌖ Meine Nähe",
+    "search.area": "In diesem Bereich suchen",
+    "search.close": "Suchergebnisse schließen",
+    "home.heading": "Was möchtest du entdecken?",
+    "home.all": "Alle anzeigen",
+    "home.recent": "Zuletzt gespeichert",
+    "home.favorites": "Favoriten",
+    "home.nearby": "In deiner Nähe",
+    "home.search": "⌖ Suchen",
+    "home.insights": "Übersicht und Empfehlungen",
+    "saved.eyebrow": "DEINE ORTE",
+    "saved.title": "Alle gespeicherten Orte",
+    "saved.reset": "Filter zurücksetzen",
+    "saved.categoryEyebrow": "KATEGORIE",
+    "saved.tripEyebrow": "REISE-LISTE",
+    "filter.aria": "Orte filtern und sortieren",
+    "filter.categoryLabel": "Nach Kategorie filtern",
+    "filter.statusLabel": "Nach Besuchsstatus filtern",
+    "filter.sortLabel": "Orte sortieren",
+    "filter.categories": "Alle Kategorien",
+    "filter.status": "Alle Status",
+    "filter.favorites": "Nur Favoriten",
+    "sort.recent": "Zuletzt gespeichert",
+    "sort.name": "Name A–Z",
+    "sort.ownRating": "Eigene Bewertung",
+    "sort.googleRating": "Google-Bewertung",
+    "sort.distance": "Entfernung",
+    "trips.eyebrow": "REISE-LISTEN",
+    "trips.heading": "Gemeinsam unterwegs",
+    "trips.new": "＋ Neue Liste",
+    "settings.eyebrow": "APP EINSTELLUNGEN",
+    "settings.heading": "Deine Einstellungen",
+    "settings.name": "Dein Name",
+    "settings.nameHint": "Für die Begrüßung auf der Übersicht",
+    "settings.namePlaceholder": "Max",
+    "settings.dark": "Dark Mode",
+    "settings.darkHint": "Schont deine Augen bei wenig Licht",
+    "settings.offline": "Offline-Modus",
+    "settings.offlineHint": "Gespeicherte Orte offline verfügbar",
+    "settings.notifications": "Benachrichtigungen",
+    "settings.notificationsHint": "Tipps und Erinnerungen zu deinen Orten",
+    "settings.google": "Google Places",
+    "settings.googleHint": "Wird zentral für alle Nutzer bereitgestellt",
+    "settings.central": "ZENTRAL",
+    "settings.language": "Sprache",
+    "settings.languageHint": "Wähle die Sprache der App",
+    "settings.english": "Englisch",
+    "settings.german": "Deutsch",
+    "settings.footer": "G04EX · Deine Daten bleiben auf diesem Gerät gespeichert. © 2026 G04Explore.",
+    "settings.privacy": "Datenschutzerklärung",
+    "settings.privacyHint": "So verarbeitet G04Explore deine Daten",
+    "settings.copyright": "Copyright & Impressum",
+    "settings.copyrightHint": "Herausgeber und Rechte der App",
+    "noscript": "G04Explore braucht JavaScript, um deine gespeicherten Orte anzuzeigen.",
+    "category.Restaurants": "Restaurants",
+    "category.Hotels": "Hotels",
+    "category.Events": "Events",
+    "category.Sport": "Sport",
+    "category.Museen": "Museen",
+    "category.Sehenswürdigkeiten": "Sehenswürdigkeiten",
+    "category.Cafés": "Cafés",
+    "tagline.Restaurants": "Gute Adressen für jeden Geschmack",
+    "tagline.Hotels": "Schlafen & ankommen",
+    "tagline.Events": "Termine, die du nicht verpassen willst",
+    "tagline.Sport": "Bewegung und frische Luft",
+    "tagline.Museen": "Kunst, Geschichte und Ideen",
+    "tagline.Sehenswürdigkeiten": "Orte, die bleiben",
+    "tagline.Cafés": "Kurze Pausen, guter Kaffee",
+    "place.singular": "Ort",
+    "place.plural": "Orte",
+    "saved.suffix": "gespeichert",
+    "device.only": "Nur auf diesem Gerät",
+    "status.wishlist": "Möchte ich besuchen",
+    "status.planned": "Geplant",
+    "status.visited": "Besucht",
+    "status.open": "● Jetzt geöffnet",
+    "status.closed": "● Geschlossen",
+    "favorite.yes": "Favorit",
+    "favorite.no": "Kein Favorit",
+    "empty.places": "Noch keine Orte gespeichert. Leg deinen ersten mit „＋ Ort speichern“ an.",
+    "empty.category": "In dieser Kategorie ist noch nichts gespeichert.",
+    "empty.trip": "Diese Liste ist noch leer.",
+    "empty.trips": "Noch keine Liste angelegt. Leg deine erste mit „＋ Neue Liste“ an.",
+    "empty.recent": "Noch keine Orte gespeichert.",
+    "empty.favorites": "Markiere Orte als Favorit.",
+    "empty.nearby": "Standort auf Anfrage verwenden.",
+    "category.aria": "Kategorie {{category}}, {{count}}",
+    "trip.aria": "Liste {{name}}, {{count}}",
+    "profile.hi": "Hi",
+    "saved.list": "Liste",
+    "detail.reviews": "Bewertungen",
+    "detail.close": "Schließen",
+    "detail.opening": "ÖFFNUNGSZEITEN",
+    "detail.status": "STATUS",
+    "detail.ownRating": "EIGENE BEWERTUNG",
+    "detail.price": "PREIS",
+    "detail.lists": "Auf {{count}} Liste(n):",
+    "detail.notes": "DEINE NOTIZEN",
+    "detail.edit": "Bearbeiten",
+    "detail.share": "Teilen",
+    "detail.route": "↗ Route starten",
+    "detail.call": "☎ Anrufen",
+    "detail.website": "↗ Website",
+    "detail.delete": "🗑 Löschen",
+    "detail.dialog": "Details zu {{name}}",
+    "detail.noteSaved": "Notiz gespeichert.",
+    "detail.linkCopied": "Ort-Link kopiert.",
+    "detail.confirmDelete": "Möchtest du {{name}} wirklich löschen?",
+    "detail.deleted": "{{name}} wurde gelöscht.",
+    "form.close": "Schließen",
+    "form.saveTitle": "Ort speichern",
+    "form.editTitle": "Ort bearbeiten",
+    "form.name": "NAME",
+    "form.address": "ADRESSE",
+    "form.category": "KATEGORIE",
+    "form.rating": "BEWERTUNG",
+    "form.ownRating": "EIGENE BEWERTUNG",
+    "form.visitDate": "BESUCHSDATUM",
+    "form.visitStatus": "BESUCHSSTATUS",
+    "form.hours": "ÖFFNUNGSZEITEN",
+    "form.hoursPlaceholder": "Heute 09:00 – 18:00",
+    "form.phone": "TELEFON",
+    "form.website": "WEBSITE",
+    "form.note": "NOTIZ",
+    "form.open": "Aktuell geöffnet",
+    "form.favorite": "Als Favorit markieren",
+    "form.cancel": "Abbrechen",
+    "form.save": "Speichern",
+    "form.saveChanges": "Änderungen sichern",
+    "form.dialogNew": "Neuen Ort speichern",
+    "form.dialogEdit": "Ort bearbeiten",
+    "form.requiredName": "Bitte gib einen Namen ein.",
+    "form.duplicate": "{{name}} ist bereits gespeichert.",
+    "form.saved": "{{name}} wurde gespeichert.",
+    "form.updated": "Änderungen an {{name}} gesichert.",
+    "trip.name": "NAME DER LISTE",
+    "trip.symbol": "SYMBOL",
+    "trip.chooseSymbol": "Symbol wählen",
+    "trip.places": "ORTE IN DIESER LISTE",
+    "trip.noPlaces": "Du hast noch keine Orte gespeichert.",
+    "trip.delete": "Liste löschen",
+    "trip.save": "Speichern",
+    "trip.dialog": "Liste {{name}}",
+    "trip.saved": "Liste {{name}} gespeichert.",
+    "trip.confirmDelete": "Liste „{{name}}“ wirklich löschen? Die Orte selbst bleiben erhalten.",
+    "trip.deleted": "Liste gelöscht.",
+    "trip.newName": "Neue Liste",
+    "search.googleSource": "Ergebnisse von Google Places",
+    "search.googleSearching": "Suche bei Google Places …",
+    "search.googleMissing": "Google Places ist für diese App noch nicht eingerichtet. <span>Hinweise öffnen →</span>",
+    "search.googleDenied": "Google blockiert diese Website: GitHub-Pages-Adresse als HTTP-Referrer im API-Key freigeben.",
+    "search.googleBilling": "Google Maps benötigt ein aktives Billing-Konto für dieses Projekt.",
+    "search.googleApis": "Maps JavaScript API und Places API (New) müssen in Google Cloud aktiviert sein.",
+    "search.googleQuota": "Das Google-Maps-Limit wurde erreicht. Bitte Quota und Abrechnung in Google Cloud prüfen.",
+    "search.googleKey": "Der zentrale Google-API-Key wurde abgelehnt. Bitte Key, Referrer und API-Einschränkungen prüfen.",
+    "search.googleUnavailable": "Google Places ist momentan nicht erreichbar. Bitte API-Key, Billing und Netzwerk prüfen.",
+    "search.googleNone": "Keine passenden Orte bei Google gefunden.",
+    "search.manualTitle": "„{{query}}“ manuell speichern",
+    "search.manualSubtitle": "Eigenen Ort anlegen",
+    "search.ratingCount": "★ {{rating}} ({{count}})",
+    "search.distance": "{{distance}} km entfernt",
+    "search.resultCount": "{{count}} Ergebnisse für „{{query}}“",
+    "search.mapLabel": "Karte mit Suchergebnissen",
+    "search.mapUnavailable": "Karte momentan nicht verfügbar.",
+    "search.locationRequest": "Standortfreigabe wird angefragt.",
+    "search.nearbyQuery": "Orte in meiner Nähe",
+    "search.locationDisclosure": "G04Explore verwendet deinen Gerätestandort nur, um Orte in deiner Nähe zu finden. Mit deiner Zustimmung wird er an Google Places übermittelt und von dieser App nicht gespeichert. Fortfahren?",
+    "search.locationUsed": "Standort verwendet — Ergebnisse werden geladen.",
+    "search.locationDenied": "Standort nicht freigegeben. Die Suche funktioniert auch ohne Standort.",
+    "search.noLocation": "Dieser Browser unterstützt keinen Standort.",
+    "search.mapFirst": "Erst eine Kartensuche starten.",
+    "storage.error": "Speichern nicht möglich — der Browser-Speicher ist voll oder gesperrt.",
+    "offline.httpOnly": "Nur über http(s) verfügbar — nicht beim direkten Öffnen der Datei.",
+    "offline.unavailable": "Offline-Modus ist in diesem Browser nicht verfügbar.",
+    "offline.enabled": "Gespeicherte Orte offline verfügbar",
+    "offline.enableError": "Konnte nicht aktiviert werden — bitte Seite neu laden.",
+    "offline.removed": "Offline-Cache entfernt. Die App braucht jetzt eine Verbindung.",
+    "notifications.unsupported": "Dieser Browser unterstützt keine Benachrichtigungen.",
+    "notifications.blocked": "In den Browser-Einstellungen blockiert.",
+    "notifications.hint": "Tipps und Erinnerungen zu deinen Orten",
+    "notifications.active": "Aktiv — du bekommst Erinnerungen.",
+    "notifications.denied": "Ohne Erlaubnis des Browsers nicht möglich.",
+    "google.connected": "Zentral verbunden — suche oben zum Beispiel nach „Hotel Bamberg“",
+    "google.notConfigured": "Noch nicht konfiguriert — der App-Administrator muss Google Places verbinden",
+    "language.changed": "Sprache auf {{language}} geändert.",
+  },
+};
+
+let locale = "en";
+
+function t(key, values = {}) {
+  const text = TRANSLATIONS[locale]?.[key] ?? TRANSLATIONS.en[key] ?? key;
+  return Object.entries(values).reduce((result, [name, value]) => result.replaceAll("{{" + name + "}}", String(value)), text);
+}
+
+function categoryText(category) {
+  return t("category." + category) || category;
+}
+
+function categoryTagline(category) {
+  return t("tagline." + category) || category;
+}
+
+function statusText(status) {
+  return t("status." + (status || "wishlist"));
+}
+
+function placeCount(n) {
+  return countLabel(n, t("place.singular"), t("place.plural"));
+}
+
+function savedCount(n) {
+  return placeCount(n) + " " + t("saved.suffix");
+}
+
+function translateStatic() {
+  document.documentElement.lang = locale;
+  document.title = t("meta.title");
+  const description = $('meta[name="description"]');
+  if (description) description.setAttribute("content", t("meta.description"));
+  $$('[data-i18n]').forEach((element) => {
+    element.textContent = t(element.dataset.i18n);
+  });
+  $$('[data-i18n-placeholder]').forEach((element) => {
+    element.setAttribute("placeholder", t(element.dataset.i18nPlaceholder));
+  });
+  $$('[data-i18n-aria-label]').forEach((element) => {
+    element.setAttribute("aria-label", t(element.dataset.i18nAriaLabel));
+  });
+  const language = $("#settings-language");
+  if (language) language.value = locale;
+}
+
 /* ------------------------------------------------------------------ Daten */
 
 const CATEGORIES = [
@@ -110,6 +574,7 @@ let currentView = "home";
 let googleLoaderPromise = null;
 let googleSearchTimer = null;
 let googleSearchVersion = 0;
+let googleAuthError = "";
 const googleSearchResults = new Map();
 let searchMap = null;
 let searchMarkers = [];
@@ -183,7 +648,7 @@ function announce(message) {
   if (region) region.textContent = message;
 }
 
-function countLabel(n, singular, plural) {
+function countLabel(n, singular = t("place.singular"), plural = t("place.plural")) {
   return n + " " + (n === 1 ? singular : plural);
 }
 
@@ -231,13 +696,14 @@ function render() {
 function renderCategories() {
   $("#category-grid").innerHTML = CATEGORIES.map((category, index) => {
     const count = places.filter((place) => place.category === category.name).length;
-    const size = [index === 0 ? "large" : "", category.name.length > 13 ? "wide" : ""].join(" ").trim();
+    const label = categoryText(category.name);
+    const size = [index === 0 ? "large" : "", label.length > 13 ? "wide" : ""].join(" ").trim();
     return `<article class="category-card ${category.slug} ${size}" data-category="${esc(category.name)}"
-      role="button" tabindex="0" aria-label="Kategorie ${esc(category.name)}, ${countLabel(count, "Ort", "Orte")}">
+      role="button" tabindex="0" aria-label="${esc(t("category.aria", { category: label, count: savedCount(count) }))}">
       <span class="card-icon">${iconFor(category.name)}</span>
-      <h3>${esc(category.name)}</h3>
-      <p>${esc(category.tagline)}</p>
-      <span class="count">${countLabel(count, "Ort", "Orte")} gespeichert</span>
+      <h3>${esc(label)}</h3>
+      <p>${esc(categoryTagline(category.name))}</p>
+      <span class="count">${esc(savedCount(count))}</span>
     </article>`;
   }).join("");
 }
@@ -255,7 +721,7 @@ function renderPlaces(list, target, emptyText) {
               <div class="place-card-body">
                 <div class="place-top">
                   <span class="place-emoji">${iconFor(place.category)}</span>
-                  <span class="favorite-mark" aria-label="${place.favorite ? "Favorit" : "Kein Favorit"}">${
+                  <span class="favorite-mark" aria-label="${place.favorite ? t("favorite.yes") : t("favorite.no")}">${
                     place.favorite ? "♥" : "♡"
                   }</span>
                 </div>
@@ -263,8 +729,8 @@ function renderPlaces(list, target, emptyText) {
                 <p>${esc(place.address)}</p>
                 <div class="place-meta">
                   ${place.rating ? `<span>★ ${esc(place.rating)}</span>` : ""}
-                  <span>${esc(VISIT_STATUS[place.visitStatus] || "Möchte ich besuchen")}</span>
-                  ${distance !== null ? `<span>${distance.toFixed(1)} km</span>` : ""}
+                  <span>${esc(statusText(place.visitStatus))}</span>
+                  ${distance !== null ? `<span>${esc(t("search.distance", { distance: distance.toFixed(1) }))}</span>` : ""}
                 </div>
               </div>
             </article>`;
@@ -281,14 +747,14 @@ function renderTrips() {
         .map((trip) => {
           const count = trip.placeIds.filter((id) => places.some((p) => p.id === id)).length;
           return `<article class="trip-card" data-trip="${esc(trip.id)}" role="button" tabindex="0"
-          aria-label="Liste ${esc(trip.name)}, ${countLabel(count, "Ort", "Orte")}">
+          aria-label="${esc(t("trip.aria", { name: trip.name, count: placeCount(count) }))}">
           <div class="trip-cover" aria-hidden="true">${esc(trip.emoji)}</div>
           <h3>${esc(trip.name)}</h3>
-          <p>${countLabel(count, "Ort", "Orte")} · Nur auf diesem Gerät</p>
+          <p>${esc(placeCount(count))} · ${esc(t("device.only"))}</p>
         </article>`;
         })
         .join("")
-    : `<div class="empty">Noch keine Liste angelegt. Leg deine erste mit „＋ Neue Liste“ an.</div>`;
+    : `<div class="empty">${esc(t("empty.trips"))}</div>`;
 }
 
 function renderInsightList(target, list, emptyText) {
@@ -309,14 +775,14 @@ function renderInsightList(target, list, emptyText) {
 
 function renderHomeInsights() {
   const recent = [...places].sort((a, b) => String(b.createdAt || b.id).localeCompare(String(a.createdAt || a.id)));
-  renderInsightList("#recent-places", recent, "Noch keine Orte gespeichert.");
-  renderInsightList("#favorite-places", places.filter((place) => place.favorite), "Markiere Orte als Favorit.");
+  renderInsightList("#recent-places", recent, t("empty.recent"));
+  renderInsightList("#favorite-places", places.filter((place) => place.favorite), t("empty.favorites"));
   const nearby = places
     .map((place) => ({ place, distance: distanceKm(place) }))
     .filter((entry) => entry.distance !== null)
     .sort((a, b) => a.distance - b.distance)
     .map((entry) => entry.place);
-  renderInsightList("#nearby-places", nearby, "Standort auf Anfrage verwenden.");
+  renderInsightList("#nearby-places", nearby, t("empty.nearby"));
 }
 
 function renderSavedView() {
@@ -324,22 +790,22 @@ function renderSavedView() {
   const eyebrow = $("#saved-eyebrow");
   const clearButton = $("#clear-filter");
   let list = places;
-  let empty = "Noch keine Orte gespeichert. Leg deinen ersten mit „＋ Ort speichern“ an.";
+  let empty = t("empty.places");
 
   if (activeCategory) {
     list = places.filter((place) => place.category === activeCategory);
-    title.textContent = activeCategory;
-    eyebrow.textContent = "KATEGORIE";
-    empty = "In dieser Kategorie ist noch nichts gespeichert.";
+    title.textContent = categoryText(activeCategory);
+    eyebrow.textContent = t("saved.categoryEyebrow");
+    empty = t("empty.category");
   } else if (activeTrip) {
     const trip = trips.find((t) => t.id === activeTrip);
     list = trip ? places.filter((place) => trip.placeIds.includes(place.id)) : [];
-    title.textContent = trip ? trip.name : "Liste";
-    eyebrow.textContent = "REISE-LISTE";
-    empty = "Diese Liste ist noch leer.";
+    title.textContent = trip ? trip.name : t("saved.list");
+    eyebrow.textContent = t("saved.tripEyebrow");
+    empty = t("empty.trip");
   } else {
-    title.textContent = "Alle gespeicherten Orte";
-    eyebrow.textContent = "DEINE ORTE";
+    title.textContent = t("saved.title");
+    eyebrow.textContent = t("saved.eyebrow");
   }
 
   const categoryFilter = $("#filter-category")?.value || "";
@@ -350,7 +816,7 @@ function renderSavedView() {
   if (statusFilter) list = list.filter((place) => (place.visitStatus || "wishlist") === statusFilter);
   if (favoritesOnly) list = list.filter((place) => place.favorite);
   list = [...list].sort((a, b) => {
-    if (sort === "name") return a.name.localeCompare(b.name, "de");
+    if (sort === "name") return a.name.localeCompare(b.name, locale);
     if (sort === "ownRating") return Number(b.ownRating || 0) - Number(a.ownRating || 0);
     if (sort === "googleRating") return Number(b.rating || 0) - Number(a.rating || 0);
     if (sort === "distance") return (distanceKm(a) ?? Infinity) - (distanceKm(b) ?? Infinity);
@@ -455,50 +921,50 @@ function showDetail(id) {
 
   openModal(
     `<div class="modal detail-modal">
-      <button class="close" type="button" aria-label="Schließen">×</button>
+      <button class="close" type="button" aria-label="${t("detail.close")}">×</button>
       <div class="detail-hero" aria-hidden="true">${
         place.photoUrl ? `<img src="${esc(place.photoUrl)}" alt="" />` : iconFor(place.category)
       }</div>
-      <span class="status ${place.open ? "" : "closed"}">${place.open ? "● Jetzt geöffnet" : "● Geschlossen"}</span>
+      <span class="status ${place.open ? "" : "closed"}">${esc(place.open ? t("status.open") : t("status.closed"))}</span>
       <h2>${esc(place.name)}</h2>
       <p class="address">${esc(place.address)}</p>
       ${
         place.rating
           ? `<div class="rating">★ ${esc(place.rating)} ${
-              place.userRatingCount ? `(${esc(place.userRatingCount)} Bewertungen)` : ""
-            } <span>· ${esc(place.category)}</span></div>`
+              place.userRatingCount ? `(${esc(place.userRatingCount)} ${esc(t("detail.reviews"))})` : ""
+            } <span>· ${esc(categoryText(place.category))}</span></div>`
           : ""
       }
       <div class="detail-info">
-        <div><small>ÖFFNUNGSZEITEN</small><strong>${esc(place.hours) || "—"}</strong></div>
-        <div><small>STATUS</small><strong>${esc(VISIT_STATUS[place.visitStatus] || "Möchte ich besuchen")}</strong></div>
-        <div><small>EIGENE BEWERTUNG</small><strong>${place.ownRating ? "★ " + esc(place.ownRating) : "—"}</strong></div>
-        <div><small>PREIS</small><strong>${esc(String(place.priceLevel || "—").replaceAll("PRICE_LEVEL_", ""))}</strong></div>
+        <div><small>${esc(t("detail.opening"))}</small><strong>${esc(place.hours) || "—"}</strong></div>
+        <div><small>${esc(t("detail.status"))}</small><strong>${esc(statusText(place.visitStatus))}</strong></div>
+        <div><small>${esc(t("detail.ownRating"))}</small><strong>${place.ownRating ? "★ " + esc(place.ownRating) : "—"}</strong></div>
+        <div><small>${esc(t("detail.price"))}</small><strong>${esc(String(place.priceLevel || "—").replaceAll("PRICE_LEVEL_", ""))}</strong></div>
       </div>
       ${
         memberships.length
-          ? `<p class="membership">Auf ${memberships.length === 1 ? "der Liste" : "den Listen"}:
+          ? `<p class="membership">${esc(t("detail.lists", { count: memberships.length }))}
              ${memberships.map((trip) => esc(trip.emoji + " " + trip.name)).join(", ")}</p>`
           : ""
       }
-      <label for="note">DEINE NOTIZEN</label>
+      <label for="note">${esc(t("detail.notes"))}</label>
       <textarea id="note" rows="3">${esc(place.note)}</textarea>
       <div class="actions">
-        <button class="secondary edit" type="button">Bearbeiten</button>
-        <button class="secondary share" type="button">Teilen</button>
-        <button class="primary route" type="button">↗ Route starten</button>
+        <button class="secondary edit" type="button">${esc(t("detail.edit"))}</button>
+        <button class="secondary share" type="button">${esc(t("detail.share"))}</button>
+        <button class="primary route" type="button">${esc(t("detail.route"))}</button>
       </div>
       <div class="quick-actions">
-        ${place.phone ? `<a class="quick-link" href="tel:${esc(place.phone)}">☎ Anrufen</a>` : ""}
+        ${place.phone ? `<a class="quick-link" href="tel:${esc(place.phone)}">${esc(t("detail.call"))}</a>` : ""}
         ${
           place.website
-            ? `<a class="quick-link" href="${esc(place.website)}" target="_blank" rel="noopener noreferrer">↗ Website</a>`
+            ? `<a class="quick-link" href="${esc(place.website)}" target="_blank" rel="noopener noreferrer">${esc(t("detail.website"))}</a>`
             : ""
         }
-        <button class="delete" type="button">🗑 Löschen</button>
+        <button class="delete" type="button">${esc(t("detail.delete"))}</button>
       </div>
     </div>`,
-    "Details zu " + place.name,
+    t("detail.dialog", { name: place.name }),
   );
 
   const root = $("#modal-root");
@@ -511,7 +977,7 @@ function showDetail(id) {
     if (noteField.value === place.note) return;
     place.note = noteField.value;
     savePlaces();
-    announce("Notiz gespeichert.");
+    announce(t("detail.noteSaved"));
   };
 
   $(".route", root).onclick = () => {
@@ -527,7 +993,7 @@ function showDetail(id) {
       if (navigator.share) await navigator.share(shareData);
       else {
         await navigator.clipboard?.writeText(shareData.text + " / " + shareData.url);
-        announce("Ort-Link kopiert.");
+        announce(t("detail.linkCopied"));
       }
     } catch {
       /* Teilen wurde abgebrochen. */
@@ -541,7 +1007,7 @@ function showDetail(id) {
   };
 
   $(".delete", root).onclick = () => {
-    if (!confirm("Möchtest du " + place.name + " wirklich löschen?")) return;
+    if (!confirm(t("detail.confirmDelete", { name: place.name }))) return;
     places = places.filter((item) => item.id !== id);
     trips.forEach((trip) => {
       trip.placeIds = trip.placeIds.filter((pid) => pid !== id);
@@ -550,7 +1016,7 @@ function showDetail(id) {
     saveTrips();
     closeModal();
     render();
-    announce(place.name + " wurde gelöscht.");
+    announce(t("detail.deleted", { name: place.name }));
   };
 }
 
@@ -577,88 +1043,88 @@ function showPlaceForm(existing, forceNew = false) {
 
   openModal(
     `<div class="modal form-modal">
-      <button class="close" type="button" aria-label="Schließen">×</button>
-      <h2>${isNew ? "Ort speichern" : "Ort bearbeiten"}</h2>
+      <button class="close" type="button" aria-label="${esc(t("form.close"))}">×</button>
+      <h2>${isNew ? esc(t("form.saveTitle")) : esc(t("form.editTitle"))}</h2>
       <form id="place-form" novalidate>
         <div class="field">
-          <label for="f-name">NAME</label>
+          <label for="f-name">${esc(t("form.name"))}</label>
           <input id="f-name" name="name" type="text" required autofocus value="${esc(place.name)}" />
         </div>
         <div class="field">
-          <label for="f-address">ADRESSE</label>
+          <label for="f-address">${esc(t("form.address"))}</label>
           <input id="f-address" name="address" type="text" value="${esc(place.address)}" />
         </div>
         <div class="field-row">
           <div class="field">
-            <label for="f-category">KATEGORIE</label>
+            <label for="f-category">${esc(t("form.category"))}</label>
             <select id="f-category" name="category">
               ${CATEGORIES.map(
                 (category) =>
                   `<option value="${esc(category.name)}" ${category.name === place.category ? "selected" : ""}>${esc(
-                    category.name,
+                    categoryText(category.name),
                   )}</option>`,
               ).join("")}
             </select>
           </div>
           <div class="field">
-            <label for="f-rating">BEWERTUNG</label>
+            <label for="f-rating">${esc(t("form.rating"))}</label>
             <input id="f-rating" name="rating" type="number" min="0" max="5" step="0.1"
               placeholder="4.5" value="${esc(place.rating)}" />
           </div>
         </div>
         <div class="field-row">
           <div class="field">
-            <label for="f-own-rating">EIGENE BEWERTUNG</label>
+            <label for="f-own-rating">${esc(t("form.ownRating"))}</label>
             <input id="f-own-rating" name="ownRating" type="number" min="0" max="5" step="0.5"
               placeholder="5" value="${esc(place.ownRating)}" />
           </div>
           <div class="field">
-            <label for="f-visit-date">BESUCHSDATUM</label>
+            <label for="f-visit-date">${esc(t("form.visitDate"))}</label>
             <input id="f-visit-date" name="visitDate" type="date" value="${esc(place.visitDate)}" />
           </div>
         </div>
         <div class="field">
-          <label for="f-visit-status">BESUCHSSTATUS</label>
+          <label for="f-visit-status">${esc(t("form.visitStatus"))}</label>
           <select id="f-visit-status" name="visitStatus">
-            <option value="wishlist" ${place.visitStatus === "wishlist" || !place.visitStatus ? "selected" : ""}>Möchte ich besuchen</option>
-            <option value="planned" ${place.visitStatus === "planned" ? "selected" : ""}>Geplant</option>
-            <option value="visited" ${place.visitStatus === "visited" ? "selected" : ""}>Besucht</option>
+            <option value="wishlist" ${place.visitStatus === "wishlist" || !place.visitStatus ? "selected" : ""}>${esc(t("status.wishlist"))}</option>
+            <option value="planned" ${place.visitStatus === "planned" ? "selected" : ""}>${esc(t("status.planned"))}</option>
+            <option value="visited" ${place.visitStatus === "visited" ? "selected" : ""}>${esc(t("status.visited"))}</option>
           </select>
         </div>
         <div class="field">
-          <label for="f-hours">ÖFFNUNGSZEITEN</label>
-          <input id="f-hours" name="hours" type="text" placeholder="Heute 09:00 – 18:00" value="${esc(place.hours)}" />
+          <label for="f-hours">${esc(t("form.hours"))}</label>
+          <input id="f-hours" name="hours" type="text" placeholder="${esc(t("form.hoursPlaceholder"))}" value="${esc(place.hours)}" />
         </div>
         <div class="field-row">
           <div class="field">
-            <label for="f-phone">TELEFON</label>
+            <label for="f-phone">${esc(t("form.phone"))}</label>
             <input id="f-phone" name="phone" type="tel" value="${esc(place.phone)}" />
           </div>
           <div class="field">
-            <label for="f-website">WEBSITE</label>
+            <label for="f-website">${esc(t("form.website"))}</label>
             <input id="f-website" name="website" type="url" placeholder="https://" value="${esc(place.website)}" />
           </div>
         </div>
         <div class="field">
-          <label for="f-note">NOTIZ</label>
+          <label for="f-note">${esc(t("form.note"))}</label>
           <textarea id="f-note" name="note" rows="3">${esc(place.note)}</textarea>
         </div>
         <label class="check-row">
           <input id="f-open" name="open" type="checkbox" ${place.open ? "checked" : ""} />
-          <span>Aktuell geöffnet</span>
+          <span>${esc(t("form.open"))}</span>
         </label>
         <label class="check-row">
           <input id="f-favorite" name="favorite" type="checkbox" ${place.favorite ? "checked" : ""} />
-          <span>Als Favorit markieren</span>
+          <span>${esc(t("form.favorite"))}</span>
         </label>
         <p class="form-error hidden" id="form-error" role="alert"></p>
         <div class="actions">
-          <button class="secondary" type="button" data-cancel>Abbrechen</button>
-          <button class="primary" type="submit">${isNew ? "Speichern" : "Änderungen sichern"}</button>
+          <button class="secondary" type="button" data-cancel>${esc(t("form.cancel"))}</button>
+          <button class="primary" type="submit">${esc(isNew ? t("form.save") : t("form.saveChanges"))}</button>
         </div>
       </form>
     </div>`,
-    isNew ? "Neuen Ort speichern" : "Ort bearbeiten",
+    isNew ? t("form.dialogNew") : t("form.dialogEdit"),
   );
 
   const root = $("#modal-root");
@@ -672,7 +1138,7 @@ function showPlaceForm(existing, forceNew = false) {
     const error = $("#form-error", root);
 
     if (!name) {
-      error.textContent = "Bitte gib einen Namen ein.";
+      error.textContent = t("form.requiredName");
       error.classList.remove("hidden");
       $("#f-name", root).focus();
       return;
@@ -709,7 +1175,7 @@ function showPlaceForm(existing, forceNew = false) {
       if (duplicate) {
         closeModal();
         showDetail(duplicate.id);
-        announce(name + " ist bereits gespeichert.");
+        announce(t("form.duplicate", { name }));
         return;
       }
       places.push(record);
@@ -719,7 +1185,7 @@ function showPlaceForm(existing, forceNew = false) {
     savePlaces();
     closeModal();
     render();
-    announce(isNew ? name + " wurde gespeichert." : "Änderungen an " + name + " gesichert.");
+    announce(isNew ? t("form.saved", { name }) : t("form.updated", { name }));
   };
 }
 
@@ -731,15 +1197,15 @@ function showTripModal(id) {
 
   openModal(
     `<div class="modal form-modal">
-      <button class="close" type="button" aria-label="Schließen">×</button>
+      <button class="close" type="button" aria-label="${esc(t("form.close"))}">×</button>
       <h2>${esc(trip.emoji)} ${esc(trip.name)}</h2>
       <div class="field">
-        <label for="t-name">NAME DER LISTE</label>
+        <label for="t-name">${esc(t("trip.name"))}</label>
         <input id="t-name" type="text" autofocus value="${esc(trip.name)}" />
       </div>
       <div class="field">
-        <span class="field-label">SYMBOL</span>
-        <div class="emoji-row" role="group" aria-label="Symbol wählen">
+        <span class="field-label">${esc(t("trip.symbol"))}</span>
+        <div class="emoji-row" role="group" aria-label="${esc(t("trip.chooseSymbol"))}">
           ${TRIP_EMOJIS.map(
             (emoji) =>
               `<button type="button" class="emoji-btn ${emoji === trip.emoji ? "selected" : ""}"
@@ -748,7 +1214,7 @@ function showTripModal(id) {
         </div>
       </div>
       <div class="field">
-        <span class="field-label">ORTE IN DIESER LISTE</span>
+        <span class="field-label">${esc(t("trip.places"))}</span>
         <div class="chip-list">
           ${
             places.length
@@ -761,16 +1227,16 @@ function showTripModal(id) {
                     </label>`,
                   )
                   .join("")
-              : '<p class="muted-note">Du hast noch keine Orte gespeichert.</p>'
+              : `<p class="muted-note">${esc(t("trip.noPlaces"))}</p>`
           }
         </div>
       </div>
       <div class="actions">
-        <button class="danger" type="button" data-delete>Liste löschen</button>
-        <button class="primary" type="button" data-save>Speichern</button>
+        <button class="danger" type="button" data-delete>${esc(t("trip.delete"))}</button>
+        <button class="primary" type="button" data-save>${esc(t("trip.save"))}</button>
       </div>
     </div>`,
-    "Liste " + trip.name,
+    t("trip.dialog", { name: trip.name }),
   );
 
   const root = $("#modal-root");
@@ -800,22 +1266,22 @@ function showTripModal(id) {
     closeModal();
     renderTrips();
     if (activeTrip === trip.id) renderSavedView();
-    announce("Liste " + trip.name + " gespeichert.");
+    announce(t("trip.saved", { name: trip.name }));
   };
 
   $("[data-delete]", root).onclick = () => {
-    if (!confirm("Liste „" + trip.name + "“ wirklich löschen? Die Orte selbst bleiben erhalten.")) return;
+    if (!confirm(t("trip.confirmDelete", { name: trip.name }))) return;
     trips = trips.filter((item) => item.id !== id);
     saveTrips();
     closeModal();
     if (activeTrip === id) showView("trips");
     else renderTrips();
-    announce("Liste gelöscht.");
+    announce(t("trip.deleted"));
   };
 }
 
 function createTrip() {
-  const trip = { id: uid("t_"), name: "Neue Liste", emoji: TRIP_EMOJIS[0], placeIds: [] };
+  const trip = { id: uid("t_"), name: t("trip.newName"), emoji: TRIP_EMOJIS[0], placeIds: [] };
   trips.push(trip);
   saveTrips();
   renderTrips();
@@ -827,16 +1293,16 @@ function createTrip() {
 function inferCategory(types = [], query = "") {
   const values = new Set(types);
   const text = query.toLowerCase();
-  if (values.has("hotel") || values.has("lodging") || /hotel|unterkunft|pension/.test(text)) return "Hotels";
-  if (values.has("restaurant") || values.has("meal_takeaway") || /restaurant|essen|food/.test(text)) {
+  if (values.has("hotel") || values.has("lodging") || /hotel|unterkunft|pension|accommodation/.test(text)) return "Hotels";
+  if (values.has("restaurant") || values.has("meal_takeaway") || /restaurant|essen|food|dining/.test(text)) {
     return "Restaurants";
   }
-  if (values.has("cafe") || /café|cafe|kaffee/.test(text)) return "Cafés";
-  if (values.has("museum") || values.has("art_gallery") || /museum|galerie/.test(text)) return "Museen";
-  if (values.has("gym") || values.has("stadium") || values.has("sports_complex") || /sport|fitness/.test(text)) {
+  if (values.has("cafe") || /café|cafe|kaffee|coffee/.test(text)) return "Cafés";
+  if (values.has("museum") || values.has("art_gallery") || /museum|galerie|gallery/.test(text)) return "Museen";
+  if (values.has("gym") || values.has("stadium") || values.has("sports_complex") || /sport|fitness|gym/.test(text)) {
     return "Sport";
   }
-  if (values.has("event_venue") || /event|veranstaltung|konzert/.test(text)) return "Events";
+  if (values.has("event_venue") || /event|veranstaltung|konzert|concert/.test(text)) return "Events";
   return "Sehenswürdigkeiten";
 }
 
@@ -847,14 +1313,39 @@ function googlePlacesKey() {
     : readSetting("g04-google-key", "").trim();
 }
 
+function googlePlacesError(error) {
+  const details = [googleAuthError, error?.message, error?.status, error?.code].filter(Boolean).join(" ").toLowerCase();
+  if (/referer|referrer|url.*allow|allowed.*url|origin/.test(details)) {
+    return t("search.googleDenied");
+  }
+  if (/billing|rechnung|abrechnung/.test(details)) {
+    return t("search.googleBilling");
+  }
+  if (/notactivated|not activated|targetblocked|target blocked|permission_denied|request_denied/.test(details)) {
+    return t("search.googleApis");
+  }
+  if (/quota|overquota|limit/.test(details)) {
+    return t("search.googleQuota");
+  }
+  if (/invalidkey|expiredkey|auth|credential|key/.test(details)) {
+    return t("search.googleKey");
+  }
+  return t("search.googleUnavailable");
+}
+
 function loadGooglePlaces() {
   const key = googlePlacesKey();
   if (!key) return Promise.reject(new Error("missing-key"));
+  if (googleAuthError) return Promise.reject(new Error("auth-failure"));
   if (window.google?.maps?.importLibrary) return window.google.maps.importLibrary("places");
   if (googleLoaderPromise) return googleLoaderPromise;
 
   googleLoaderPromise = new Promise((resolve, reject) => {
     const callback = "__g04GooglePlacesReady";
+    googleAuthError = "";
+    window.gm_authFailure = () => {
+      googleAuthError = "auth-failure";
+    };
     const timeout = window.setTimeout(() => reject(new Error("Google Places antwortet nicht.")), 15000);
     window[callback] = async () => {
       window.clearTimeout(timeout);
@@ -872,7 +1363,11 @@ function loadGooglePlaces() {
     script.src =
       "https://maps.googleapis.com/maps/api/js?key=" +
       encodeURIComponent(key) +
-      "&loading=async&libraries=places&v=weekly&language=de&region=DE&callback=" +
+      "&loading=async&libraries=places&v=weekly&language=" +
+      encodeURIComponent(locale) +
+      "&region=" +
+      (locale === "en" ? "US" : "DE") +
+      "&callback=" +
       callback;
     script.onerror = () => {
       window.clearTimeout(timeout);
@@ -935,7 +1430,7 @@ async function renderGoogleSearchPanel(results, query) {
   const list = $("#places-result-list");
   lastGoogleQuery = query;
   panel.classList.remove("hidden");
-  $("#search-results-title").textContent = results.length + " Ergebnisse für „" + query.trim() + "“";
+  $("#search-results-title").textContent = t("search.resultCount", { count: results.length, query: query.trim() });
   list.innerHTML = results.length
     ? results
         .map((place) => {
@@ -943,28 +1438,28 @@ async function renderGoogleSearchPanel(results, query) {
           return `<article class="map-result-card">
             ${
               place.photoUrl
-                ? `<img src="${esc(place.photoUrl)}" alt="Foto von ${esc(place.name)}" loading="lazy" />`
+                ? `<img src="${esc(place.photoUrl)}" alt="${esc(t("search.photoAlt", { name: place.name }))}" loading="lazy" />`
                 : `<div class="map-result-placeholder">${iconFor(place.category)}</div>`
             }
             <div class="map-result-content">
-              <span class="result-category">${esc(place.category)}</span>
+                <span class="result-category">${esc(categoryText(place.category))}</span>
               <h3>${esc(place.name)}</h3>
               <p>${esc(place.address)}</p>
               <div class="result-facts">
-                ${place.rating ? `<span>★ ${esc(place.rating)} (${esc(place.userRatingCount)})</span>` : ""}
+                ${place.rating ? `<span>${esc(t("search.ratingCount", { rating: place.rating, count: place.userRatingCount }))}</span>` : ""}
                 ${place.priceLevel ? `<span>${esc(String(place.priceLevel).replaceAll("PRICE_LEVEL_", ""))}</span>` : ""}
-                ${distance !== null ? `<span>${distance.toFixed(1)} km entfernt</span>` : ""}
+                ${distance !== null ? `<span>${esc(t("search.distance", { distance: distance.toFixed(1) }))}</span>` : ""}
                 ${place.hours ? `<span>${esc(place.hours)}</span>` : ""}
               </div>
               <div class="result-actions">
-                <button class="primary" type="button" data-google-place="${esc(place.id)}">＋ Speichern</button>
-                <a class="secondary" data-map-link href="${esc(googleMapsUrl(place))}" target="_blank" rel="noopener noreferrer">↗ Navigation</a>
+                <button class="primary" type="button" data-google-place="${esc(place.id)}">${esc(t("place.save"))}</button>
+                <a class="secondary" data-map-link href="${esc(googleMapsUrl(place))}" target="_blank" rel="noopener noreferrer">${esc(t("search.navigation"))}</a>
               </div>
             </div>
           </article>`;
         })
         .join("")
-    : '<div class="empty">Keine passenden Orte gefunden.</div>';
+    : `<div class="empty">${esc(t("search.googleNone"))}</div>`;
 
   try {
     await loadGooglePlaces();
@@ -995,7 +1490,7 @@ async function renderGoogleSearchPanel(results, query) {
       searchMap.setZoom(14);
     }
   } catch {
-    $("#places-map").innerHTML = '<div class="map-unavailable">Karte momentan nicht verfügbar.</div>';
+    $("#places-map").innerHTML = `<div class="map-unavailable">${esc(t("search.mapUnavailable"))}</div>`;
   }
 }
 
@@ -1007,7 +1502,7 @@ function renderSearchSuggestions(rawQuery, localHits, remoteHits = [], message =
     .map(
       (place) => `<div class="suggestion" role="option" tabindex="0" data-place="${esc(place.id)}">
         <span class="suggestion-icon">${iconFor(place.category)}</span>
-        <div><strong>${esc(place.name)}</strong><small>${esc(place.address)} · Gespeichert</small></div>
+        <div><strong>${esc(place.name)}</strong><small>${esc(place.address)} · ${esc(t("saved.suffix"))}</small></div>
       </div>`,
     )
     .join("");
@@ -1021,17 +1516,17 @@ function renderSearchSuggestions(rawQuery, localHits, remoteHits = [], message =
       </div>`,
     )
     .join("");
-  const source = remote.length ? '<div class="search-source">Ergebnisse von Google Places</div>' : "";
+  const source = remote.length ? `<div class="search-source">${esc(t("search.googleSource"))}</div>` : "";
   const status = message
     ? message === "missing-key"
       ? `<button class="search-message search-message-action" type="button" data-open-settings>
-          Google Places ist für diese App noch nicht eingerichtet. <span>Hinweise öffnen →</span>
+          ${t("search.googleMissing")}
         </button>`
       : `<div class="search-message">${esc(message)}</div>`
     : "";
   const manual = `<div class="suggestion manual-suggestion" role="option" tabindex="0" data-new>
     <span class="suggestion-icon" aria-hidden="true">＋</span>
-    <div><strong>„${esc(rawQuery.trim())}“ manuell speichern</strong><small>Eigenen Ort anlegen</small></div>
+    <div><strong>${esc(t("search.manualTitle", { query: rawQuery.trim() }))}</strong><small>${esc(t("search.manualSubtitle"))}</small></div>
   </div>`;
   box.innerHTML = source + localMarkup + remoteMarkup + status + manual;
   box.classList.remove("hidden");
@@ -1061,8 +1556,8 @@ async function searchGooglePlaces(rawQuery, localHits, version, locationRestrict
         "googleMapsURI",
       ],
       maxResultCount: 20,
-      language: "de",
-      region: "de",
+      language: locale,
+      region: locale === "en" ? "US" : "DE",
     };
     if (locationRestriction) request.locationRestriction = locationRestriction;
     else if (currentLocation) request.locationBias = currentLocation;
@@ -1076,7 +1571,7 @@ async function searchGooglePlaces(rawQuery, localHits, version, locationRestrict
       rawQuery,
       localHits,
       results,
-      results.length ? "" : "Keine passenden Orte bei Google gefunden.",
+      results.length ? "" : t("search.googleNone"),
     );
   } catch (error) {
     if (version !== googleSearchVersion) return;
@@ -1085,7 +1580,7 @@ async function searchGooglePlaces(rawQuery, localHits, version, locationRestrict
       rawQuery,
       localHits,
       [],
-      missing ? "missing-key" : "Google Places ist momentan nicht erreichbar.",
+      missing ? "missing-key" : googlePlacesError(error),
     );
   }
 }
@@ -1111,7 +1606,7 @@ function runSearch(rawQuery) {
     rawQuery,
     hits,
     [],
-    hasGoogleKey ? "Suche bei Google Places …" : "missing-key",
+    hasGoogleKey ? t("search.googleSearching") : "missing-key",
   );
   window.clearTimeout(googleSearchTimer);
   const version = ++googleSearchVersion;
@@ -1140,7 +1635,7 @@ function applyTheme(dark) {
 
 function applyProfile(name) {
   const clean = name.trim();
-  $("#greeting").textContent = clean ? "Hi, " + clean : "Hi";
+  $("#greeting").textContent = clean ? t("profile.hi") + ", " + clean : t("profile.hi");
   $("#avatar").textContent = clean
     ? clean
         .split(/\s+/)
@@ -1152,12 +1647,26 @@ function applyProfile(name) {
 }
 
 function renderToday() {
-  const formatted = new Intl.DateTimeFormat("de-DE", {
+  const formatted = new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "de-DE", {
     weekday: "long",
     day: "numeric",
     month: "long",
   }).format(new Date());
   $("#today").textContent = formatted.toUpperCase();
+}
+
+function setLocale(nextLocale, announceChange = true) {
+  locale = TRANSLATIONS[nextLocale] ? nextLocale : "en";
+  writeSetting("g04-language", locale);
+  translateStatic();
+  applyProfile(readSetting("g04-name", ""));
+  renderToday();
+  render();
+  setupNotificationsToggle();
+  setupOfflineToggle();
+  if (announceChange) {
+    announce(t("language.changed", { language: locale === "en" ? t("settings.english") : t("settings.german") }));
+  }
 }
 
 /* ------------------------------------------------------------ Service Worker */
@@ -1191,7 +1700,7 @@ async function setupOfflineToggle() {
   if (!canUseServiceWorker) {
     toggle.checked = false;
     toggle.disabled = true;
-    hint.textContent = "Nur über http(s) verfügbar — nicht beim direkten Öffnen der Datei.";
+    hint.textContent = t("offline.httpOnly");
     return;
   }
 
@@ -1202,7 +1711,7 @@ async function setupOfflineToggle() {
     // Der Schalter darf nur „an“ zeigen, wenn die Registrierung wirklich klappt.
     const ok = await enableOffline();
     toggle.checked = ok;
-    if (!ok) hint.textContent = "Offline-Modus ist in diesem Browser nicht verfügbar.";
+    if (!ok) hint.textContent = t("offline.unavailable");
   }
 
   toggle.onchange = async () => {
@@ -1210,13 +1719,11 @@ async function setupOfflineToggle() {
       const ok = await enableOffline();
       toggle.checked = ok;
       writeSetting("g04-offline", ok ? "on" : "off");
-      hint.textContent = ok
-        ? "Gespeicherte Orte offline verfügbar"
-        : "Konnte nicht aktiviert werden — bitte Seite neu laden.";
+      hint.textContent = ok ? t("offline.enabled") : t("offline.enableError");
     } else {
       await disableOffline();
       writeSetting("g04-offline", "off");
-      hint.textContent = "Offline-Cache entfernt. Die App braucht jetzt eine Verbindung.";
+      hint.textContent = t("offline.removed");
     }
   };
 }
@@ -1228,7 +1735,7 @@ function setupNotificationsToggle() {
   if (!("Notification" in window)) {
     toggle.checked = false;
     toggle.disabled = true;
-    hint.textContent = "Dieser Browser unterstützt keine Benachrichtigungen.";
+    hint.textContent = t("notifications.unsupported");
     return;
   }
 
@@ -1238,21 +1745,21 @@ function setupNotificationsToggle() {
 
   if (Notification.permission === "denied") {
     toggle.disabled = true;
-    hint.textContent = "In den Browser-Einstellungen blockiert.";
+    hint.textContent = t("notifications.blocked");
     return;
   }
 
   toggle.onchange = async () => {
     if (!toggle.checked) {
       writeSetting("g04-notifications", "off");
-      hint.textContent = "Tipps und Erinnerungen zu deinen Orten";
+      hint.textContent = t("notifications.hint");
       return;
     }
     const permission = await Notification.requestPermission();
     const ok = permission === "granted";
     toggle.checked = ok;
     writeSetting("g04-notifications", ok ? "on" : "off");
-    hint.textContent = ok ? "Aktiv — du bekommst Erinnerungen." : "Ohne Erlaubnis des Browsers nicht möglich.";
+    hint.textContent = ok ? t("notifications.active") : t("notifications.denied");
   };
 }
 
@@ -1339,27 +1846,28 @@ function bindEvents() {
   };
   $("#use-location").onclick = () => {
     if (!navigator.geolocation) {
-      announce("Dieser Browser unterstützt keinen Standort.");
+      announce(t("search.noLocation"));
       return;
     }
-    announce("Standortfreigabe wird angefragt.");
+    if (!confirm(t("search.locationDisclosure"))) return;
+    announce(t("search.locationRequest"));
     navigator.geolocation.getCurrentPosition(
       (position) => {
         currentLocation = { lat: position.coords.latitude, lng: position.coords.longitude };
-        const query = $("#search").value.trim() || lastGoogleQuery || "Orte in meiner Nähe";
+        const query = $("#search").value.trim() || lastGoogleQuery || t("search.nearbyQuery");
         const localHits = places.filter((place) =>
           (place.name + " " + place.address + " " + place.category).toLowerCase().includes(query.toLowerCase()),
         );
         const version = ++googleSearchVersion;
         searchGooglePlaces(query, localHits, version);
-        announce("Standort verwendet — Ergebnisse werden geladen.");
+        announce(t("search.locationUsed"));
       },
-      () => announce("Standort nicht freigegeben. Die Suche funktioniert auch ohne Standort.")
+      () => announce(t("search.locationDenied"))
     );
   };
   $("#search-map-area").onclick = () => {
     if (!searchMap) {
-      announce("Erst eine Kartensuche starten.");
+      announce(t("search.mapFirst"));
       return;
     }
     const bounds = searchMap.getBounds();
@@ -1380,14 +1888,18 @@ function bindEvents() {
   $("#theme-toggle").onclick = () => applyTheme(!document.body.classList.contains("dark"));
   $("#settings-theme").onchange = (event) => applyTheme(event.target.checked);
   $("#settings-name").oninput = (event) => applyProfile(event.target.value);
+  $("#settings-language").onchange = (event) => setLocale(event.target.value);
 }
 
 function init() {
+  const storedLocale = readSetting("g04-language", "en");
+  locale = TRANSLATIONS[storedLocale] ? storedLocale : "en";
+  translateStatic();
   const storedName = readSetting("g04-name", "");
   $("#settings-name").value = storedName;
   $("#google-places-hint").textContent = googlePlacesKey()
-    ? "Zentral verbunden — suche oben zum Beispiel nach „Hotel Bamberg“"
-    : "Noch nicht konfiguriert — der App-Administrator muss Google Places verbinden";
+    ? t("google.connected")
+    : t("google.notConfigured");
   applyProfile(storedName);
   applyTheme(readSetting("g04-theme", "light") === "dark");
   renderToday();

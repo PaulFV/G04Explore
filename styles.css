@@ -1196,10 +1196,67 @@ body {
   border-radius: 8px;
   font: 600 12px "DM Sans";
 }
+.language-select {
+  min-width: 112px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  padding: 9px 28px 9px 11px;
+  border-radius: 9px;
+  font: 600 12px "DM Sans";
+  cursor: pointer;
+}
+.settings-legal {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 18px 0 5px;
+}
+.legal-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--soft);
+}
+.legal-link:hover,
+.legal-link:focus-visible {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+.legal-link strong,
+.legal-link small {
+  display: block;
+}
+.legal-link strong {
+  font-size: 12px;
+}
+.legal-link small {
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 4px;
+}
+.legal-link > span:last-child {
+  color: var(--blue);
+  font-size: 18px;
+}
 .settings-note {
   color: var(--muted);
   font-size: 11px;
   margin: 15px 3px;
+}
+@media (max-width: 520px) {
+  .settings-legal {
+    grid-template-columns: 1fr;
+  }
+  .language-select {
+    min-width: 96px;
+  }
 }
 body:not(.dark) {
   --ink: #18233a;
@@ -2198,5 +2255,20 @@ select:focus-visible {
   #home-view .category-card h3,
   #home-view .category-card.large h3 {
     font-size: 15px;
+  }
+}
+
+/* iOS Safari zoomt beim Fokus keine Eingabefelder ab 16px automatisch */
+html,
+body {
+  -webkit-text-size-adjust: 100%;
+}
+@media (max-width: 760px) {
+  input,
+  select,
+  textarea,
+  .search-wrap input,
+  .saved-controls select {
+    font-size: 16px;
   }
 }

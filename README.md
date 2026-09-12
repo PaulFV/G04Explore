@@ -21,6 +21,8 @@ npx --yes serve .
 - Orte anlegen, bearbeiten und löschen — Speicherung im Browser (`localStorage`)
 - Reise-Listen: anlegen, umbenennen, Orte zuordnen, löschen
 - Dark Mode, Offline-Modus und Benachrichtigungen in den Einstellungen
+- Englisch als Standardsprache beim ersten Start, Deutsch unter Settings wählbar
+- Datenschutz, Copyright und Impressum innerhalb der App verlinkt
 - Tastaturbedienung: `⌘/Strg + K` für die Suche, `Esc` schließt Dialoge
 - Responsive Darstellung für Smartphone und Desktop
 
@@ -36,6 +38,7 @@ Alles liegt ausschließlich im Browser des Geräts, es geht nichts an einen Serv
 | `g04-name`          | Name für die Begrüßung    |
 | `g04-offline`       | Offline-Modus an/aus      |
 | `g04-notifications` | Benachrichtigungen an/aus |
+| `g04-language`      | App-Sprache (`en`/`de`)  |
 
 Beim ersten Start werden Beispieldaten angelegt. Leerst du den Browser-Speicher, sind deine
 eigenen Orte weg — eine Export-Funktion gibt es noch nicht.
@@ -64,6 +67,14 @@ Die globale Suche unterstützt Google Places Text Search. Damit funktionieren Ei
 Da ein Browser-Schlüssel an Google Maps im Browser übertragen werden muss, ist er im ausgelieferten
 Frontend technisch sichtbar. Deshalb sind HTTP-Referrer- und API-Einschränkungen zwingend erforderlich.
 
+## Datenschutz und rechtliche Hinweise
+
+Die Seiten [Datenschutzerklärung](privacy.html) und [Copyright & Impressum](imprint.html)
+sind innerhalb der App verlinkt. Vor einem öffentlichen Release müssen die markierten
+Betreiber- und Kontaktdaten ergänzt werden. Die Google-Places-Suche übermittelt
+Suchtext an Google; der Standort wird nur nach einer ausdrücklichen Aktion und
+Bestätigung des Nutzers verwendet.
+
 ## Auf iPhone und Android installieren
 
 Nach der Veröffentlichung über GitHub Pages:
@@ -73,8 +84,9 @@ Nach der Veröffentlichung über GitHub Pages:
 
 Die App nutzt ein Web-App-Manifest und einen Service Worker. Dadurch startet sie wie eine App im
 Vollbild und die bereits gespeicherten Orte bleiben offline verfügbar. Für eine native App im App
-Store und bei Google Play wäre anschließend ein Expo/React-Native-Wrapper mit eigenen
-Store-Accounts erforderlich.
+Store und bei Google Play ist die Android-Vorbereitung in
+[PLAY_STORE_CHECKLIST.md](PLAY_STORE_CHECKLIST.md) beschrieben. iOS und iPad bleiben
+als PWA über Safari installierbar.
 
 ## Entwicklung
 

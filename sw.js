@@ -6,19 +6,21 @@
  * Deploy weiter die alte Version.
  */
 
-const CACHE = "g04explore-v7";
+const CACHE = "g04explore-v9";
 
 const ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
-  "./config.js",
   "./manifest.webmanifest",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon-maskable-512.png",
   "./icons/apple-touch-icon.png",
+  "./privacy.html",
+  "./imprint.html",
+  "./legal.css",
 ];
 
 self.addEventListener("install", (event) => {
@@ -46,6 +48,10 @@ self.addEventListener("fetch", (event) => {
   // Nur eigene GET-Anfragen cachen. Fremde Hosts (z. B. Google Fonts) und
   // POST-Requests gehen unverändert ans Netz.
   if (request.method !== "GET" || new URL(request.url).origin !== self.location.origin) return;
+
+  // Die zentrale Laufzeitkonfiguration immer frisch laden. So greift ein
+  // aktualisiertes GitHub-Secret sofort und der Key landet nicht im Offline-Cache.
+  if (new URL(request.url).pathname.endsWith("/config.js")) return;
 
   event.respondWith(
     caches.open(CACHE).then(async (cache) => {
