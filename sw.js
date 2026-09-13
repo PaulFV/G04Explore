@@ -6,7 +6,7 @@
  * Deploy weiter die alte Version.
  */
 
-const CACHE = "g04explore-v9";
+const CACHE = "g04explore-v27";
 
 const ASSETS = [
   "./",
@@ -18,6 +18,10 @@ const ASSETS = [
   "./icons/icon-512.png",
   "./icons/icon-maskable-512.png",
   "./icons/apple-touch-icon.png",
+  "./icons/category-hero-art.png",
+  "./icons/category-tile-sprite.png",
+  "./icons/favorites-reference.png",
+  "./icons/trips-reference.png",
   "./privacy.html",
   "./imprint.html",
   "./legal.css",

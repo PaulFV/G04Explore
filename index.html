@@ -19,7 +19,7 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=27" />
   </head>
   <body>
     <div class="app-shell">
@@ -45,31 +45,38 @@
 
       <main>
         <header class="topbar">
-          <div class="mobile-brand">
-            <span class="brand-mark" aria-hidden="true">G<span>04</span><i>EX</i></span> G04Explore
+          <div class="header-left">
+            <div class="mobile-brand">
+              <span class="brand-mark" aria-label="G04Explore">G<span>04</span><i>EX</i></span>
+            </div>
+            <div class="header-date-pill">
+              <svg class="header-date-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16M8 14h.01M12 14h.01M16 14h.01"/></svg>
+              <time class="header-date eyebrow" id="today"></time>
+            </div>
           </div>
-          <div class="header-context">
-            <time class="header-date eyebrow" id="today"></time>
+          <button class="header-nearby" id="header-nearby" type="button" data-i18n-aria-label="header.nearby" aria-label="Explore nearby">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s7-6.1 7-12A7 7 0 0 0 5 9c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></svg>
+            <span data-i18n="header.nearby">Explore nearby</span>
+          </button>
+          <div class="header-right">
             <div class="language-toggle" id="header-language" role="group" data-i18n-aria-label="header.language" aria-label="Language">
               <button class="language-option active" type="button" data-locale="en" aria-pressed="true">EN</button>
               <button class="language-option" type="button" data-locale="de" aria-pressed="false">DE</button>
             </div>
-          </div>
-          <div class="profile">
-            <button class="theme-toggle" id="theme-toggle" data-i18n-aria-label="theme.toggle" aria-label="Toggle dark mode" aria-pressed="false">
-              ☾
-            </button>
-            <div class="avatar" id="avatar" aria-hidden="true">MF</div>
-            <div><strong id="greeting">Hi</strong><small data-i18n="profile.next">Your next adventure?</small></div>
-            <span class="chevron" aria-hidden="true">⌄</span>
+            <div class="header-controls">
+              <button class="theme-toggle" id="theme-toggle" data-i18n-aria-label="theme.toggle" aria-label="Toggle dark mode" aria-pressed="false">
+                ☾
+              </button>
+            </div>
           </div>
         </header>
 
         <section class="content">
           <div id="search-view" class="view-panel hidden">
             <div class="welcome-row">
-              <div>
-                <h1><em>Hello World!</em></h1>
+              <div class="search-hero-copy">
+                <h1 data-i18n="search.heading">Find your next favorite place</h1>
+                <p data-i18n="search.subtitle">Search nearby or explore a new destination.</p>
               </div>
               <button class="primary add-place-btn" data-i18n="place.save">＋ Save place</button>
             </div>
@@ -89,11 +96,33 @@
                 placeholder="Search places, cities or categories..."
               />
               <kbd aria-hidden="true">⌘ K</kbd>
+              <button class="search-filter-button" id="search-filter-toggle" type="button" data-i18n-aria-label="search.filterToggle" aria-label="Show search shortcuts" aria-pressed="true">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 17h16M9 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM15 21a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg>
+              </button>
               <div id="suggestions" class="suggestions hidden" role="listbox" data-i18n-aria-label="search.suggestions" aria-label="Search suggestions"></div>
             </div>
 
+            <div class="search-quick-filters" role="group" data-i18n-aria-label="search.filters" aria-label="Search shortcuts">
+              <button class="quick-filter" type="button" data-search-query="Restaurants"><span class="quick-filter-icon" aria-hidden="true"><svg class="quick-filter-svg" viewBox="0 0 24 24" fill="none"><path d="M7 3v7M5 3v4a2 2 0 0 0 4 0V3M7 10v11M17 3c-2 2-2 6 0 7v11M17 3v18"/></svg></span><span data-i18n="category.Restaurants">Restaurants</span></button>
+              <button class="quick-filter" type="button" data-search-query="Hotels"><span class="quick-filter-icon" aria-hidden="true"><svg class="quick-filter-svg" viewBox="0 0 24 24" fill="none"><path d="M4 20V7M4 14h16v6M7 14v-3h4a3 3 0 0 1 3 3M20 14V9"/></svg></span><span data-i18n="category.Hotels">Hotels</span></button>
+              <button class="quick-filter" type="button" data-search-query="Cafés"><span class="quick-filter-icon" aria-hidden="true"><svg class="quick-filter-svg" viewBox="0 0 24 24" fill="none"><path d="M5 8h11v5a5 5 0 0 1-10 0V8ZM16 10h2a3 3 0 0 1 0 6h-2M4 20h15M8 5c-1-1 1-1 0-2M12 5c-1-1 1-1 0-2"/></svg></span><span data-i18n="category.Cafés">Cafés</span></button>
+              <button class="quick-filter" type="button" data-search-query="Sehenswürdigkeiten"><span class="quick-filter-icon" aria-hidden="true"><svg class="quick-filter-svg" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.1 7-12A7 7 0 0 0 5 9c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></svg></span><span data-i18n="category.Sehenswürdigkeiten">Sights</span></button>
+              <button class="quick-filter" type="button" data-search-query="Events"><span class="quick-filter-icon" aria-hidden="true"><svg class="quick-filter-svg" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16M8 14h.01M12 14h.01M16 14h.01"/></svg></span><span data-i18n="category.Events">Events</span></button>
+              <button class="quick-filter active" id="search-nearby-shortcut" type="button"><span class="quick-filter-icon" aria-hidden="true"><svg class="quick-filter-svg" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></span><span data-i18n="search.nearbyLabel">Near me</span></button>
+            </div>
+
             <section class="search-insights" data-i18n-aria-label="home.insights" aria-label="Search insights">
-              <article class="insight-card"><div class="insight-head"><h3 data-i18n="home.nearby">Near you</h3><button class="text-btn" id="home-location" data-i18n="home.search">⌖ Search</button></div><div id="nearby-places" class="insight-list"></div></article>
+              <article class="insight-card">
+                <div class="insight-head"><h3 data-i18n="home.nearby">Near you</h3><button class="text-btn" id="home-location" data-i18n="home.search">⌖ Search</button></div>
+                <div class="nearby-map-art" aria-hidden="true">
+                  <span class="nearby-pin pin-bed"></span>
+                  <span class="nearby-pin pin-food"></span>
+                  <span class="nearby-pin pin-cafe"></span>
+                  <span class="nearby-pin pin-sight"></span>
+                  <span class="nearby-pin pin-center"></span>
+                </div>
+                <div id="nearby-places" class="insight-list"></div>
+              </article>
             </section>
 
             <section id="search-explorer" class="search-explorer hidden" data-i18n-aria-label="search.resultsLabel" aria-label="Google Maps search results">
@@ -123,9 +152,17 @@
             <div class="section-heading">
               <div>
                 <p class="eyebrow" id="saved-eyebrow" data-i18n="saved.eyebrow">YOUR PLACES</p>
-                <h2 id="saved-title" data-i18n="saved.title">All saved places</h2>
+                <h2 id="saved-title" data-i18n="saved.title">Your favorite places</h2>
+                <p class="saved-subtitle" data-i18n="saved.subtitle">Everything you love, saved in one place.</p>
               </div>
               <button class="text-btn hidden" id="clear-filter" data-i18n="saved.reset">Reset filters</button>
+            </div>
+            <div id="saved-stats" class="saved-stats"></div>
+            <div class="saved-search-wrap">
+              <span class="saved-search-icon" aria-hidden="true">⌕</span>
+              <label class="sr-only" for="saved-search" data-i18n="saved.title">Your favorite places</label>
+              <input id="saved-search" type="search" autocomplete="off" data-i18n-placeholder="saved.searchPlaceholder" placeholder="Search saved places..." />
+              <button class="saved-filter-button" id="saved-filter-toggle" type="button" data-i18n-aria-label="filter.aria" aria-label="Filter and sort places" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 17h16M9 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM15 21a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg></button>
             </div>
             <div class="saved-controls" data-i18n-aria-label="filter.aria" aria-label="Filter and sort places">
               <select id="filter-category" data-i18n-aria-label="filter.categoryLabel" aria-label="Filter by category">
@@ -161,9 +198,11 @@
               <div>
                 <p class="eyebrow" data-i18n="trips.eyebrow">TRAVEL LISTS</p>
                 <h2 data-i18n="trips.heading">Let's explore together</h2>
+                <p class="trips-subtitle" data-i18n="trips.subtitle">Plan beautiful days and keep every place together.</p>
               </div>
               <button class="secondary" id="new-trip" data-i18n="trips.new">＋ New list</button>
             </div>
+            <div id="trip-stats" class="trip-stats"></div>
             <div id="trips-page-grid" class="trip-grid"></div>
           </div>
 
@@ -172,82 +211,58 @@
               <div>
                 <p class="eyebrow" data-i18n="settings.eyebrow">APP SETTINGS</p>
                 <h2 data-i18n="settings.heading">Your settings</h2>
+                <p class="settings-subtitle" data-i18n="settings.subtitle">Make G04X work exactly the way you like.</p>
               </div>
             </div>
-            <div class="settings-card">
-              <div class="setting-row">
-                <span class="setting-icon" aria-hidden="true">☺</span>
-                <div><strong data-i18n="settings.name">Your name</strong><small data-i18n="settings.nameHint">For the greeting on the overview</small></div>
-                <input
-                  id="settings-name"
-                  class="setting-input"
-                  type="text"
-                  maxlength="24"
-                  data-i18n-placeholder="settings.namePlaceholder"
-                  placeholder="Alex"
-                  data-i18n-aria-label="settings.name"
-                  aria-label="Your name"
-                />
-              </div>
-              <div class="setting-row">
-                <span class="setting-icon" aria-hidden="true">☾</span>
-                <div><strong data-i18n="settings.dark">Dark mode</strong><small data-i18n="settings.darkHint">Easier on your eyes in low light</small></div>
-                <label class="switch">
-                  <span class="sr-only" data-i18n="settings.dark">Dark mode</span>
-                  <input id="settings-theme" type="checkbox" />
-                  <span aria-hidden="true"></span>
-                </label>
-              </div>
-              <div class="setting-row">
-                <span class="setting-icon" aria-hidden="true">⌁</span>
-                <div>
-                  <strong data-i18n="settings.offline">Offline mode</strong>
-                  <small id="offline-hint" data-i18n="settings.offlineHint">Saved places available offline</small>
+            <div class="settings-page">
+              <section class="settings-section">
+                <p class="settings-section-title" data-i18n="settings.appearance">APPEARANCE &amp; ACCESSIBILITY</p>
+                <div class="settings-grid">
+                  <div class="setting-row setting-card-row">
+                    <span class="setting-icon" aria-hidden="true"><svg class="setting-svg" viewBox="0 0 24 24" fill="none"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/></svg></span>
+                    <div><strong data-i18n="settings.dark">Dark mode</strong><small data-i18n="settings.darkHint">Easier on your eyes in low light</small></div>
+                    <label class="switch"><span class="sr-only" data-i18n="settings.dark">Dark mode</span><input id="settings-theme" type="checkbox" /><span aria-hidden="true"></span></label>
+                  </div>
+                  <div class="setting-row setting-card-row">
+                    <span class="setting-icon" aria-hidden="true"><svg class="setting-svg" viewBox="0 0 24 24" fill="none"><path d="M5 5h14M8 3v4M16 3v4M7 20l5-7 5 7M12 13V7M15 7h4"/><path d="M4 12h7"/></svg></span>
+                    <div><strong data-i18n="settings.language">Language</strong><small data-i18n="settings.languageHint">Choose your app language</small></div>
+                    <select class="language-select" id="settings-language" data-i18n-aria-label="settings.language" aria-label="App language"><option value="en" data-i18n="settings.english">English</option><option value="de" data-i18n="settings.german">German</option></select>
+                  </div>
                 </div>
-                <label class="switch">
-                  <span class="sr-only" data-i18n="settings.offline">Offline mode</span>
-                  <input id="settings-offline" type="checkbox" />
-                  <span aria-hidden="true"></span>
-                </label>
-              </div>
-              <div class="setting-row">
-                <span class="setting-icon" aria-hidden="true">♢</span>
-                <div>
-                  <strong data-i18n="settings.notifications">Notifications</strong>
-                  <small id="notifications-hint" data-i18n="settings.notificationsHint">Tips and reminders about your places</small>
+              </section>
+
+              <section class="settings-section">
+                <p class="settings-section-title" data-i18n="settings.appData">APP &amp; DATA</p>
+                <div class="settings-grid">
+                  <div class="setting-row setting-card-row">
+                    <span class="setting-icon" aria-hidden="true"><svg class="setting-svg" viewBox="0 0 24 24" fill="none"><path d="M5 15.5a4.5 4.5 0 0 1 .8-8.9A6 6 0 0 1 17 8a3.5 3.5 0 0 1 .5 7H15"/><path d="M12 11v9M8.5 16.5 12 20l3.5-3.5"/></svg></span>
+                    <div><strong data-i18n="settings.offline">Offline mode</strong><small id="offline-hint" data-i18n="settings.offlineHint">Saved places available offline</small></div>
+                    <label class="switch"><span class="sr-only" data-i18n="settings.offline">Offline mode</span><input id="settings-offline" type="checkbox" /><span aria-hidden="true"></span></label>
+                  </div>
+                  <div class="setting-row setting-card-row">
+                    <span class="setting-icon" aria-hidden="true"><svg class="setting-svg" viewBox="0 0 24 24" fill="none"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/></svg></span>
+                    <div><strong data-i18n="settings.notifications">Notifications</strong><small id="notifications-hint" data-i18n="settings.notificationsHint">Tips and reminders about your places</small></div>
+                    <label class="switch"><span class="sr-only" data-i18n="settings.notifications">Notifications</span><input id="settings-notifications" type="checkbox" /><span aria-hidden="true"></span></label>
+                  </div>
                 </div>
-                <label class="switch">
-                  <span class="sr-only" data-i18n="settings.notifications">Notifications</span>
-                  <input id="settings-notifications" type="checkbox" />
-                  <span aria-hidden="true"></span>
-                </label>
-              </div>
-              <div class="setting-row google-setting">
-                <span class="setting-icon" aria-hidden="true">⌖</span>
-                <div>
-                  <strong data-i18n="settings.google">Google Places</strong>
-                  <small id="google-places-hint" data-i18n="settings.googleHint">Provided centrally for all users</small>
+              </section>
+
+              <section class="settings-section">
+                <p class="settings-section-title" data-i18n="settings.services">SERVICES</p>
+                <div class="setting-row setting-card-row google-setting">
+                  <span class="setting-icon" aria-hidden="true"><svg class="setting-svg" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.1 7-12A7 7 0 0 0 5 9c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/><path d="M4 20h16"/></svg></span>
+                  <div><strong data-i18n="settings.google">Google Places</strong><small id="google-places-hint" data-i18n="settings.googleHint">Provided centrally for all users</small></div>
+                  <span class="setting-status" data-i18n="settings.central">CENTRAL</span>
                 </div>
-                <span class="setting-status" data-i18n="settings.central">CENTRAL</span>
-              </div>
-              <div class="setting-row">
-                <span class="setting-icon" aria-hidden="true">文</span>
-                <div><strong data-i18n="settings.language">Language</strong><small data-i18n="settings.languageHint">Choose your app language</small></div>
-                <select class="language-select" id="settings-language" data-i18n-aria-label="settings.language" aria-label="App language">
-                  <option value="en" data-i18n="settings.english">English</option>
-                  <option value="de" data-i18n="settings.german">German</option>
-                </select>
-              </div>
-              <div class="settings-legal">
-                <a class="legal-link" href="privacy.html">
-                  <span><strong data-i18n="settings.privacy">Privacy policy</strong><small data-i18n="settings.privacyHint">How G04Explore handles your data</small></span>
-                  <span aria-hidden="true">↗</span>
-                </a>
-                <a class="legal-link" href="imprint.html">
-                  <span><strong data-i18n="settings.copyright">Copyright &amp; imprint</strong><small data-i18n="settings.copyrightHint">Publisher and app rights</small></span>
-                  <span aria-hidden="true">↗</span>
-                </a>
-              </div>
+              </section>
+
+              <section class="settings-section">
+                <p class="settings-section-title" data-i18n="settings.legalGroup">LEGAL &amp; PRIVACY</p>
+                <div class="settings-legal">
+                  <a class="legal-link" href="privacy.html"><span class="setting-icon" aria-hidden="true"><svg class="setting-svg" viewBox="0 0 24 24" fill="none"><path d="M12 3 20 6v5c0 5-3.3 8.4-8 10-4.7-1.6-8-5-8-10V6zM9 12l2 2 4-4"/></svg></span><span><strong data-i18n="settings.privacy">Privacy policy</strong><small data-i18n="settings.privacyHint">How G04Explore handles your data</small></span><span aria-hidden="true">›</span></a>
+                  <a class="legal-link" href="imprint.html"><span class="setting-icon" aria-hidden="true"><svg class="setting-svg" viewBox="0 0 24 24" fill="none"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h6M9 17h6M9 9h2"/></svg></span><span><strong data-i18n="settings.copyright">Copyright &amp; imprint</strong><small data-i18n="settings.copyrightHint">Publisher and app rights</small></span><span aria-hidden="true">›</span></a>
+                </div>
+              </section>
             </div>
             <p class="settings-note" data-i18n="settings.footer">G04EX · Your data stays on this device. © 2026 G04Explore.</p>
           </div>
@@ -255,14 +270,14 @@
 
         <nav class="bottom-nav" data-i18n-aria-label="nav.main" aria-label="Mobile main navigation">
           <button class="active" data-view="home" aria-current="page">
-            <span aria-hidden="true">⌂</span><small data-i18n="nav.home">Overview</small>
+            <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m4 11 8-7 8 7v9H4zM9 20v-5h6v5"/></svg></span><small data-i18n="nav.home">Overview</small>
           </button>
           <button type="button" data-view="search" data-search-nav>
-            <span aria-hidden="true">⌕</span><small data-i18n="nav.search">Search</small>
+            <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="10.8" cy="10.8" r="6.5"/><path d="m16 16 5 5"/></svg></span><small data-i18n="nav.search">Search</small>
           </button>
-          <button data-view="saved"><span aria-hidden="true">♡</span><small data-i18n="nav.saved">All places</small></button>
-          <button data-view="trips"><span aria-hidden="true">✦</span><small data-i18n="nav.trips">Travel lists</small></button>
-          <button data-view="settings"><span aria-hidden="true">⚙</span><small data-i18n="nav.settings">Settings</small></button>
+          <button data-view="saved"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M20.8 8.8c0 5.1-8.8 10.2-8.8 10.2S3.2 13.9 3.2 8.8A4.6 4.6 0 0 1 12 6.2a4.6 4.6 0 0 1 8.8 2.6Z"/></svg></span><small data-i18n="nav.saved">All places</small></button>
+          <button data-view="trips"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m12 3 1.8 6.2L20 12l-6.2 1.8L12 20l-1.8-6.2L4 12l6.2-2.8z"/></svg></span><small data-i18n="nav.trips">Travel lists</small></button>
+          <button data-view="settings"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.1h-2.5V20a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1A1.7 1.7 0 0 0 8 15a1.7 1.7 0 0 0-1.6-1H6v-2.5h.4A1.7 1.7 0 0 0 8 10a1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6v-.1h2.5V5a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.1V14h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg></span><small data-i18n="nav.settings">Settings</small></button>
         </nav>
       </main>
     </div>
@@ -276,6 +291,6 @@
 
     <!-- config.js wird beim GitHub-Pages-Deployment aus dem Repository-Secret erzeugt. -->
     <script src="config.js"></script>
-    <script src="app.js"></script>
+    <script src="app.js?v=19"></script>
   </body>
 </html>

@@ -24,11 +24,16 @@ const TRANSLATIONS = {
     "offline.description": "Your collection stays with you on the go.",
     "theme.toggle": "Toggle dark mode",
     "header.language": "Language",
-    "profile.next": "Your next adventure?",
+    "header.nearby": "Explore nearby",
     "place.save": "＋ Save place",
     "search.label": "Search places",
     "search.placeholder": "Search places, cities or categories...",
     "search.suggestions": "Search suggestions",
+    "search.heading": "Find your next favorite place",
+    "search.subtitle": "Search nearby or explore a new destination.",
+    "search.filters": "Search shortcuts",
+    "search.filterToggle": "Show search shortcuts",
+    "search.nearbyLabel": "Near me",
     "search.resultsLabel": "Google Maps search results",
     "search.results": "Search results",
     "search.photoAlt": "Photo of {{name}}",
@@ -44,7 +49,12 @@ const TRANSLATIONS = {
     "home.search": "⌖ Search",
     "home.insights": "Overview insights",
     "saved.eyebrow": "YOUR PLACES",
-    "saved.title": "All saved places",
+    "saved.title": "Your favorite places",
+    "saved.subtitle": "Everything you love, saved in one place.",
+    "saved.statsSaved": "Saved",
+    "saved.statsFavorites": "Favorites",
+    "saved.statsWishlist": "Want to visit",
+    "saved.searchPlaceholder": "Search saved places...",
     "saved.reset": "Reset filters",
     "saved.categoryEyebrow": "CATEGORY",
     "saved.tripEyebrow": "TRAVEL LIST",
@@ -62,12 +72,21 @@ const TRANSLATIONS = {
     "sort.distance": "Distance",
     "trips.eyebrow": "TRAVEL LISTS",
     "trips.heading": "Let's explore together",
+    "trips.subtitle": "Plan beautiful days and keep every place together.",
     "trips.new": "＋ New list",
+    "trips.statsLists": "Lists",
+    "trips.statsPlaces": "Places",
+    "trips.statsCities": "Cities",
+    "trips.onlyDevice": "Only on this device",
+    "trips.planned": "{{done}} of {{total}} planned",
+    "trips.dateBerlin": "18–20 Sep",
     "settings.eyebrow": "APP SETTINGS",
     "settings.heading": "Your settings",
-    "settings.name": "Your name",
-    "settings.nameHint": "For the greeting on the overview",
-    "settings.namePlaceholder": "Alex",
+    "settings.subtitle": "Make G04X work exactly the way you like.",
+    "settings.appearance": "APPEARANCE & ACCESSIBILITY",
+    "settings.appData": "APP & DATA",
+    "settings.services": "SERVICES",
+    "settings.legalGroup": "LEGAL & PRIVACY",
     "settings.dark": "Dark mode",
     "settings.darkHint": "Easier on your eyes in low light",
     "settings.offline": "Offline mode",
@@ -94,6 +113,7 @@ const TRANSLATIONS = {
     "category.Museen": "Museums",
     "category.Sehenswürdigkeiten": "Sights",
     "category.Cafés": "Cafés",
+    "category.Private": "Private",
     "tagline.Restaurants": "Great addresses for every taste",
     "tagline.Hotels": "Sleep & settle in",
     "tagline.Events": "Dates you don't want to miss",
@@ -101,6 +121,7 @@ const TRANSLATIONS = {
     "tagline.Museen": "Art, history and ideas",
     "tagline.Sehenswürdigkeiten": "Places that stay with you",
     "tagline.Cafés": "Short breaks, great coffee",
+    "tagline.Private": "Your personal favorites",
     "place.singular": "place",
     "place.plural": "places",
     "saved.suffix": "saved",
@@ -121,7 +142,6 @@ const TRANSLATIONS = {
     "empty.nearby": "Use your location when asked.",
     "category.aria": "Category {{category}}, {{count}}",
     "trip.aria": "List {{name}}, {{count}}",
-    "profile.hi": "Hi",
     "saved.list": "List",
     "detail.reviews": "reviews",
     "detail.close": "Close",
@@ -176,6 +196,11 @@ const TRANSLATIONS = {
     "trip.delete": "Delete list",
     "trip.save": "Save",
     "trip.dialog": "List {{name}}",
+    "trip.editSubtitle": "Edit travel list",
+    "trip.selected": "{{count}} places selected",
+    "trip.placesSelected": "{{selected}} of {{total}} selected",
+    "trip.searchPlaces": "Search places in this list",
+    "trip.localNote": "Changes are stored only on this device.",
     "trip.saved": "List {{name}} saved.",
     "trip.confirmDelete": "Delete list “{{name}}”? The places themselves will stay saved.",
     "trip.deleted": "List deleted.",
@@ -233,11 +258,16 @@ const TRANSLATIONS = {
     "offline.description": "Deine Sammlung bleibt auch unterwegs bei dir.",
     "theme.toggle": "Dark Mode umschalten",
     "header.language": "Sprache",
-    "profile.next": "Dein nächstes Abenteuer?",
+    "header.nearby": "In der Nähe entdecken",
     "place.save": "＋ Ort speichern",
     "search.label": "Orte durchsuchen",
     "search.placeholder": "Nach Orten, Städten oder Kategorien suchen...",
     "search.suggestions": "Suchvorschläge",
+    "search.heading": "Finde deinen nächsten Lieblingsort",
+    "search.subtitle": "Suche in deiner Nähe oder entdecke ein neues Reiseziel.",
+    "search.filters": "Schnellsuche",
+    "search.filterToggle": "Schnellsuche einblenden",
+    "search.nearbyLabel": "Meine Nähe",
     "search.resultsLabel": "Google-Maps-Suchergebnisse",
     "search.results": "Suchergebnisse",
     "search.photoAlt": "Foto von {{name}}",
@@ -253,7 +283,12 @@ const TRANSLATIONS = {
     "home.search": "⌖ Suchen",
     "home.insights": "Übersicht und Empfehlungen",
     "saved.eyebrow": "DEINE ORTE",
-    "saved.title": "Alle gespeicherten Orte",
+    "saved.title": "Deine Lieblingsorte",
+    "saved.subtitle": "Alles, was du liebst, an einem Ort gespeichert.",
+    "saved.statsSaved": "Gespeichert",
+    "saved.statsFavorites": "Favoriten",
+    "saved.statsWishlist": "Möchte ich besuchen",
+    "saved.searchPlaceholder": "Gespeicherte Orte suchen...",
     "saved.reset": "Filter zurücksetzen",
     "saved.categoryEyebrow": "KATEGORIE",
     "saved.tripEyebrow": "REISE-LISTE",
@@ -271,12 +306,21 @@ const TRANSLATIONS = {
     "sort.distance": "Entfernung",
     "trips.eyebrow": "REISE-LISTEN",
     "trips.heading": "Gemeinsam unterwegs",
+    "trips.subtitle": "Plane schöne Tage und behalte alle Orte zusammen.",
     "trips.new": "＋ Neue Liste",
+    "trips.statsLists": "Listen",
+    "trips.statsPlaces": "Orte",
+    "trips.statsCities": "Städte",
+    "trips.onlyDevice": "Nur auf diesem Gerät",
+    "trips.planned": "{{done}} von {{total}} geplant",
+    "trips.dateBerlin": "18.–20. Sept.",
     "settings.eyebrow": "APP EINSTELLUNGEN",
     "settings.heading": "Deine Einstellungen",
-    "settings.name": "Dein Name",
-    "settings.nameHint": "Für die Begrüßung auf der Übersicht",
-    "settings.namePlaceholder": "Max",
+    "settings.subtitle": "Passe G04X genau an deine Wünsche an.",
+    "settings.appearance": "DARSTELLUNG & BARRIEREFREIHEIT",
+    "settings.appData": "APP & DATEN",
+    "settings.services": "DIENSTE",
+    "settings.legalGroup": "RECHT & DATENSCHUTZ",
     "settings.dark": "Dark Mode",
     "settings.darkHint": "Schont deine Augen bei wenig Licht",
     "settings.offline": "Offline-Modus",
@@ -303,6 +347,7 @@ const TRANSLATIONS = {
     "category.Museen": "Museen",
     "category.Sehenswürdigkeiten": "Sehenswürdigkeiten",
     "category.Cafés": "Cafés",
+    "category.Private": "Privat",
     "tagline.Restaurants": "Gute Adressen für jeden Geschmack",
     "tagline.Hotels": "Schlafen & ankommen",
     "tagline.Events": "Termine, die du nicht verpassen willst",
@@ -310,6 +355,7 @@ const TRANSLATIONS = {
     "tagline.Museen": "Kunst, Geschichte und Ideen",
     "tagline.Sehenswürdigkeiten": "Orte, die bleiben",
     "tagline.Cafés": "Kurze Pausen, guter Kaffee",
+    "tagline.Private": "Deine persönlichen Favoriten",
     "place.singular": "Ort",
     "place.plural": "Orte",
     "saved.suffix": "gespeichert",
@@ -330,7 +376,6 @@ const TRANSLATIONS = {
     "empty.nearby": "Standort auf Anfrage verwenden.",
     "category.aria": "Kategorie {{category}}, {{count}}",
     "trip.aria": "Liste {{name}}, {{count}}",
-    "profile.hi": "Hi",
     "saved.list": "Liste",
     "detail.reviews": "Bewertungen",
     "detail.close": "Schließen",
@@ -385,6 +430,11 @@ const TRANSLATIONS = {
     "trip.delete": "Liste löschen",
     "trip.save": "Speichern",
     "trip.dialog": "Liste {{name}}",
+    "trip.editSubtitle": "Reiseliste bearbeiten",
+    "trip.selected": "{{count}} Orte ausgewählt",
+    "trip.placesSelected": "{{selected}} von {{total}} ausgewählt",
+    "trip.searchPlaces": "Orte in dieser Liste suchen",
+    "trip.localNote": "Änderungen werden nur auf diesem Gerät gespeichert.",
     "trip.saved": "Liste {{name}} gespeichert.",
     "trip.confirmDelete": "Liste „{{name}}“ wirklich löschen? Die Orte selbst bleiben erhalten.",
     "trip.deleted": "Liste gelöscht.",
@@ -494,16 +544,18 @@ const CATEGORIES = [
   { name: "Museen", slug: "museums", tagline: "Kunst, Geschichte und Ideen" },
   { name: "Sehenswürdigkeiten", slug: "sights", tagline: "Orte, die bleiben" },
   { name: "Cafés", slug: "cafes", tagline: "Kurze Pausen, guter Kaffee" },
+  { name: "Private", slug: "private", tagline: "Deine persönlichen Favoriten" },
 ];
 
-const ICON_PATHS = {
-  Restaurants: "M4 5h16M7 5v5a5 5 0 0010 0V5M5 19h14M12 15v4",
-  Hotels: "M4 20V7l4-3 4 3v13M12 20V10l4-3 4 3v10M7 11h2M15 12h2",
-  Events: "M5 6h14v13H5zM8 3v6M16 3v6M5 10h14M8 14h3M13 14h3",
-  Sport: "M12 4a3 3 0 100 6 3 3 0 000-6M6 21l2-6 4-2 4 2 2 6M8 15l-3-3M16 15l3-3",
-  Museen: "M4 20h16M6 17V9l6-4 6 4v8M9 17v-4h6v4",
-  Sehenswürdigkeiten: "M12 3l2.6 5.3 5.9.9-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.2 5.9-.9L12 3",
-  Cafés: "M6 8h10v5a5 5 0 01-10 0V8m10 2h2a3 3 0 010 6h-2M4 20h14",
+const ICON_MARKUP = {
+  Restaurants: '<path d="M3.5 18h17"/><path d="M5.5 18a6.5 6.5 0 0113 0"/><path d="M9 11.5a3 3 0 016 0v.5H9z" fill="currentColor" stroke="none"/><path d="M12 8.5V7"/>',
+  Hotels: '<path d="M4 20V7l8-4 8 4v13"/><path d="M8 10h2v2H8zM14 10h2v2h-2zM8 14h2v2H8zM14 14h2v2h-2z"/><path d="M10 20v-4h4v4"/>',
+  Events: '<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/><circle cx="8" cy="14" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="14" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="14" r="1" fill="currentColor" stroke="none"/><path d="M8 17h8"/>',
+  Sport: '<circle cx="12" cy="4.5" r="2.5"/><path d="M12 7v6M7 10l5 3 5-3M9 21l3-8 3 8"/><circle cx="19" cy="6" r="2"/><path d="M17.5 7.2l-2 2"/>',
+  Museen: '<path d="M3.5 20h17M5 17h14M6.5 17V9L12 5l5.5 4v8"/><path d="M9 17v-5h2v5M13 12h2v5"/><path d="M5 9h14"/>',
+  Sehenswürdigkeiten: '<path d="M4 20h16M6 17h12M7 17v-5l5-4 5 4v5"/><path d="M9.5 17v-3h5v3M12 8V4"/><circle cx="12" cy="3.5" r="1.2" fill="currentColor" stroke="none"/>',
+  Cafés: '<path d="M5 9h10v5a5 5 0 01-10 0V9z"/><path d="M15 11h2a3 3 0 010 6h-2M4 20h14"/><path d="M8 6c-1-1 1-1 0-2M12 6c-1-1 1-1 0-2"/>',
+  Private: '<path d="M12 20s-7-4.4-7-9.1A4.1 4.1 0 0112 8a4.1 4.1 0 017 2.9C19 15.6 12 20 12 20z"/>',
 };
 
 const TRIP_EMOJIS = ["🌴", "☀️", "🍷", "🏔️", "🏙️", "🎒", "🚲", "⛱️"];
@@ -647,12 +699,12 @@ const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ENTITIE
 const uid = (prefix) => prefix + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 
 function iconFor(category) {
-  const path = ICON_PATHS[category] || ICON_PATHS["Sehenswürdigkeiten"];
+  const markup = ICON_MARKUP[category] || ICON_MARKUP["Sehenswürdigkeiten"];
   return (
     '<svg class="neo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
-    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' +
-    path +
-    '"/></svg>'
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    markup +
+    '</svg>'
   );
 }
 
@@ -707,13 +759,13 @@ function render() {
 }
 
 function renderCategories() {
-  $("#category-grid").innerHTML = CATEGORIES.map((category, index) => {
+  $("#category-grid").innerHTML = CATEGORIES.map((category) => {
     const count = places.filter((place) => place.category === category.name).length;
     const label = categoryText(category.name);
-    const size = [index === 0 ? "large" : "", label.length > 13 ? "wide" : ""].join(" ").trim();
+    const size = label.length > 13 ? "wide" : "";
     return `<article class="category-card ${category.slug} ${size}" data-category="${esc(category.name)}"
       role="button" tabindex="0" aria-label="${esc(t("category.aria", { category: label, count: savedCount(count) }))}">
-      <span class="card-icon">${iconFor(category.name)}</span>
+      <span class="card-icon real-tile-icon" aria-hidden="true"></span>
       <h3>${esc(label)}</h3>
       <p>${esc(categoryTagline(category.name))}</p>
       <span class="count">${esc(savedCount(count))}</span>
@@ -728,22 +780,25 @@ function renderPlaces(list, target, emptyText) {
         .map(
           (place) => {
             const distance = distanceKm(place);
-            return `<article class="place-card ${place.photoUrl ? "has-photo" : ""}" data-place="${esc(place.id)}"
+            const slug = CATEGORIES.find((category) => category.name === place.category)?.slug || "sights";
+            return `<article class="place-card saved-place-card ${place.photoUrl ? "has-photo" : ""}" data-place="${esc(place.id)}"
               role="button" tabindex="0" aria-label="${esc(place.name)}, ${esc(place.address)}">
-              ${place.photoUrl ? `<img class="place-card-photo" src="${esc(place.photoUrl)}" alt="" loading="lazy" />` : ""}
-              <div class="place-card-body">
-                <div class="place-top">
-                  <span class="place-emoji">${iconFor(place.category)}</span>
-                  <span class="favorite-mark" aria-label="${place.favorite ? t("favorite.yes") : t("favorite.no")}">${
-                    place.favorite ? "♥" : "♡"
-                  }</span>
+              <div class="saved-place-visual">
+                ${place.photoUrl ? `<img class="place-card-photo" src="${esc(place.photoUrl)}" alt="" loading="lazy" />` : `<span class="saved-place-art ${esc(slug)}" aria-hidden="true"></span>`}
+                <span class="saved-place-gradient" aria-hidden="true"></span>
+                <span class="saved-place-favorite" aria-label="${place.favorite ? t("favorite.yes") : t("favorite.no")}">${place.favorite ? "♥" : "♡"}</span>
+                <span class="saved-place-more" aria-hidden="true">•••</span>
+              </div>
+              <div class="place-card-body saved-place-body">
+                <div class="saved-place-title-line">
+                  <span class="saved-place-icon">${iconFor(place.category)}</span>
+                  <h3>${esc(place.name)}</h3>
                 </div>
-                <h3>${esc(place.name)}</h3>
-                <p>${esc(place.address)}</p>
-                <div class="place-meta">
-                  ${place.rating ? `<span>★ ${esc(place.rating)}</span>` : ""}
-                  <span>${esc(statusText(place.visitStatus))}</span>
-                  ${distance !== null ? `<span>${esc(t("search.distance", { distance: distance.toFixed(1) }))}</span>` : ""}
+                <p class="saved-place-address">${esc(place.address)}</p>
+                <div class="saved-place-facts">
+                  ${place.rating ? `<span class="saved-place-rating">★ ${esc(place.rating)}</span>` : ""}
+                  <span class="saved-place-status"><span aria-hidden="true">⌖</span> ${esc(statusText(place.visitStatus))}</span>
+                  ${distance !== null ? `<span class="saved-place-distance">${esc(t("search.distance", { distance: distance.toFixed(1) }))}</span>` : ""}
                 </div>
               </div>
             </article>`;
@@ -755,16 +810,64 @@ function renderPlaces(list, target, emptyText) {
 
 function renderTrips() {
   const grid = $("#trips-page-grid");
+  const tripPlaces = trips.flatMap((trip) => trip.placeIds.map((id) => places.find((place) => place.id === id))).filter(Boolean);
+  const uniquePlaces = [...new Map(tripPlaces.map((place) => [place.id, place])).values()];
+  const cities = new Set(
+    uniquePlaces
+      .map((place) => String(place.address || "").split(",").pop().trim())
+      .filter(Boolean),
+  );
+  const stats = $("#trip-stats");
+  if (stats) {
+    stats.innerHTML = `
+      <div class="trip-stat">
+        <span class="trip-stat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M6 4h12v16H6zM9 2v4M15 2v4M9 9h6M9 13h6M9 17h4"/></svg></span>
+        <strong>${trips.length}</strong><span>${esc(t("trips.statsLists"))}</span>
+      </div>
+      <div class="trip-stat">
+        <span class="trip-stat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v11a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 5 17.5zM8 8h8M8 12h8M8 16h5"/></svg></span>
+        <strong>${uniquePlaces.length}</strong><span>${esc(t("trips.statsPlaces"))}</span>
+      </div>
+      <div class="trip-stat">
+        <span class="trip-stat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20V9h6v11M14 20V4h6v16M3 20h18M7 12h0M7 16h0M17 8h0M17 12h0M17 16h0"/></svg></span>
+        <strong>${cities.size}</strong><span>${esc(t("trips.statsCities"))}</span>
+      </div>`;
+  }
+
   grid.innerHTML = trips.length
     ? trips
-        .map((trip) => {
-          const count = trip.placeIds.filter((id) => places.some((p) => p.id === id)).length;
-          return `<article class="trip-card" data-trip="${esc(trip.id)}" role="button" tabindex="0"
-          aria-label="${esc(t("trip.aria", { name: trip.name, count: placeCount(count) }))}">
-          <div class="trip-cover" aria-hidden="true">${esc(trip.emoji)}</div>
-          <h3>${esc(trip.name)}</h3>
-          <p>${esc(placeCount(count))} · ${esc(t("device.only"))}</p>
-        </article>`;
+        .map((trip, index) => {
+          const tripPlaces = trip.placeIds.map((id) => places.find((place) => place.id === id)).filter(Boolean);
+          const count = tripPlaces.length;
+          const planned = tripPlaces.filter((place) => place.visitStatus === "planned" || place.visitStatus === "visited").length;
+          const progress = count ? Math.round((planned / count) * 100) : 0;
+          const tripTheme = index === 0 ? "munich" : index === 1 ? "berlin" : index === 2 ? "museum" : "custom";
+          const thumbnails = tripPlaces
+            .slice(0, 2)
+            .map((place) => {
+              const slug = CATEGORIES.find((category) => category.name === place.category)?.slug || "sights";
+              return `<span class="trip-thumb ${esc(slug)}" aria-hidden="true"></span>`;
+            })
+            .join("");
+          const meta = count ? placeCount(count) : placeCount(0);
+          return `<article class="trip-card trip-${tripTheme}" data-trip="${esc(trip.id)}" role="button" tabindex="0"
+            aria-label="${esc(t("trip.aria", { name: trip.name, count: meta }))}">
+            <span class="trip-card-art" aria-hidden="true"></span>
+            <span class="trip-card-shade" aria-hidden="true"></span>
+            <div class="trip-card-content">
+              <div class="trip-title-row">
+                <span class="trip-badge" aria-hidden="true">${esc(trip.emoji)}</span>
+                <h3>${esc(trip.name)}</h3>
+              </div>
+              <p class="trip-meta"><span class="trip-meta-pin" aria-hidden="true">⌖</span> ${esc(placeCount(count))} <span aria-hidden="true">·</span> ${esc(t("trips.onlyDevice"))}</p>
+              ${trip.id === "t2" ? `<span class="trip-date-pill"><span aria-hidden="true">▣</span> ${esc(t("trips.dateBerlin"))}</span>` : ""}
+              <p class="trip-progress-label">${esc(t("trips.planned", { done: planned, total: count }))}</p>
+              <div class="trip-progress" aria-hidden="true"><span style="width:${progress}%"></span></div>
+              <div class="trip-thumbnails">${thumbnails}</div>
+            </div>
+            <span class="trip-more" aria-hidden="true">•••</span>
+            <span class="trip-open" aria-hidden="true">↗</span>
+          </article>`;
         })
         .join("")
     : `<div class="empty">${esc(t("empty.trips"))}</div>`;
@@ -773,11 +876,12 @@ function renderTrips() {
 function renderInsightList(target, list, emptyText) {
   const node = $(target);
   if (!node) return;
-  node.innerHTML = list.length
+    node.innerHTML = list.length
     ? list
         .slice(0, 3)
         .map(
           (place) => `<button class="insight-place" type="button" data-place="${esc(place.id)}">
+            <span class="insight-photo ${esc(CATEGORIES.find((category) => category.name === place.category)?.slug || "sights")}" aria-hidden="true"></span>
             <span class="insight-icon">${iconFor(place.category)}</span>
             <span><strong>${esc(place.name)}</strong><small>${esc(place.address)}</small></span>
           </button>`,
@@ -802,8 +906,17 @@ function renderSavedView() {
   const title = $("#saved-title");
   const eyebrow = $("#saved-eyebrow");
   const clearButton = $("#clear-filter");
+  const savedSearch = $("#saved-search");
   let list = places;
   let empty = t("empty.places");
+
+  const stats = $("#saved-stats");
+  if (stats) {
+    stats.innerHTML = `
+      <div class="saved-stat saved-stat-saved"><span class="saved-stat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.1 7-12A7 7 0 0 0 5 9c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2"/></svg></span><strong>${places.length}</strong><span>${esc(t("saved.statsSaved"))}</span></div>
+      <div class="saved-stat saved-stat-favorites"><span class="saved-stat-icon" aria-hidden="true">♥</span><strong>${places.filter((place) => place.favorite).length}</strong><span>${esc(t("saved.statsFavorites"))}</span></div>
+      <div class="saved-stat saved-stat-wishlist"><span class="saved-stat-icon" aria-hidden="true">★</span><strong>${places.filter((place) => !place.visitStatus || place.visitStatus === "wishlist").length}</strong><span>${esc(t("saved.statsWishlist"))}</span></div>`;
+  }
 
   if (activeCategory) {
     list = places.filter((place) => place.category === activeCategory);
@@ -825,6 +938,12 @@ function renderSavedView() {
   const statusFilter = $("#filter-status")?.value || "";
   const favoritesOnly = $("#filter-favorites")?.checked || false;
   const sort = $("#sort-places")?.value || "recent";
+  const query = savedSearch?.value.trim().toLowerCase() || "";
+  if (query) {
+    list = list.filter((place) =>
+      [place.name, place.address, place.category].filter(Boolean).join(" ").toLowerCase().includes(query),
+    );
+  }
   if (categoryFilter) list = list.filter((place) => place.category === categoryFilter);
   if (statusFilter) list = list.filter((place) => (place.visitStatus || "wishlist") === statusFilter);
   if (favoritesOnly) list = list.filter((place) => place.favorite);
@@ -1208,17 +1327,32 @@ function showTripModal(id) {
   const trip = trips.find((item) => item.id === id);
   if (!trip) return;
 
+  const tripIndex = trips.findIndex((item) => item.id === id);
+  const tripTheme = tripIndex === 0 ? "munich" : tripIndex === 1 ? "berlin" : tripIndex === 2 ? "museum" : "custom";
+  const selectedCount = trip.placeIds.filter((placeId) => places.some((place) => place.id === placeId)).length;
+
   openModal(
-    `<div class="modal form-modal">
+    `<div class="modal form-modal trip-editor-modal trip-editor-${tripTheme}">
       <button class="close" type="button" aria-label="${esc(t("form.close"))}">×</button>
-      <h2>${esc(trip.emoji)} ${esc(trip.name)}</h2>
-      <div class="field">
-        <label for="t-name">${esc(t("trip.name"))}</label>
-        <input id="t-name" type="text" autofocus value="${esc(trip.name)}" />
+      <div class="trip-editor-heading">
+        <span class="trip-editor-symbol" id="trip-editor-symbol" aria-hidden="true">${esc(trip.emoji)}</span>
+        <div>
+          <h2 id="trip-editor-title">${esc(trip.name)}</h2>
+          <p>${esc(t("trip.editSubtitle"))}</p>
+        </div>
       </div>
-      <div class="field">
+      <div class="trip-editor-cover" aria-hidden="true">
+        <span class="trip-editor-cover-art"></span>
+        <span class="trip-editor-cover-shade"></span>
+        <span class="trip-editor-selected"><span>⌖</span><span id="trip-selected-count">${esc(t("trip.selected", { count: selectedCount }))}</span></span>
+      </div>
+      <div class="field trip-editor-field">
+        <div class="trip-editor-label-row"><label for="t-name">${esc(t("trip.name"))}</label><span id="trip-name-count">${trip.name.length} / 40</span></div>
+        <input id="t-name" type="text" maxlength="40" autofocus value="${esc(trip.name)}" />
+      </div>
+      <div class="field trip-editor-field">
         <span class="field-label">${esc(t("trip.symbol"))}</span>
-        <div class="emoji-row" role="group" aria-label="${esc(t("trip.chooseSymbol"))}">
+        <div class="emoji-row trip-symbol-picker" role="group" aria-label="${esc(t("trip.chooseSymbol"))}">
           ${TRIP_EMOJIS.map(
             (emoji) =>
               `<button type="button" class="emoji-btn ${emoji === trip.emoji ? "selected" : ""}"
@@ -1226,27 +1360,33 @@ function showTripModal(id) {
           ).join("")}
         </div>
       </div>
-      <div class="field">
-        <span class="field-label">${esc(t("trip.places"))}</span>
-        <div class="chip-list">
+      <div class="field trip-editor-field trip-editor-places-field">
+        <div class="trip-editor-label-row"><span class="field-label">${esc(t("trip.places"))}</span><span id="trip-places-count">${esc(t("trip.placesSelected", { selected: selectedCount, total: places.length }))}</span><span class="trip-editor-search" aria-hidden="true">⌕</span></div>
+        <div class="chip-list trip-place-grid">
           ${
             places.length
               ? places
                   .map(
-                    (place) => `<label class="chip">
-                      <input type="checkbox" data-place-id="${esc(place.id)}"
-                        ${trip.placeIds.includes(place.id) ? "checked" : ""} />
-                      <span>${esc(place.name)}</span>
-                    </label>`,
+                    (place) => {
+                      const category = CATEGORIES.find((item) => item.name === place.category);
+                      const slug = category?.slug || "sights";
+                      const checked = trip.placeIds.includes(place.id);
+                      return `<label class="chip trip-place-option ${checked ? "selected" : ""}">
+                      ${place.photoUrl ? `<img class="trip-place-photo" src="${esc(place.photoUrl)}" alt="" loading="lazy" />` : `<span class="trip-place-photo trip-place-art ${esc(slug)}" aria-hidden="true"></span>`}
+                      <span class="trip-place-copy"><strong>${esc(place.name)}</strong><small><span class="trip-place-category-icon">${iconFor(place.category)}</span>${esc(categoryText(place.category))}</small></span>
+                      <span class="trip-place-check"><input type="checkbox" data-place-id="${esc(place.id)}" ${checked ? "checked" : ""} /><span aria-hidden="true">✓</span></span>
+                    </label>`;
+                    },
                   )
                   .join("")
               : `<p class="muted-note">${esc(t("trip.noPlaces"))}</p>`
           }
         </div>
       </div>
-      <div class="actions">
-        <button class="danger" type="button" data-delete>${esc(t("trip.delete"))}</button>
-        <button class="primary" type="button" data-save>${esc(t("trip.save"))}</button>
+      <div class="trip-editor-note"><span aria-hidden="true">ⓘ</span>${esc(t("trip.localNote"))}</div>
+      <div class="actions trip-editor-actions">
+        <button class="danger" type="button" data-delete><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 14h10l1-14M9 7V4h6v3"/></svg></span>${esc(t("trip.delete"))}</button>
+        <button class="primary" type="button" data-save><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m5 12 4 4L19 6"/></svg></span>${esc(t("trip.save"))}</button>
       </div>
     </div>`,
     t("trip.dialog", { name: trip.name }),
@@ -1257,9 +1397,19 @@ function showTripModal(id) {
 
   $(".close", root).onclick = closeModal;
 
+  const syncTripEditor = () => {
+    const selected = $$('[data-place-id]', root).filter((box) => box.checked).length;
+    $("#trip-selected-count", root).textContent = t("trip.selected", { count: selected });
+    $("#trip-places-count", root).textContent = t("trip.placesSelected", { selected, total: places.length });
+    $$(".trip-place-option", root).forEach((option) => {
+      option.classList.toggle("selected", $("[data-place-id]", option)?.checked);
+    });
+  };
+
   $$(".emoji-btn", root).forEach((button) => {
     button.onclick = () => {
       chosenEmoji = button.dataset.emoji;
+      $("#trip-editor-symbol", root).textContent = chosenEmoji;
       $$(".emoji-btn", root).forEach((other) => {
         const selected = other === button;
         other.classList.toggle("selected", selected);
@@ -1267,6 +1417,15 @@ function showTripModal(id) {
       });
     };
   });
+
+  $("#t-name", root).oninput = (event) => {
+    $("#trip-editor-title", root).textContent = event.target.value || t("trip.newName");
+    $("#trip-name-count", root).textContent = `${event.target.value.length} / 40`;
+  };
+  $$('[data-place-id]', root).forEach((checkbox) => {
+    checkbox.onchange = syncTripEditor;
+  });
+  syncTripEditor();
 
   $("[data-save]", root).onclick = () => {
     const name = $("#t-name", root).value.trim();
@@ -1646,26 +1805,12 @@ function applyTheme(dark) {
   writeSetting("g04-theme", dark ? "dark" : "light");
 }
 
-function applyProfile(name) {
-  const clean = name.trim();
-  $("#greeting").textContent = clean ? t("profile.hi") + ", " + clean : t("profile.hi");
-  $("#avatar").textContent = clean
-    ? clean
-        .split(/\s+/)
-        .slice(0, 2)
-        .map((part) => part[0].toUpperCase())
-        .join("")
-    : "G4";
-  writeSetting("g04-name", clean);
-}
-
 function renderToday() {
-  const compact = window.matchMedia("(max-width: 760px)").matches;
   const now = new Date();
   const formatted = new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "de-DE", {
-    weekday: compact ? "short" : "long",
+    weekday: "long",
     day: "numeric",
-    month: compact ? "short" : "long",
+    month: "long",
   }).format(now);
   const today = $("#today");
   if (!today) return;
@@ -1678,7 +1823,6 @@ function setLocale(nextLocale, announceChange = true) {
   locale = TRANSLATIONS[nextLocale] ? nextLocale : "en";
   writeSetting("g04-language", locale);
   translateStatic();
-  applyProfile(readSetting("g04-name", ""));
   renderToday();
   render();
   setupNotificationsToggle();
@@ -1865,9 +2009,37 @@ function bindEvents() {
 
   // Listen
   $("#new-trip").onclick = createTrip;
+  $("#saved-search").oninput = () => renderSavedView();
+  $("#saved-filter-toggle").onclick = () => {
+    const controls = $("#saved-view .saved-controls");
+    const hidden = controls.classList.toggle("hidden");
+    $("#saved-filter-toggle").setAttribute("aria-expanded", String(!hidden));
+  };
 
   // Suche
   $("#search").oninput = (event) => runSearch(event.target.value);
+  $("#header-nearby").onclick = () => {
+    showView("search");
+    $("#use-location").click();
+  };
+  $("#search-filter-toggle").onclick = () => {
+    const filters = $(".search-quick-filters");
+    const hidden = filters.classList.toggle("hidden");
+    $("#search-filter-toggle").setAttribute("aria-pressed", String(!hidden));
+  };
+  $$('[data-search-query]').forEach((button) => {
+    button.onclick = () => {
+      showView("search");
+      const input = $("#search");
+      input.value = button.dataset.searchQuery;
+      runSearch(input.value);
+      input.focus();
+    };
+  });
+  $("#search-nearby-shortcut").onclick = () => {
+    showView("search");
+    $("#use-location").click();
+  };
   $("#close-search-results").onclick = () => {
     $("#search-explorer").classList.add("hidden");
     searchMarkers.forEach((marker) => (marker.map = null));
@@ -1919,7 +2091,6 @@ function bindEvents() {
   // Einstellungen
   $("#theme-toggle").onclick = () => applyTheme(!document.body.classList.contains("dark"));
   $("#settings-theme").onchange = (event) => applyTheme(event.target.checked);
-  $("#settings-name").oninput = (event) => applyProfile(event.target.value);
   $("#settings-language").onchange = (event) => setLocale(event.target.value);
   $("#header-language")?.querySelectorAll("[data-locale]").forEach((button) => {
     button.onclick = () => setLocale(button.dataset.locale);
@@ -1930,12 +2101,9 @@ function init() {
   const storedLocale = readSetting("g04-language", "en");
   locale = TRANSLATIONS[storedLocale] ? storedLocale : "en";
   translateStatic();
-  const storedName = readSetting("g04-name", "");
-  $("#settings-name").value = storedName;
   $("#google-places-hint").textContent = googlePlacesKey()
     ? t("google.connected")
     : t("google.notConfigured");
-  applyProfile(storedName);
   applyTheme(readSetting("g04-theme", "light") === "dark");
   renderToday();
   render();
