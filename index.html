@@ -48,6 +48,13 @@
           <div class="mobile-brand">
             <span class="brand-mark" aria-hidden="true">G<span>04</span><i>EX</i></span> G04Explore
           </div>
+          <div class="header-context">
+            <time class="header-date eyebrow" id="today"></time>
+            <div class="language-toggle" id="header-language" role="group" data-i18n-aria-label="header.language" aria-label="Language">
+              <button class="language-option active" type="button" data-locale="en" aria-pressed="true">EN</button>
+              <button class="language-option" type="button" data-locale="de" aria-pressed="false">DE</button>
+            </div>
+          </div>
           <div class="profile">
             <button class="theme-toggle" id="theme-toggle" data-i18n-aria-label="theme.toggle" aria-label="Toggle dark mode" aria-pressed="false">
               ☾
@@ -59,61 +66,57 @@
         </header>
 
         <section class="content">
-          <div class="welcome-row">
-            <div>
-              <p class="eyebrow" id="today"></p>
-              <h1><em>Hello World!</em></h1>
-            </div>
-            <button class="primary add-place-btn" data-i18n="place.save">＋ Save place</button>
-          </div>
-
-          <div class="search-wrap" role="search">
-            <span class="search-icon" aria-hidden="true">⌕</span>
-            <label class="sr-only" for="search" data-i18n="search.label">Search places</label>
-            <input
-              id="search"
-              type="search"
-              autocomplete="off"
-              role="combobox"
-              aria-expanded="false"
-              aria-controls="suggestions"
-              aria-autocomplete="list"
-              data-i18n-placeholder="search.placeholder"
-              placeholder="Search places, cities or categories..."
-            />
-            <kbd aria-hidden="true">⌘ K</kbd>
-            <div id="suggestions" class="suggestions hidden" role="listbox" data-i18n-aria-label="search.suggestions" aria-label="Search suggestions"></div>
-          </div>
-
-          <section id="search-explorer" class="search-explorer hidden" data-i18n-aria-label="search.resultsLabel" aria-label="Google Maps search results">
-            <div class="search-explorer-head">
+          <div id="search-view" class="view-panel hidden">
+            <div class="welcome-row">
               <div>
-                <p class="eyebrow">GOOGLE MAPS</p>
-                <h2 id="search-results-title" data-i18n="search.results">Search results</h2>
+                <h1><em>Hello World!</em></h1>
               </div>
-              <div class="search-map-actions">
-                <button class="secondary" id="use-location" type="button" data-i18n="search.nearby">⌖ Near me</button>
-                <button class="secondary" id="search-map-area" type="button" data-i18n="search.area">Search this area</button>
-                <button class="icon-button" id="close-search-results" type="button" data-i18n-aria-label="search.close" aria-label="Close search results">×</button>
-              </div>
+              <button class="primary add-place-btn" data-i18n="place.save">＋ Save place</button>
             </div>
-            <div class="search-explorer-grid">
-              <div id="places-map" class="places-map" data-i18n-aria-label="search.mapLabel" aria-label="Search results map"></div>
-              <div id="places-result-list" class="places-result-list"></div>
-            </div>
-          </section>
 
-          <div id="home-view" class="view-panel">
-            <div class="section-heading">
-              <div><h2 data-i18n="home.heading">What would you like to discover?</h2></div>
-              <button class="text-btn" data-view="saved"><span data-i18n="home.all">View all</span> <span aria-hidden="true">→</span></button>
+            <div class="search-wrap" role="search">
+              <span class="search-icon" aria-hidden="true">⌕</span>
+              <label class="sr-only" for="search" data-i18n="search.label">Search places</label>
+              <input
+                id="search"
+                type="search"
+                autocomplete="off"
+                role="combobox"
+                aria-expanded="false"
+                aria-controls="suggestions"
+                aria-autocomplete="list"
+                data-i18n-placeholder="search.placeholder"
+                placeholder="Search places, cities or categories..."
+              />
+              <kbd aria-hidden="true">⌘ K</kbd>
+              <div id="suggestions" class="suggestions hidden" role="listbox" data-i18n-aria-label="search.suggestions" aria-label="Search suggestions"></div>
             </div>
-            <div id="category-grid" class="bento-grid"></div>
-            <section class="home-insights" data-i18n-aria-label="home.insights" aria-label="Overview insights">
-              <article class="insight-card"><div class="insight-head"><h3 data-i18n="home.recent">Recently saved</h3><button class="text-btn" data-view="saved"><span data-i18n="home.all">View all</span> →</button></div><div id="recent-places" class="insight-list"></div></article>
-              <article class="insight-card"><div class="insight-head"><h3 data-i18n="home.favorites">Favorites</h3><button class="text-btn" data-view="saved"><span data-i18n="home.all">View all</span> →</button></div><div id="favorite-places" class="insight-list"></div></article>
+
+            <section class="search-insights" data-i18n-aria-label="home.insights" aria-label="Search insights">
               <article class="insight-card"><div class="insight-head"><h3 data-i18n="home.nearby">Near you</h3><button class="text-btn" id="home-location" data-i18n="home.search">⌖ Search</button></div><div id="nearby-places" class="insight-list"></div></article>
             </section>
+
+            <section id="search-explorer" class="search-explorer hidden" data-i18n-aria-label="search.resultsLabel" aria-label="Google Maps search results">
+              <div class="search-explorer-head">
+                <div>
+                  <p class="eyebrow">GOOGLE MAPS</p>
+                  <h2 id="search-results-title" data-i18n="search.results">Search results</h2>
+                </div>
+                <div class="search-map-actions">
+                  <button class="secondary" id="use-location" type="button" data-i18n="search.nearby">⌖ Near me</button>
+                  <button class="secondary" id="search-map-area" type="button" data-i18n="search.area">Search this area</button>
+                  <button class="icon-button" id="close-search-results" type="button" data-i18n-aria-label="search.close" aria-label="Close search results">×</button>
+                </div>
+              </div>
+              <div class="search-explorer-grid">
+                <div id="places-map" class="places-map" data-i18n-aria-label="search.mapLabel" aria-label="Search results map"></div>
+                <div id="places-result-list" class="places-result-list"></div>
+              </div>
+            </section>
+          </div>
+
+          <div id="home-view" class="view-panel">
+            <div id="category-grid" class="bento-grid"></div>
           </div>
 
           <div id="saved-view" class="view-panel hidden">
@@ -253,6 +256,9 @@
         <nav class="bottom-nav" data-i18n-aria-label="nav.main" aria-label="Mobile main navigation">
           <button class="active" data-view="home" aria-current="page">
             <span aria-hidden="true">⌂</span><small data-i18n="nav.home">Overview</small>
+          </button>
+          <button type="button" data-view="search" data-search-nav>
+            <span aria-hidden="true">⌕</span><small data-i18n="nav.search">Search</small>
           </button>
           <button data-view="saved"><span aria-hidden="true">♡</span><small data-i18n="nav.saved">All places</small></button>
           <button data-view="trips"><span aria-hidden="true">✦</span><small data-i18n="nav.trips">Travel lists</small></button>

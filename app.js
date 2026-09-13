@@ -16,12 +16,14 @@ const TRANSLATIONS = {
     "brand.eyebrow": "YOUR EXPLORER SPACE",
     "nav.main": "Main navigation",
     "nav.home": "Overview",
+    "nav.search": "Search",
     "nav.saved": "All places",
     "nav.trips": "Travel lists",
     "nav.settings": "Settings",
     "offline.available": "Available offline",
     "offline.description": "Your collection stays with you on the go.",
     "theme.toggle": "Toggle dark mode",
+    "header.language": "Language",
     "profile.next": "Your next adventure?",
     "place.save": "＋ Save place",
     "search.label": "Search places",
@@ -223,12 +225,14 @@ const TRANSLATIONS = {
     "brand.eyebrow": "DEIN ENTDECKER-SPACE",
     "nav.main": "Hauptnavigation",
     "nav.home": "Übersicht",
+    "nav.search": "Suchen",
     "nav.saved": "Alle Orte",
     "nav.trips": "Reise-Listen",
     "nav.settings": "Einstellungen",
     "offline.available": "Offline verfügbar",
     "offline.description": "Deine Sammlung bleibt auch unterwegs bei dir.",
     "theme.toggle": "Dark Mode umschalten",
+    "header.language": "Sprache",
     "profile.next": "Dein nächstes Abenteuer?",
     "place.save": "＋ Ort speichern",
     "search.label": "Orte durchsuchen",
@@ -469,6 +473,15 @@ function translateStatic() {
   });
   const language = $("#settings-language");
   if (language) language.value = locale;
+  syncHeaderLanguage();
+}
+
+function syncHeaderLanguage() {
+  $("#header-language")?.querySelectorAll("[data-locale]").forEach((button) => {
+    const active = button.dataset.locale === locale;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
 }
 
 /* ------------------------------------------------------------------ Daten */
@@ -1647,12 +1660,18 @@ function applyProfile(name) {
 }
 
 function renderToday() {
+  const compact = window.matchMedia("(max-width: 760px)").matches;
+  const now = new Date();
   const formatted = new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "de-DE", {
-    weekday: "long",
+    weekday: compact ? "short" : "long",
     day: "numeric",
-    month: "long",
-  }).format(new Date());
-  $("#today").textContent = formatted.toUpperCase();
+    month: compact ? "short" : "long",
+  }).format(now);
+  const today = $("#today");
+  if (!today) return;
+  today.textContent = formatted.toUpperCase();
+  today.dateTime = now.toISOString().slice(0, 10);
+  today.title = formatted;
 }
 
 function setLocale(nextLocale, announceChange = true) {
@@ -1773,6 +1792,15 @@ function bindEvents() {
 
   $("#clear-filter").onclick = () => showView("saved");
 
+  $$('[data-search-nav]').forEach((button) => {
+    button.onclick = () => {
+      showView("search");
+      const search = $("#search");
+      search?.scrollIntoView({ behavior: "smooth", block: "center" });
+      window.setTimeout(() => search?.focus(), 220);
+    };
+  });
+
   // Kategorien, Orte und Listen sind Karten — Klick und Tastatur müssen gleich wirken.
   document.addEventListener("click", (event) => {
     const openSettings = event.target.closest("[data-open-settings]");
@@ -1825,6 +1853,7 @@ function bindEvents() {
     }
     if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
       event.preventDefault();
+      showView("search");
       $("#search").focus();
     }
   });
@@ -1879,7 +1908,10 @@ function bindEvents() {
     const version = ++googleSearchVersion;
     searchGooglePlaces(query, localHits, version, bounds);
   };
-  $("#home-location").onclick = () => $("#use-location").click();
+  $("#home-location").onclick = () => {
+    showView("search");
+    $("#use-location").click();
+  };
   ["#filter-category", "#filter-status", "#filter-favorites", "#sort-places"].forEach((selector) => {
     $(selector).onchange = () => renderSavedView();
   });
@@ -1889,6 +1921,9 @@ function bindEvents() {
   $("#settings-theme").onchange = (event) => applyTheme(event.target.checked);
   $("#settings-name").oninput = (event) => applyProfile(event.target.value);
   $("#settings-language").onchange = (event) => setLocale(event.target.value);
+  $("#header-language")?.querySelectorAll("[data-locale]").forEach((button) => {
+    button.onclick = () => setLocale(button.dataset.locale);
+  });
 }
 
 function init() {

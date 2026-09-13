@@ -2026,6 +2026,8 @@ select:focus-visible {
 }
 
 .home-insights { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 34px; }
+.search-insights { margin: 18px 0 24px; }
+.search-insights .insight-card { min-height: 0; }
 .insight-card { border: 1px solid var(--line); border-radius: 16px; background: var(--surface); padding: 16px; min-height: 154px; }
 .insight-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 9px; }
 .insight-head h3 { margin: 0; font: 700 14px "Space Grotesk"; }
@@ -2190,7 +2192,7 @@ select:focus-visible {
   }
   .bottom-nav button {
     flex: 1 1 0;
-    width: 25%;
+    width: 20%;
     min-width: 0;
     padding: 6px 4px;
   }
@@ -2270,5 +2272,106 @@ body {
   .search-wrap input,
   .saved-controls select {
     font-size: 16px;
+  }
+}
+
+/* Header date and quick language switch */
+.header-context {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
+  margin-right: 22px;
+  min-width: 0;
+}
+.header-date {
+  margin: 0;
+  color: var(--muted);
+  white-space: nowrap;
+  font-size: 10px;
+  letter-spacing: 0.11em;
+}
+.language-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--soft);
+}
+.language-option {
+  min-width: 34px;
+  height: 28px;
+  padding: 0 7px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: 800 10px "DM Sans";
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+.language-option:hover,
+.language-option:focus-visible {
+  color: var(--ink);
+}
+.language-option.active {
+  background: var(--blue);
+  color: #fff;
+  box-shadow: 0 3px 10px #1769ff40;
+}
+.profile {
+  margin-left: 0;
+}
+
+@media (max-width: 760px) {
+  .topbar {
+    gap: 7px;
+  }
+  .mobile-brand {
+    min-width: 0;
+    flex: 0 1 auto;
+    white-space: nowrap;
+  }
+  .header-context {
+    gap: 5px;
+    margin-right: 1px;
+  }
+  .header-date {
+    max-width: 76px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 9px;
+    letter-spacing: 0.07em;
+  }
+  .language-toggle {
+    padding: 2px;
+  }
+  .language-option {
+    min-width: 28px;
+    height: 25px;
+    padding: 0 5px;
+    font-size: 9px;
+  }
+  .profile {
+    flex: 0 0 auto;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 360px) {
+  .header-date {
+    max-width: 65px;
+  }
+  .topbar .mobile-brand {
+    font-size: 13px;
+  }
+  .topbar .brand-mark {
+    font-size: 13px;
+    padding: 5px 6px;
+  }
+  .profile .avatar {
+    display: none;
   }
 }
