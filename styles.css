@@ -818,13 +818,6 @@ body:before {
   top: 120px;
   right: 4%;
 }
-body:after {
-  width: 210px;
-  height: 210px;
-  background: #7ba9ff2b;
-  bottom: 4%;
-  left: 18%;
-}
 .welcome-row h1 {
   color: var(--ink);
 }
