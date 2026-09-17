@@ -3401,7 +3401,7 @@ body:not(.dark) .bottom-nav button.active {
 
 @media (max-width: 760px) {
   .bottom-nav {
-    bottom: calc(10px + env(safe-area-inset-bottom));
+    bottom: 0;
     width: calc(100% - 20px);
     height: 78px;
     gap: 2px;
@@ -5482,4 +5482,70 @@ body:not(.dark) #modal-root .trip-place-option:hover {
 
 #saved-view .saved-place-gradient {
   background: linear-gradient(180deg, #09111d00 35%, #09111d18 100%);
+}
+
+/* Shared mobile viewport handling.
+   Keep the fixed navigation inside the iPhone viewport and leave enough
+   scrollable space below every view so the last card/control is reachable. */
+@media (max-width: 760px) {
+  html,
+  body {
+    min-height: 100%;
+  }
+
+  body,
+  .app-shell {
+    min-height: 100dvh;
+  }
+
+  .content {
+    padding-bottom: calc(114px + env(safe-area-inset-bottom));
+    scroll-padding-bottom: calc(114px + env(safe-area-inset-bottom));
+  }
+
+  .bottom-nav {
+    right: auto;
+    bottom: 0;
+    width: min(688px, calc(100% - 20px));
+    height: calc(78px + env(safe-area-inset-bottom));
+    padding: 6px 6px env(safe-area-inset-bottom);
+    padding-left: max(6px, env(safe-area-inset-left));
+    padding-right: max(6px, env(safe-area-inset-right));
+  }
+
+  .bottom-nav button {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 64px;
+    padding: 6px 2px;
+  }
+
+  .bottom-nav small {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: clamp(9px, 2.7vw, 10px);
+  }
+}
+
+@media (max-width: 360px) {
+  .content {
+    padding-bottom: calc(106px + env(safe-area-inset-bottom));
+    scroll-padding-bottom: calc(106px + env(safe-area-inset-bottom));
+  }
+
+  .bottom-nav {
+    width: calc(100% - 12px);
+    height: calc(72px + env(safe-area-inset-bottom));
+    padding: 4px max(4px, env(safe-area-inset-left)) env(safe-area-inset-bottom);
+  }
+
+  .bottom-nav button {
+    height: 60px;
+    padding: 4px 1px;
+  }
+
+  .bottom-nav small {
+    font-size: 9px;
+  }
 }

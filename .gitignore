@@ -6,3 +6,9 @@ node_modules/
 !.env.example
 config.js
 dist/
+
+# Android-TWA-Wrapper: enthaelt den Signatur-Keystore und ~69 MB Build-Artefakte
+# (.aab, signierte .apk, build/, .gradle/). Der Keystore darf niemals in ein
+# oeffentliches Repository. Soll der TWA-Quellcode versioniert werden, hier
+# gezielt freigeben und android.keystore sowie die Build-Ordner ausgeschlossen lassen.
+android-twa/
