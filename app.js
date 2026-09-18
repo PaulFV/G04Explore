@@ -11,6 +11,21 @@
 
 const TRANSLATIONS = {
   en: {
+    "nav.tripsShort": "Travel lists",
+    "nav.settingsShort": "Settings",
+    "search.loadingDetails": "Loading place details…",
+    "location.title": "Use your location?",
+    "location.allow": "Use location",
+    "seed.p1.hours": "11:30 – 22:00",
+    "seed.p1.note": "Don’t miss the Kaiserschmarrn.",
+    "seed.p2.hours": "Reception open 24 hours",
+    "seed.p2.note": "Lovely lobby for working.",
+    "seed.p3.note": "Note the next exhibition.",
+    "seed.p4.hours": "08:00 – 18:00",
+    "seed.p5.hours": "11:00 – 20:00",
+    "seed.t1": "Explore Munich",
+    "seed.t2": "Berlin weekend",
+    "seed.t3": "Museum day",
     "meta.title": "G04Explore — Your places. Your map.",
     "meta.description": "Your personal space for saving and planning favorite places.",
     "brand.eyebrow": "YOUR EXPLORER SPACE",
@@ -41,10 +56,6 @@ const TRANSLATIONS = {
     "search.nearby": "⌖ Near me",
     "search.area": "Search this area",
     "search.close": "Close search results",
-    "home.heading": "What would you like to discover?",
-    "home.all": "View all",
-    "home.recent": "Recently saved",
-    "home.favorites": "Favorites",
     "home.nearby": "Near you",
     "home.search": "⌖ Search",
     "home.insights": "Overview insights",
@@ -79,7 +90,6 @@ const TRANSLATIONS = {
     "trips.statsCities": "Cities",
     "trips.onlyDevice": "Only on this device",
     "trips.planned": "{{done}} of {{total}} planned",
-    "trips.dateBerlin": "18–20 Sep",
     "settings.eyebrow": "APP SETTINGS",
     "settings.heading": "Your settings",
     "settings.subtitle": "Make G04X work exactly the way you like.",
@@ -125,7 +135,6 @@ const TRANSLATIONS = {
     "place.singular": "place",
     "place.plural": "places",
     "saved.suffix": "saved",
-    "device.only": "Only on this device",
     "status.wishlist": "Want to visit",
     "status.planned": "Planned",
     "status.visited": "Visited",
@@ -199,7 +208,6 @@ const TRANSLATIONS = {
     "trip.editSubtitle": "Edit travel list",
     "trip.selected": "{{count}} places selected",
     "trip.placesSelected": "{{selected}} of {{total}} selected",
-    "trip.searchPlaces": "Search places in this list",
     "trip.localNote": "Changes are stored only on this device.",
     "trip.saved": "List {{name}} saved.",
     "trip.confirmDelete": "Delete list “{{name}}”? The places themselves will stay saved.",
@@ -245,6 +253,21 @@ const TRANSLATIONS = {
     "language.changed": "Language changed to {{language}}.",
   },
   de: {
+    "nav.tripsShort": "Listen",
+    "nav.settingsShort": "Optionen",
+    "search.loadingDetails": "Details werden geladen …",
+    "location.title": "Standort verwenden?",
+    "location.allow": "Standort verwenden",
+    "seed.p1.hours": "11:30 – 22:00",
+    "seed.p1.note": "Unbedingt den Kaiserschmarrn probieren.",
+    "seed.p2.hours": "Rezeption rund um die Uhr",
+    "seed.p2.note": "Schöne Lobby zum Arbeiten.",
+    "seed.p3.note": "Nächste Ausstellung vormerken.",
+    "seed.p4.hours": "08:00 – 18:00",
+    "seed.p5.hours": "11:00 – 20:00",
+    "seed.t1": "München entdecken",
+    "seed.t2": "Berlin-Wochenende",
+    "seed.t3": "Museumstag",
     "meta.title": "G04Explore — Deine Orte. Deine Karte.",
     "meta.description": "Dein persönlicher Speicher und digitaler Planer für Lieblingsorte.",
     "brand.eyebrow": "DEIN ENTDECKER-SPACE",
@@ -275,10 +298,6 @@ const TRANSLATIONS = {
     "search.nearby": "⌖ Meine Nähe",
     "search.area": "In diesem Bereich suchen",
     "search.close": "Suchergebnisse schließen",
-    "home.heading": "Was möchtest du entdecken?",
-    "home.all": "Alle anzeigen",
-    "home.recent": "Zuletzt gespeichert",
-    "home.favorites": "Favoriten",
     "home.nearby": "In deiner Nähe",
     "home.search": "⌖ Suchen",
     "home.insights": "Übersicht und Empfehlungen",
@@ -313,7 +332,6 @@ const TRANSLATIONS = {
     "trips.statsCities": "Städte",
     "trips.onlyDevice": "Nur auf diesem Gerät",
     "trips.planned": "{{done}} von {{total}} geplant",
-    "trips.dateBerlin": "18.–20. Sept.",
     "settings.eyebrow": "APP EINSTELLUNGEN",
     "settings.heading": "Deine Einstellungen",
     "settings.subtitle": "Passe G04X genau an deine Wünsche an.",
@@ -359,7 +377,6 @@ const TRANSLATIONS = {
     "place.singular": "Ort",
     "place.plural": "Orte",
     "saved.suffix": "gespeichert",
-    "device.only": "Nur auf diesem Gerät",
     "status.wishlist": "Möchte ich besuchen",
     "status.planned": "Geplant",
     "status.visited": "Besucht",
@@ -433,7 +450,6 @@ const TRANSLATIONS = {
     "trip.editSubtitle": "Reiseliste bearbeiten",
     "trip.selected": "{{count}} Orte ausgewählt",
     "trip.placesSelected": "{{selected}} von {{total}} ausgewählt",
-    "trip.searchPlaces": "Orte in dieser Liste suchen",
     "trip.localNote": "Änderungen werden nur auf diesem Gerät gespeichert.",
     "trip.saved": "Liste {{name}} gespeichert.",
     "trip.confirmDelete": "Liste „{{name}}“ wirklich löschen? Die Orte selbst bleiben erhalten.",
@@ -480,19 +496,27 @@ const TRANSLATIONS = {
   },
 };
 
-let locale = "en";
+// Schon beim Laden setzen: Die Beispieldaten beim ersten Start sollen in der
+// gespeicherten bzw. Standardsprache erscheinen.
+let locale = TRANSLATIONS[readSetting("g04-language", "en")] ? readSetting("g04-language", "en") : "en";
 
 function t(key, values = {}) {
   const text = TRANSLATIONS[locale]?.[key] ?? TRANSLATIONS.en[key] ?? key;
   return Object.entries(values).reduce((result, [name, value]) => result.replaceAll("{{" + name + "}}", String(value)), text);
 }
 
+// t() gibt bei fehlendem Schlüssel den Schlüssel selbst zurück. Dann lieber
+// den Rohwert zeigen als „category.Foo“.
 function categoryText(category) {
-  return t("category." + category) || category;
+  const key = "category." + category;
+  const text = t(key);
+  return text === key ? category : text;
 }
 
 function categoryTagline(category) {
-  return t("tagline." + category) || category;
+  const key = "tagline." + category;
+  const text = t(key);
+  return text === key ? "" : text;
 }
 
 function statusText(status) {
@@ -560,79 +584,36 @@ const ICON_MARKUP = {
 
 const TRIP_EMOJIS = ["🌴", "☀️", "🍷", "🏔️", "🏙️", "🎒", "🚲", "⛱️"];
 
-const SEED_PLACES = [
-  {
-    id: "p1",
-    name: "Berggasthof Panorama",
-    category: "Restaurants",
-    address: "Panoramaweg 4, München",
-    open: true,
-    rating: "4.8",
-    hours: "Heute 11:30 – 22:00",
-    note: "Unbedingt den Kaiserschmarrn probieren.",
-    phone: "",
-    website: "",
-  },
-  {
-    id: "p2",
-    name: "The Hoxton Berlin",
-    category: "Hotels",
-    address: "Charlottenburg, Berlin",
-    open: true,
-    rating: "4.6",
-    hours: "Rezeption 24 Stunden",
-    note: "Schöne Lobby zum Arbeiten.",
-    phone: "",
-    website: "",
-  },
-  {
-    id: "p3",
-    name: "Museum Barberini",
-    category: "Museen",
-    address: "Alter Markt, Potsdam",
-    open: false,
-    rating: "4.7",
-    hours: "Heute geschlossen",
-    note: "Nächste Ausstellung vormerken.",
-    phone: "",
-    website: "",
-  },
-  {
-    id: "p4",
-    name: "Kleine Freiheit",
-    category: "Cafés",
-    address: "Gärtnerplatz 2, München",
-    open: true,
-    rating: "4.5",
-    hours: "Heute 08:00 – 18:00",
-    note: "",
-    phone: "",
-    website: "",
-  },
-  {
-    id: "p5",
-    name: "Teufelsberg",
-    category: "Sehenswürdigkeiten",
-    address: "Teufelsseechaussee, Berlin",
-    open: true,
-    rating: "4.8",
-    hours: "Heute 11:00 – 20:00",
-    note: "",
-    phone: "",
-    website: "",
-  },
-];
+// Beispieldaten für den ersten Start. Namen und Adressen sind Eigennamen,
+// Öffnungszeiten, Notizen und Listennamen folgen der App-Sprache.
+function seedPlaces() {
+  const place = (id, name, category, address, open, rating, extra = {}) => ({
+    id, name, category, address, open, rating,
+    hours: t("seed." + id + ".hours") === "seed." + id + ".hours" ? "" : t("seed." + id + ".hours"),
+    note: t("seed." + id + ".note") === "seed." + id + ".note" ? "" : t("seed." + id + ".note"),
+    phone: "", website: "", ...extra,
+  });
+  return [
+    place("p1", "Berggasthof Panorama", "Restaurants", "Panoramaweg 4, München", true, "4.8"),
+    place("p2", "The Hoxton Berlin", "Hotels", "Charlottenburg, Berlin", true, "4.6"),
+    place("p3", "Museum Barberini", "Museen", "Alter Markt, Potsdam", false, "4.7"),
+    place("p4", "Kleine Freiheit", "Cafés", "Gärtnerplatz 2, München", true, "4.5"),
+    place("p5", "Teufelsberg", "Sehenswürdigkeiten", "Teufelsseechaussee, Berlin", true, "4.8"),
+  ];
+}
 
-const SEED_TRIPS = [
-  { id: "t1", name: "München entdecken", emoji: "🥨", placeIds: ["p1", "p4"] },
-  { id: "t2", name: "Berlin Wochenende", emoji: "🏙️", placeIds: ["p2", "p5"] },
-  { id: "t3", name: "Museumstag", emoji: "🎨", placeIds: ["p3"] },
-];
+function seedTrips() {
+  return [
+    { id: "t1", name: t("seed.t1"), emoji: "🥨", placeIds: ["p1", "p4"] },
+    { id: "t2", name: t("seed.t2"), emoji: "🏙️", placeIds: ["p2", "p5"] },
+    { id: "t3", name: t("seed.t3"), emoji: "🎨", placeIds: ["p3"] },
+  ];
+}
 
 /* ----------------------------------------------------------------- Zustand */
 
-let places = readStore("g04-places", SEED_PLACES);
-let trips = readStore("g04-trips", SEED_TRIPS);
+let places = readStore("g04-places", seedPlaces);
+let trips = readStore("g04-trips", seedTrips);
 let activeCategory = null;
 let activeTrip = null;
 let currentView = "home";
@@ -641,6 +622,8 @@ let googleSearchTimer = null;
 let googleSearchVersion = 0;
 let googleAuthError = "";
 const googleSearchResults = new Map();
+// Die Place-Objekte selbst, damit Details erst bei Bedarf nachgeladen werden.
+const googlePlaceObjects = new Map();
 let searchMap = null;
 let searchMarkers = [];
 let currentLocation = null;
@@ -648,15 +631,16 @@ let lastGoogleQuery = "";
 
 /* ----------------------------------------------------------------- Speicher */
 
+// fallback ist eine Funktion, damit Beispieldaten erst bei Bedarf entstehen.
 function readStore(key, fallback) {
   try {
     const raw = localStorage.getItem(key);
-    if (!raw) return structuredClone(fallback);
+    if (!raw) return fallback();
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : structuredClone(fallback);
+    return Array.isArray(parsed) ? parsed : fallback();
   } catch {
     // Privater Modus oder beschädigte Daten: mit den Beispieldaten weitermachen.
-    return structuredClone(fallback);
+    return fallback();
   }
 }
 
@@ -664,7 +648,7 @@ function writeStore(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch {
-    announce("Speichern nicht möglich — der Browser-Speicher ist voll oder gesperrt.");
+    announce(t("storage.error"));
   }
 }
 
@@ -708,6 +692,44 @@ function iconFor(category) {
   );
 }
 
+/* ------------------------------------------------------------------ Bilder */
+
+// Saubere Einzelmotive als WebP. Welches Bild erscheint, hängt am Ort, an der
+// Kategorie bzw. an der Liste — nie an der Position in einer Liste.
+const categorySlug = (category) => CATEGORIES.find((item) => item.name === category)?.slug || "sights";
+const categoryArt = (category) => "images/category/" + categorySlug(category) + ".webp";
+
+const SEED_PHOTOS = {
+  p2: "images/places/riverside-hotel.webp",
+  p3: "images/places/barberini.webp",
+  p4: "images/places/kleine-freiheit.webp",
+  p5: "images/places/teufelsberg.webp",
+};
+
+const TRIP_COVERS = {
+  t1: "images/trips/munich.webp",
+  t2: "images/trips/berlin.webp",
+  t3: "images/trips/museum.webp",
+};
+
+function placePhoto(place) {
+  return place.photoUrl || SEED_PHOTOS[place.id] || "";
+}
+
+// Eigene Listen übernehmen das Bild ihres ersten Ortes.
+function tripCover(trip) {
+  if (TRIP_COVERS[trip.id]) return TRIP_COVERS[trip.id];
+  const first = places.find((place) => trip.placeIds.includes(place.id));
+  if (!first) return categoryArt("Sehenswürdigkeiten");
+  return placePhoto(first) || categoryArt(first.category);
+}
+
+// Für style="background-image:…": Zeichen, die den CSS-String brechen, kodieren.
+function bgStyle(url) {
+  const safe = String(url).replace(/["'()\\\s]/g, (char) => encodeURIComponent(char));
+  return `style="background-image:url('${esc(safe)}')"`;
+}
+
 function announce(message) {
   const region = $("#live-region");
   if (region) region.textContent = message;
@@ -716,12 +738,6 @@ function announce(message) {
 function countLabel(n, singular = t("place.singular"), plural = t("place.plural")) {
   return n + " " + (n === 1 ? singular : plural);
 }
-
-const VISIT_STATUS = {
-  wishlist: "Möchte ich besuchen",
-  planned: "Geplant",
-  visited: "Besucht",
-};
 
 function distanceKm(place) {
   if (!currentLocation || !place.latitude || !place.longitude) return null;
@@ -780,11 +796,11 @@ function renderPlaces(list, target, emptyText) {
         .map(
           (place) => {
             const distance = distanceKm(place);
-            const slug = CATEGORIES.find((category) => category.name === place.category)?.slug || "sights";
-            return `<article class="place-card saved-place-card ${place.photoUrl ? "has-photo" : ""}" data-place="${esc(place.id)}"
+            const photo = placePhoto(place);
+            return `<article class="place-card saved-place-card ${photo ? "has-photo" : ""}" data-place="${esc(place.id)}"
               role="button" tabindex="0" aria-label="${esc(place.name)}, ${esc(place.address)}">
               <div class="saved-place-visual">
-                ${place.photoUrl ? `<img class="place-card-photo" src="${esc(place.photoUrl)}" alt="" loading="lazy" />` : `<span class="saved-place-art ${esc(slug)}" aria-hidden="true"></span>`}
+                ${photo ? `<img class="place-card-photo" src="${esc(photo)}" alt="" loading="lazy" />` : `<span class="saved-place-art" ${bgStyle(categoryArt(place.category))} aria-hidden="true"></span>`}
                 <span class="saved-place-gradient" aria-hidden="true"></span>
                 <span class="saved-place-favorite" aria-label="${place.favorite ? t("favorite.yes") : t("favorite.no")}">${place.favorite ? "♥" : "♡"}</span>
                 <span class="saved-place-more" aria-hidden="true">•••</span>
@@ -836,12 +852,11 @@ function renderTrips() {
 
   grid.innerHTML = trips.length
     ? trips
-        .map((trip, index) => {
+        .map((trip) => {
           const tripPlaces = trip.placeIds.map((id) => places.find((place) => place.id === id)).filter(Boolean);
           const count = tripPlaces.length;
           const planned = tripPlaces.filter((place) => place.visitStatus === "planned" || place.visitStatus === "visited").length;
           const progress = count ? Math.round((planned / count) * 100) : 0;
-          const tripTheme = index === 0 ? "munich" : index === 1 ? "berlin" : index === 2 ? "museum" : "custom";
           const thumbnails = tripPlaces
             .slice(0, 2)
             .map((place) => {
@@ -850,9 +865,9 @@ function renderTrips() {
             })
             .join("");
           const meta = count ? placeCount(count) : placeCount(0);
-          return `<article class="trip-card trip-${tripTheme}" data-trip="${esc(trip.id)}" role="button" tabindex="0"
+          return `<article class="trip-card" data-trip="${esc(trip.id)}" role="button" tabindex="0"
             aria-label="${esc(t("trip.aria", { name: trip.name, count: meta }))}">
-            <span class="trip-card-art" aria-hidden="true"></span>
+            <span class="trip-card-art" ${bgStyle(tripCover(trip))} aria-hidden="true"></span>
             <span class="trip-card-shade" aria-hidden="true"></span>
             <div class="trip-card-content">
               <div class="trip-title-row">
@@ -860,7 +875,6 @@ function renderTrips() {
                 <h3>${esc(trip.name)}</h3>
               </div>
               <p class="trip-meta"><span class="trip-meta-pin" aria-hidden="true">⌖</span> ${esc(placeCount(count))} <span aria-hidden="true">·</span> ${esc(t("trips.onlyDevice"))}</p>
-              ${trip.id === "t2" ? `<span class="trip-date-pill"><span aria-hidden="true">▣</span> ${esc(t("trips.dateBerlin"))}</span>` : ""}
               <p class="trip-progress-label">${esc(t("trips.planned", { done: planned, total: count }))}</p>
               <div class="trip-progress" aria-hidden="true"><span style="width:${progress}%"></span></div>
               <div class="trip-thumbnails">${thumbnails}</div>
@@ -881,7 +895,7 @@ function renderInsightList(target, list, emptyText) {
         .slice(0, 3)
         .map(
           (place) => `<button class="insight-place" type="button" data-place="${esc(place.id)}">
-            <span class="insight-photo ${esc(CATEGORIES.find((category) => category.name === place.category)?.slug || "sights")}" aria-hidden="true"></span>
+            <span class="insight-photo" ${bgStyle(placePhoto(place) || categoryArt(place.category))} aria-hidden="true"></span>
             <span class="insight-icon">${iconFor(place.category)}</span>
             <span><strong>${esc(place.name)}</strong><small>${esc(place.address)}</small></span>
           </button>`,
@@ -1012,6 +1026,40 @@ function closeModal() {
   root.className = "";
   if (lastFocused && document.contains(lastFocused)) lastFocused.focus();
   lastFocused = null;
+  const handler = onModalClosed;
+  onModalClosed = null;
+  if (handler) handler();
+}
+
+// Optionaler Rückruf, der bei jedem Schließen läuft — auch bei Escape oder
+// Klick auf den Hintergrund.
+let onModalClosed = null;
+
+// Hinweis vor der Standortabfrage im Stil der App statt confirm().
+function askLocationConsent() {
+  return new Promise((resolve) => {
+    let allowed = false;
+    openModal(
+      `<div class="modal form-modal location-modal">
+        <button class="close" type="button" aria-label="${esc(t("form.close"))}">×</button>
+        <h2>${esc(t("location.title"))}</h2>
+        <p class="location-text">${esc(t("search.locationDisclosure"))}</p>
+        <div class="actions">
+          <button class="secondary" type="button" data-cancel>${esc(t("form.cancel"))}</button>
+          <button class="primary" type="button" data-allow autofocus>${esc(t("location.allow"))}</button>
+        </div>
+      </div>`,
+      t("location.title"),
+    );
+    onModalClosed = () => resolve(allowed);
+    const root = $("#modal-root");
+    $(".close", root).onclick = closeModal;
+    $("[data-cancel]", root).onclick = closeModal;
+    $("[data-allow]", root).onclick = () => {
+      allowed = true;
+      closeModal();
+    };
+  });
 }
 
 function onBackdropDown(event) {
@@ -1055,7 +1103,7 @@ function showDetail(id) {
     `<div class="modal detail-modal">
       <button class="close" type="button" aria-label="${t("detail.close")}">×</button>
       <div class="detail-hero" aria-hidden="true">${
-        place.photoUrl ? `<img src="${esc(place.photoUrl)}" alt="" />` : iconFor(place.category)
+        placePhoto(place) ? `<img src="${esc(placePhoto(place))}" alt="" />` : iconFor(place.category)
       }</div>
       <span class="status ${place.open ? "" : "closed"}">${esc(place.open ? t("status.open") : t("status.closed"))}</span>
       <h2>${esc(place.name)}</h2>
@@ -1068,7 +1116,7 @@ function showDetail(id) {
           : ""
       }
       <div class="detail-info">
-        <div><small>${esc(t("detail.opening"))}</small><strong>${esc(place.hours) || "—"}</strong></div>
+        <div><small>${esc(t("detail.opening"))}</small><strong>${esc(hoursToday(place)) || "—"}</strong></div>
         <div><small>${esc(t("detail.status"))}</small><strong>${esc(statusText(place.visitStatus))}</strong></div>
         <div><small>${esc(t("detail.ownRating"))}</small><strong>${place.ownRating ? "★ " + esc(place.ownRating) : "—"}</strong></div>
         <div><small>${esc(t("detail.price"))}</small><strong>${esc(String(place.priceLevel || "—").replaceAll("PRICE_LEVEL_", ""))}</strong></div>
@@ -1286,6 +1334,8 @@ function showPlaceForm(existing, forceNew = false) {
       longitude: place.longitude || "",
       rating: data.rating.trim(),
       hours: data.hours.trim(),
+      // Komplette Woche behalten, damit später der jeweils heutige Tag angezeigt wird.
+      openingHours: data.hours.trim() === (place.hours || "") ? place.openingHours || [] : [],
       phone: data.phone.trim(),
       website: data.website.trim(),
       mapsUrl: place.mapsUrl || "",
@@ -1327,12 +1377,10 @@ function showTripModal(id) {
   const trip = trips.find((item) => item.id === id);
   if (!trip) return;
 
-  const tripIndex = trips.findIndex((item) => item.id === id);
-  const tripTheme = tripIndex === 0 ? "munich" : tripIndex === 1 ? "berlin" : tripIndex === 2 ? "museum" : "custom";
   const selectedCount = trip.placeIds.filter((placeId) => places.some((place) => place.id === placeId)).length;
 
   openModal(
-    `<div class="modal form-modal trip-editor-modal trip-editor-${tripTheme}">
+    `<div class="modal form-modal trip-editor-modal">
       <button class="close" type="button" aria-label="${esc(t("form.close"))}">×</button>
       <div class="trip-editor-heading">
         <span class="trip-editor-symbol" id="trip-editor-symbol" aria-hidden="true">${esc(trip.emoji)}</span>
@@ -1342,7 +1390,7 @@ function showTripModal(id) {
         </div>
       </div>
       <div class="trip-editor-cover" aria-hidden="true">
-        <span class="trip-editor-cover-art"></span>
+        <span class="trip-editor-cover-art" ${bgStyle(tripCover(trip))}></span>
         <span class="trip-editor-cover-shade"></span>
         <span class="trip-editor-selected"><span>⌖</span><span id="trip-selected-count">${esc(t("trip.selected", { count: selectedCount }))}</span></span>
       </div>
@@ -1368,11 +1416,10 @@ function showTripModal(id) {
               ? places
                   .map(
                     (place) => {
-                      const category = CATEGORIES.find((item) => item.name === place.category);
-                      const slug = category?.slug || "sights";
                       const checked = trip.placeIds.includes(place.id);
+                      const photo = placePhoto(place);
                       return `<label class="chip trip-place-option ${checked ? "selected" : ""}">
-                      ${place.photoUrl ? `<img class="trip-place-photo" src="${esc(place.photoUrl)}" alt="" loading="lazy" />` : `<span class="trip-place-photo trip-place-art ${esc(slug)}" aria-hidden="true"></span>`}
+                      ${photo ? `<img class="trip-place-photo" src="${esc(photo)}" alt="" loading="lazy" />` : `<span class="trip-place-photo trip-place-art" ${bgStyle(categoryArt(place.category))} aria-hidden="true"></span>`}
                       <span class="trip-place-copy"><strong>${esc(place.name)}</strong><small><span class="trip-place-category-icon">${iconFor(place.category)}</span>${esc(categoryText(place.category))}</small></span>
                       <span class="trip-place-check"><input type="checkbox" data-place-id="${esc(place.id)}" ${checked ? "checked" : ""} /><span aria-hidden="true">✓</span></span>
                     </label>`;
@@ -1480,9 +1527,7 @@ function inferCategory(types = [], query = "") {
 
 function googlePlacesKey() {
   const globalKey = window.G04_CONFIG?.googleMapsKey;
-  return typeof globalKey === "string" && globalKey.trim()
-    ? globalKey.trim()
-    : readSetting("g04-google-key", "").trim();
+  return typeof globalKey === "string" ? globalKey.trim() : "";
 }
 
 function googlePlacesError(error) {
@@ -1538,7 +1583,7 @@ function loadGooglePlaces() {
       "&loading=async&libraries=places&v=weekly&language=" +
       encodeURIComponent(locale) +
       "&region=" +
-      (locale === "en" ? "US" : "DE") +
+      searchRegion() +
       "&callback=" +
       callback;
     script.onerror = () => {
@@ -1551,24 +1596,71 @@ function loadGooglePlaces() {
   return googleLoaderPromise;
 }
 
+// Die Suchregion richtet sich nach dem Gerät, nicht nach der UI-Sprache:
+// Wer in Deutschland die englische Oberfläche nutzt, soll keine US-Treffer bekommen.
+function searchRegion() {
+  const tag = (navigator.languages?.find((lang) => lang.includes("-")) || navigator.language || "").split("-")[1];
+  return tag && /^[a-z]{2}$/i.test(tag) ? tag.toUpperCase() : "DE";
+}
+
+// Heutige Zeile aus den gespeicherten Öffnungszeiten (Google liefert Montag zuerst).
+function hoursToday(place) {
+  const lines = Array.isArray(place.openingHours) ? place.openingHours : [];
+  if (lines.length === 7) return lines[(new Date().getDay() + 6) % 7];
+  return place.hours || "";
+}
+
+// Trefferliste bewusst schlank: nur Felder der Preisstufe „Pro“. Bewertung,
+// Öffnungszeiten, Telefon, Website und Foto kosten mehr und werden erst geladen,
+// wenn jemand einen Treffer öffnet.
+const LIST_FIELDS = ["id", "displayName", "formattedAddress", "location", "types", "businessStatus", "googleMapsURI"];
+const DETAIL_FIELDS = [
+  "rating",
+  "userRatingCount",
+  "priceLevel",
+  "regularOpeningHours",
+  "utcOffsetMinutes",
+  "nationalPhoneNumber",
+  "websiteURI",
+  "photos",
+];
+
+async function enrichGooglePlace(record) {
+  const place = googlePlaceObjects.get(record.id);
+  if (!place || record.enriched) return record;
+  try {
+    await place.fetchFields({ fields: DETAIL_FIELDS });
+    const enriched = { ...googlePlaceToRecord(place, lastGoogleQuery), enriched: true };
+    try {
+      // isOpen() braucht regularOpeningHours und utcOffsetMinutes.
+      const open = await place.isOpen();
+      if (typeof open === "boolean") enriched.open = open;
+    } catch {
+      /* Öffnungsstatus ist optional. */
+    }
+    googleSearchResults.set(record.id, enriched);
+    return enriched;
+  } catch {
+    return record;
+  }
+}
+
+async function openGoogleResult(record) {
+  announce(t("search.loadingDetails"));
+  showPlaceForm(await enrichGooglePlace(record), true);
+}
+
 function googlePlaceToRecord(place, query) {
   const location = place.location;
   const name = typeof place.displayName === "string" ? place.displayName : place.displayName?.text || "Unbekannter Ort";
   const descriptions = place.regularOpeningHours?.weekdayDescriptions || [];
-  const todayIndex = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1;
   let photoUrl = "";
   try {
     photoUrl = place.photos?.[0]?.getURI({ maxWidth: 900, maxHeight: 600 }) || "";
   } catch {
     photoUrl = "";
   }
-  let isOpen = place.businessStatus !== "CLOSED_PERMANENTLY";
-  try {
-    const liveOpen = place.regularOpeningHours?.isOpen?.();
-    if (typeof liveOpen === "boolean") isOpen = liveOpen;
-  } catch {
-    /* Öffnungsstatus ist optional. */
-  }
+  const isOpen = place.businessStatus !== "CLOSED_PERMANENTLY";
   return {
     id: "g_" + place.id,
     placeId: place.id,
@@ -1581,7 +1673,7 @@ function googlePlaceToRecord(place, query) {
     userRatingCount: place.userRatingCount || 0,
     priceLevel: place.priceLevel || "",
     openingHours: descriptions,
-    hours: descriptions[todayIndex] || "",
+    hours: hoursToday({ openingHours: descriptions }),
     photoUrl,
     note: "",
     phone: place.nationalPhoneNumber || "",
@@ -1644,7 +1736,9 @@ async function renderGoogleSearchPanel(results, query) {
     const center = currentLocation ||
       (located[0] ? { lat: Number(located[0].latitude), lng: Number(located[0].longitude) } : { lat: 51, lng: 10 });
     if (!searchMap) {
-      searchMap = new Map($("#places-map"), { center, zoom: located.length ? 13 : 6, mapId: "DEMO_MAP_ID" });
+      // Eigene Map-ID aus config.js; DEMO_MAP_ID ist nur für Tests gedacht.
+      const mapId = window.G04_CONFIG?.googleMapId || "DEMO_MAP_ID";
+      searchMap = new Map($("#places-map"), { center, zoom: located.length ? 13 : 6, mapId });
     }
     searchMarkers.forEach((marker) => (marker.map = null));
     searchMarkers = [];
@@ -1653,7 +1747,7 @@ async function renderGoogleSearchPanel(results, query) {
       const position = { lat: Number(place.latitude), lng: Number(place.longitude) };
       bounds.extend(position);
       const marker = new AdvancedMarkerElement({ map: searchMap, position, title: place.name, gmpClickable: true });
-      marker.addEventListener("gmp-click", () => showPlaceForm(place, true));
+      marker.addEventListener("gmp-click", () => openGoogleResult(googleSearchResults.get(place.id) || place));
       searchMarkers.push(marker);
     });
     if (located.length > 1) searchMap.fitBounds(bounds, 60);
@@ -1711,33 +1805,23 @@ async function searchGooglePlaces(rawQuery, localHits, version, locationRestrict
     const Place = library.Place || window.google.maps.places.Place;
     const request = {
       textQuery: rawQuery.trim(),
-      fields: [
-        "id",
-        "displayName",
-        "formattedAddress",
-        "location",
-        "rating",
-        "userRatingCount",
-        "priceLevel",
-        "photos",
-        "regularOpeningHours",
-        "businessStatus",
-        "types",
-        "nationalPhoneNumber",
-        "websiteURI",
-        "googleMapsURI",
-      ],
-      maxResultCount: 20,
+      fields: LIST_FIELDS,
+      maxResultCount: 10,
       language: locale,
-      region: locale === "en" ? "US" : "DE",
+      region: searchRegion(),
     };
     if (locationRestriction) request.locationRestriction = locationRestriction;
     else if (currentLocation) request.locationBias = currentLocation;
     const response = await Place.searchByText(request);
     if (version !== googleSearchVersion) return;
-    const results = (response.places || []).map((place) => googlePlaceToRecord(place, rawQuery));
+    const found = response.places || [];
+    const results = found.map((place) => googlePlaceToRecord(place, rawQuery));
     googleSearchResults.clear();
-    results.forEach((place) => googleSearchResults.set(place.id, place));
+    googlePlaceObjects.clear();
+    results.forEach((place, i) => {
+      googleSearchResults.set(place.id, place);
+      googlePlaceObjects.set(place.id, found[i]);
+    });
     renderGoogleSearchPanel(results, rawQuery);
     renderSearchSuggestions(
       rawQuery,
@@ -1783,7 +1867,8 @@ function runSearch(rawQuery) {
   window.clearTimeout(googleSearchTimer);
   const version = ++googleSearchVersion;
   if (query.length >= 3) {
-    googleSearchTimer = window.setTimeout(() => searchGooglePlaces(rawQuery, hits, version), 650);
+    // Jede Suche kostet Geld: erst nach einer Sekunde Tippruhe anfragen.
+    googleSearchTimer = window.setTimeout(() => searchGooglePlaces(rawQuery, hits, version), 1000);
   }
 }
 
@@ -1962,7 +2047,7 @@ function bindEvents() {
       if (!result) return;
       hideSuggestions();
       $("#search").value = "";
-      return showPlaceForm(result, true);
+      return openGoogleResult(result);
     }
 
     const place = event.target.closest("[data-place]");
@@ -2045,12 +2130,12 @@ function bindEvents() {
     searchMarkers.forEach((marker) => (marker.map = null));
     searchMarkers = [];
   };
-  $("#use-location").onclick = () => {
+  $("#use-location").onclick = async () => {
     if (!navigator.geolocation) {
       announce(t("search.noLocation"));
       return;
     }
-    if (!confirm(t("search.locationDisclosure"))) return;
+    if (!(await askLocationConsent())) return;
     announce(t("search.locationRequest"));
     navigator.geolocation.getCurrentPosition(
       (position) => {

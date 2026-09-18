@@ -97,6 +97,11 @@ ul { padding-left: 22px; }
   font-size: 12px;
 }
 a { color: var(--legal-blue); }
+.legal-divider {
+  margin: 38px 0 30px;
+  border: 0;
+  border-top: 1px solid var(--legal-line);
+}
 @media (max-width: 520px) {
   .legal-shell { width: min(100% - 20px, 860px); padding-top: 12px; }
   .legal-topbar { align-items: flex-start; }

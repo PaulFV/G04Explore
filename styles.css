@@ -2616,7 +2616,7 @@ body {
   right: 22px;
   padding: 0;
   border-radius: 22px;
-  background-image: url("icons/category-tile-sprite.png");
+  background-image: url("icons/category-tile-sprite.webp");
   background-repeat: no-repeat;
   background-size: 445% 297%;
   box-shadow:
@@ -2718,7 +2718,7 @@ body {
   background-repeat: no-repeat;
   background-size:
     100% 100%,
-    210% 645%;
+    cover;
   color: #fff;
   box-shadow:
     inset 0 1px #ffffffb8,
@@ -2788,66 +2788,66 @@ body {
 #home-view .category-card.restaurants {
   background-image:
     linear-gradient(90deg, #9c281fd9 0%, #d04a38b8 48%, #d55f2b20 100%),
-    url("icons/category-hero-art.png");
+    url("images/category/restaurants.webp");
   background-position:
     center,
-    0 11%;
+    right center;
 }
 #home-view .category-card.hotels {
   background-image:
     linear-gradient(90deg, #062677df 0%, #0647b8b8 48%, #123c9c20 100%),
-    url("icons/category-hero-art.png");
+    url("images/category/hotels.webp");
   background-position:
     center,
-    97% 11%;
+    right center;
 }
 #home-view .category-card.events {
   background-image:
     linear-gradient(90deg, #761249e0 0%, #9c206bb8 48%, #a6297820 100%),
-    url("icons/category-hero-art.png");
+    url("images/category/events.webp");
   background-position:
     center,
-    0 31%;
+    right center;
 }
 #home-view .category-card.sport {
   background-image:
     linear-gradient(90deg, #006b6ce0 0%, #087f83b8 48%, #087c8a20 100%),
-    url("icons/category-hero-art.png");
+    url("images/category/sport.webp");
   background-position:
     center,
-    97% 31%;
+    right center;
 }
 #home-view .category-card.museums {
   background-image:
     linear-gradient(90deg, #98540ddd 0%, #c27714b8 48%, #b8751a20 100%),
-    url("icons/category-hero-art.png");
+    url("images/category/museums.webp");
   background-position:
     center,
-    0 51%;
+    right center;
 }
 #home-view .category-card.sights {
   background-image:
     linear-gradient(90deg, #006ca8df 0%, #087fbdb8 48%, #148fc020 100%),
-    url("icons/category-hero-art.png");
+    url("images/category/sights.webp");
   background-position:
     center,
-    97% 51%;
+    right center;
 }
 #home-view .category-card.cafes {
   background-image:
     linear-gradient(90deg, #5417a9e0 0%, #7626bdb8 48%, #8d36bd20 100%),
-    url("icons/category-hero-art.png");
+    url("images/category/cafes.webp");
   background-position:
     center,
-    0 72%;
+    right center;
 }
 #home-view .category-card.private {
   background-image:
     linear-gradient(90deg, #071b66e0 0%, #12358fb8 48%, #174aa620 100%),
-    url("icons/category-hero-art.png");
+    url("images/category/private.webp");
   background-position:
     center,
-    97% 72%;
+    right center;
 }
 
 @media (max-width: 760px) {
@@ -3229,35 +3229,11 @@ body {
   width: 100%;
   min-height: 0;
   border-radius: 9px;
-  background-image: url("icons/category-hero-art.png");
   background-repeat: no-repeat;
   background-size: 210% 645%;
   background-color: #17233a;
 }
-#search-view .insight-photo.restaurants {
-  background-position: 0 11%;
-}
-#search-view .insight-photo.hotels {
-  background-position: 97% 11%;
-}
-#search-view .insight-photo.events {
-  background-position: 0 31%;
-}
-#search-view .insight-photo.sport {
-  background-position: 97% 31%;
-}
-#search-view .insight-photo.museums {
-  background-position: 0 51%;
-}
-#search-view .insight-photo.sights {
-  background-position: 97% 51%;
-}
-#search-view .insight-photo.cafes {
-  background-position: 0 72%;
-}
-#search-view .insight-photo.private {
-  background-position: 97% 72%;
-}
+
 #search-view .insight-place .insight-icon {
   align-self: center;
   width: 29px;
@@ -4233,7 +4209,6 @@ body:not(.dark) #settings-view .language-select {
 }
 #trips-view .trip-card-art {
   z-index: 0;
-  background-image: url("icons/category-hero-art.png");
   background-repeat: no-repeat;
   background-size: 145% auto;
   background-position: 1% 11%;
@@ -4243,15 +4218,7 @@ body:not(.dark) #settings-view .language-select {
     transform 0.35s ease,
     filter 0.35s ease;
 }
-#trips-view .trip-card.trip-berlin .trip-card-art {
-  background-position: 70% 76%;
-}
-#trips-view .trip-card.trip-museum .trip-card-art {
-  background-position: 21% 78%;
-}
-#trips-view .trip-card.trip-custom .trip-card-art {
-  background-position: 98% 76%;
-}
+
 #trips-view .trip-card:hover .trip-card-art {
   transform: scale(1.035);
   filter: saturate(1.3) contrast(1.05);
@@ -4266,24 +4233,7 @@ body:not(.dark) #settings-view .language-select {
     #0d1b3110 100%
   );
 }
-#trips-view .trip-card.trip-berlin .trip-card-shade {
-  background: linear-gradient(
-    90deg,
-    #08152eea 0%,
-    #102a50d9 38%,
-    #122b5160 72%,
-    #10284a1c 100%
-  );
-}
-#trips-view .trip-card.trip-museum .trip-card-shade {
-  background: linear-gradient(
-    90deg,
-    #24113de8 0%,
-    #25164dcf 40%,
-    #211a4d70 72%,
-    #211a4d12 100%
-  );
-}
+
 #trips-view .trip-card-content {
   position: relative;
   z-index: 2;
@@ -4314,12 +4264,7 @@ body:not(.dark) #settings-view .language-select {
     0 5px 16px #00000025;
   font-size: 27px;
 }
-#trips-view .trip-card.trip-berlin .trip-badge {
-  background: #163c85cc;
-}
-#trips-view .trip-card.trip-museum .trip-badge {
-  background: #522278cc;
-}
+
 #trips-view .trip-card h3 {
   min-width: 0;
   margin: 0;
@@ -4340,21 +4285,7 @@ body:not(.dark) #settings-view .language-select {
   color: #98bcff;
   font-size: 19px;
 }
-#trips-view .trip-date-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 16px;
-  padding: 9px 14px;
-  border: 1px solid #3985ff;
-  border-radius: 12px;
-  background: #0c3979b8;
-  color: #e9f1ff;
-  font-size: 14px;
-}
-#trips-view .trip-date-pill span {
-  color: #77aaff;
-}
+
 #trips-view .trip-progress-label {
   margin-top: auto;
   color: #fff;
@@ -4391,7 +4322,6 @@ body:not(.dark) #settings-view .language-select {
   overflow: hidden;
   border: 1px solid #e2eeff99;
   border-radius: 13px;
-  background-image: url("icons/category-hero-art.png");
   background-repeat: no-repeat;
   background-size: 380% auto;
   box-shadow: 0 5px 12px #00000044;
@@ -4544,11 +4474,7 @@ body:not(.dark) #trips-view .trip-card {
     margin-top: 8px;
     font-size: 11px;
   }
-  #trips-view .trip-date-pill {
-    margin-top: 10px;
-    padding: 7px 10px;
-    font-size: 11px;
-  }
+
   #trips-view .trip-progress {
     height: 7px;
     margin-top: 6px;
@@ -4818,35 +4744,11 @@ body:not(.dark) #trips-view .trip-card {
   height: 100%;
 }
 #saved-view .saved-place-art {
-  background-image: url("icons/category-hero-art.png");
   background-repeat: no-repeat;
   background-size: 145% auto;
   filter: saturate(1.2) contrast(1.06);
 }
-#saved-view .saved-place-art.restaurants {
-  background-position: 2% 7%;
-}
-#saved-view .saved-place-art.hotels {
-  background-position: 31% 7%;
-}
-#saved-view .saved-place-art.events {
-  background-position: 66% 7%;
-}
-#saved-view .saved-place-art.sport {
-  background-position: 99% 7%;
-}
-#saved-view .saved-place-art.museums {
-  background-position: 18% 95%;
-}
-#saved-view .saved-place-art.sights {
-  background-position: 56% 95%;
-}
-#saved-view .saved-place-art.cafes {
-  background-position: 92% 95%;
-}
-#saved-view .saved-place-art.private {
-  background-position: 93% 93%;
-}
+
 #saved-view .saved-place-visual .place-card-photo {
   object-fit: cover;
 }
@@ -5284,21 +5186,12 @@ body:not(.dark) #saved-view .saved-place-address {
   display: block;
 }
 #modal-root .trip-editor-cover-art {
-  background-image: url("icons/category-hero-art.png");
   background-repeat: no-repeat;
   background-size: 132% auto;
   background-position: 1% 10%;
   filter: saturate(1.2) contrast(1.04);
 }
-#modal-root .trip-editor-berlin .trip-editor-cover-art {
-  background-position: 70% 75%;
-}
-#modal-root .trip-editor-museum .trip-editor-cover-art {
-  background-position: 19% 77%;
-}
-#modal-root .trip-editor-custom .trip-editor-cover-art {
-  background-position: 98% 76%;
-}
+
 #modal-root .trip-editor-cover-shade {
   background:
     linear-gradient(90deg, #08172bc2, #0d21444c 64%, #08172b14),
@@ -5441,31 +5334,10 @@ body:not(.dark) #saved-view .saved-place-address {
   overflow: hidden;
   border-radius: 11px;
   object-fit: cover;
-  background-image: url("icons/category-hero-art.png");
   background-repeat: no-repeat;
   background-size: 340% auto;
 }
-#modal-root .trip-place-art.restaurants {
-  background-position: 1% 6%;
-}
-#modal-root .trip-place-art.hotels {
-  background-position: 31% 6%;
-}
-#modal-root .trip-place-art.events {
-  background-position: 66% 6%;
-}
-#modal-root .trip-place-art.sport {
-  background-position: 99% 6%;
-}
-#modal-root .trip-place-art.museums {
-  background-position: 17% 96%;
-}
-#modal-root .trip-place-art.sights {
-  background-position: 56% 96%;
-}
-#modal-root .trip-place-art.cafes {
-  background-position: 92% 96%;
-}
+
 #modal-root .trip-place-copy {
   min-width: 0;
   display: block;
@@ -5767,74 +5639,44 @@ body:not(.dark) #modal-root .trip-place-option:hover {
 #trips-view .trip-thumb,
 #modal-root .trip-editor-cover-art,
 #modal-root .trip-place-photo {
-  background-image: url("icons/category-tile-sprite.png");
+  background-image: url("icons/category-tile-sprite.webp");
   background-repeat: no-repeat;
   /* The sprite tiles are square; this keeps each complete motif visible in
      the wide landscape card instead of cropping it vertically. */
   background-size: 410% 270%;
 }
 
-#saved-view .saved-place-art.restaurants,
-#trips-view .trip-thumb.restaurants,
-#modal-root .trip-place-art.restaurants {
+#trips-view .trip-thumb.restaurants {
   background-position: 2% 18%;
 }
 
-#saved-view .saved-place-art.hotels,
-#trips-view .trip-thumb.hotels,
-#modal-root .trip-place-art.hotels {
+#trips-view .trip-thumb.hotels {
   background-position: 34% 18%;
 }
 
-#saved-view .saved-place-art.events,
-#trips-view .trip-thumb.events,
-#modal-root .trip-place-art.events {
+#trips-view .trip-thumb.events {
   background-position: 66% 18%;
 }
 
-#saved-view .saved-place-art.sport,
-#trips-view .trip-thumb.sport,
-#modal-root .trip-place-art.sport {
+#trips-view .trip-thumb.sport {
   background-position: 98% 18%;
 }
 
-#saved-view .saved-place-art.museums,
-#trips-view .trip-thumb.museums,
-#modal-root .trip-place-art.museums {
+#trips-view .trip-thumb.museums {
   background-position: 17% 79%;
 }
 
-#saved-view .saved-place-art.sights,
-#trips-view .trip-thumb.sights,
-#modal-root .trip-place-art.sights {
+#trips-view .trip-thumb.sights {
   background-position: 50% 79%;
 }
 
-#saved-view .saved-place-art.cafes,
-#saved-view .saved-place-art.private,
-#trips-view .trip-thumb.cafes,
-#modal-root .trip-place-art.cafes {
+#trips-view .trip-thumb.cafes {
   background-position: 84% 79%;
 }
 
 #trips-view .trip-card-art,
 #modal-root .trip-editor-cover-art {
   background-position: 2% 18%;
-}
-
-#trips-view .trip-card.trip-berlin .trip-card-art,
-#modal-root .trip-editor-berlin .trip-editor-cover-art {
-  background-position: 50% 79%;
-}
-
-#trips-view .trip-card.trip-museum .trip-card-art,
-#modal-root .trip-editor-museum .trip-editor-cover-art {
-  background-position: 17% 79%;
-}
-
-#trips-view .trip-card.trip-custom .trip-card-art,
-#modal-root .trip-editor-custom .trip-editor-cover-art {
-  background-position: 84% 79%;
 }
 
 #saved-view .saved-place-gradient {
@@ -5875,87 +5717,17 @@ body:not(.dark) #modal-root .trip-place-option:hover {
   border-radius: inherit;
 }
 
-/* Favorites artwork follows the supplied reference image exactly. The
-   source contains the four landscape photos in a 2x2 layout; matching the
-   card aspect ratio keeps each photo flush without cutting its subject. */
 #saved-view .saved-place-visual {
   height: auto;
   aspect-ratio: 1.93;
 }
 
-#saved-view .saved-place-card[data-place="p2"] .saved-place-art,
-#saved-view .saved-place-card[data-place="p3"] .saved-place-art,
-#saved-view .saved-place-card[data-place="p4"] .saved-place-art,
-#saved-view .saved-place-card[data-place="p5"] .saved-place-art {
-  background-image: url("icons/favorites-reference.png");
-  background-repeat: no-repeat;
-  background-size: 214.5% auto;
-  filter: none;
-}
-
-#saved-view .saved-place-card[data-place="p5"] .saved-place-art,
-#saved-view .saved-place-card[data-place="p4"] .saved-place-art {
-  background-position-y: 42.5%;
-}
-
-#saved-view .saved-place-card[data-place="p3"] .saved-place-art,
-#saved-view .saved-place-card[data-place="p2"] .saved-place-art {
-  background-position-y: 74.5%;
-}
-
-#saved-view .saved-place-card[data-place="p5"] .saved-place-art,
-#saved-view .saved-place-card[data-place="p3"] .saved-place-art {
-  background-position-x: 4.5%;
-}
-
-#saved-view .saved-place-card[data-place="p4"] .saved-place-art,
-#saved-view .saved-place-card[data-place="p2"] .saved-place-art {
-  background-position-x: 95.5%;
-}
-
-/* Keep the additional restaurant card in the same full-bleed treatment. */
-#saved-view .saved-place-card[data-place="p1"] .saved-place-art {
-  background-image: url("icons/category-hero-art.png");
-  background-repeat: no-repeat;
-  background-size: 210% 645%;
-  background-position: 0% 11%;
-  filter: saturate(1.08) contrast(1.03);
-  border-radius: inherit;
-}
-
-/* Custom travel lists also use a wide realistic photo instead of the old
-   square category sprite. */
-#trips-view .trip-card.trip-custom .trip-card-art {
-  background-image: url("icons/trips-reference.png");
-  background-repeat: no-repeat;
-  background-size: 105% 505%;
-  background-position: 50% 29%;
-  filter: none;
-  opacity: 0.92;
-  border-radius: inherit;
-}
-
-/* Travel-list cards use the wide landscape compositions from the supplied
-   travel-list reference. The vertical positions select its three card rows. */
 #trips-view .trip-card-art {
-  background-image: url("icons/trips-reference.png");
   background-repeat: no-repeat;
   background-size: 105% 505%;
   background-position: 50% 29%;
   filter: none;
   opacity: 0.92;
-}
-
-#trips-view .trip-card.trip-berlin .trip-card-art {
-  background-position: 50% 55%;
-}
-
-#trips-view .trip-card.trip-museum .trip-card-art {
-  background-position: 50% 82%;
-}
-
-#trips-view .trip-card.trip-custom .trip-card-art {
-  background-position: 50% 29%;
 }
 
 #saved-view .saved-place-gradient {
@@ -6025,5 +5797,84 @@ body:not(.dark) #modal-root .trip-place-option:hover {
 
   .bottom-nav small {
     font-size: 9px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Einzelmotive aus images/: app.js setzt das Bild pro Ort, Kategorie bzw.
+   Liste als style="background-image". Hier stehen nur Zuschnitt und Lage.
+   Kategorie-Motive tragen ihr Objekt rechts, deshalb rechts ausrichten.
+   ------------------------------------------------------------------ */
+#saved-view .saved-place-card .saved-place-art[style],
+#trips-view .trip-card .trip-card-art[style],
+#search-view .insight-place .insight-photo[style],
+#modal-root .trip-editor-cover .trip-editor-cover-art[style],
+#modal-root .trip-place-option .trip-place-art[style] {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: right center;
+  filter: none;
+}
+#trips-view .trip-card .trip-card-art[style] {
+  opacity: 0.92;
+}
+
+/* Heller Modus: Das Kategorie-Symbol neben dem Titel war fast weiß auf weiß. */
+body:not(.dark) #saved-view .saved-place-icon {
+  color: #24324c;
+}
+
+/* Standort-Hinweis */
+#modal-root .location-modal {
+  max-width: 440px;
+}
+#modal-root .location-modal .location-text {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+/* Kategorie-Kacheln: Anzahl über dem Pfeil. Vorher stand sie auf
+   position: relative mit bottom-Versatz und rutschte damit nach oben in
+   den Untertitel. */
+#home-view .category-card .count {
+  position: absolute;
+  left: 26px;
+  bottom: 84px;
+  padding-left: 0;
+}
+@media (max-width: 760px) {
+  #home-view .category-card .count {
+    left: 20px;
+    bottom: 72px;
+    padding-left: 0;
+  }
+}
+
+/* Filter-Selects im hellen Modus: Die Regel mit background: #f7faff setzt
+   Größe und Position zurück, danach wurden die Pfeil-Verläufe über das ganze
+   Feld gemalt (große Dreiecke). Größe und Lage hier wieder festlegen. */
+body:not(.dark) #saved-view .saved-controls select {
+  background-repeat: no-repeat;
+  background-position:
+    calc(100% - 20px) 22px,
+    calc(100% - 14px) 22px,
+    0 0;
+  background-size:
+    6px 6px,
+    6px 6px,
+    100% 100%;
+}
+@media (max-width: 760px) {
+  body:not(.dark) #saved-view .saved-controls select {
+    background-position:
+      calc(100% - 15px) 17px,
+      calc(100% - 10px) 17px,
+      0 0;
+    background-size:
+      5px 5px,
+      5px 5px,
+      100% 100%;
   }
 }

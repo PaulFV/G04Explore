@@ -38,7 +38,7 @@ Alles liegt ausschließlich im Browser des Geräts, es geht nichts an einen Serv
 | `g04-name`          | Name für die Begrüßung    |
 | `g04-offline`       | Offline-Modus an/aus      |
 | `g04-notifications` | Benachrichtigungen an/aus |
-| `g04-language`      | App-Sprache (`en`/`de`)  |
+| `g04-language`      | App-Sprache (`en`/`de`)   |
 
 Beim ersten Start werden Beispieldaten angelegt. Leerst du den Browser-Speicher, sind deine
 eigenen Orte weg — eine Export-Funktion gibt es noch nicht.
@@ -60,7 +60,16 @@ Die globale Suche unterstützt Google Places Text Search. Damit funktionieren Ei
    `GOOGLE_MAPS_BROWSER_KEY` anlegen.
 4. Der GitHub-Pages-Workflow erzeugt beim Deployment daraus automatisch `config.js`. Nutzer müssen
    keinen Schlüssel eingeben.
-5. In der Hauptsuche einen Suchbegriff eingeben, ein Ergebnis auswählen und anschließend speichern.
+5. Optional: In der Cloud Console unter **Map Management** eine eigene Map-ID anlegen und im Repository als
+   **Variable** (nicht als Secret) mit dem Namen `GOOGLE_MAPS_MAP_ID` hinterlegen. Ohne sie nutzt die Karte
+   `DEMO_MAP_ID`, die Google nur für Tests vorsieht.
+6. In der Hauptsuche einen Suchbegriff eingeben, ein Ergebnis auswählen und anschließend speichern.
+
+**Kosten im Blick behalten:** Der Schlüssel gilt für alle Nutzer, die Rechnung geht an dich. Die Suche
+fragt deshalb erst nach einer Sekunde Tippruhe an und lädt für die Trefferliste nur Basisfelder
+(Name, Adresse, Lage). Bewertung, Öffnungszeiten, Telefon, Website und Foto werden erst geholt, wenn
+jemand einen Treffer öffnet. Zusätzlich in der Cloud Console ein **Tageskontingent** und eine
+**Budgetwarnung** einrichten — das ist der einzige harte Schutz.
 
 `config.js` ist in `.gitignore` eingetragen und wird nicht committed. Für lokale Entwicklung kann
 `config.example.js` als `config.js` kopiert und mit einem eigenen eingeschränkten Schlüssel ergänzt werden.
@@ -73,7 +82,8 @@ Die Seiten [Datenschutzerklärung](privacy.html) und [Copyright & Impressum](imp
 sind innerhalb der App verlinkt. Vor einem öffentlichen Release müssen die markierten
 Betreiber- und Kontaktdaten ergänzt werden. Die Google-Places-Suche übermittelt
 Suchtext an Google; der Standort wird nur nach einer ausdrücklichen Aktion und
-Bestätigung des Nutzers verwendet.
+Bestätigung des Nutzers verwendet. Die Schriften liegen unter `fonts/` und werden
+nicht von Google geladen, damit beim Seitenaufruf keine IP-Adresse an Dritte geht.
 
 ## Auf iPhone und Android installieren
 
@@ -101,5 +111,9 @@ Der Service Worker cached mit **stale-while-revalidate**: die App startet aus de
 die neue Fassung im Hintergrund. Nach strukturellen Änderungen an den Assets die Konstante `CACHE`
 in `sw.js` hochzählen.
 
-Die Icons unter `icons/` werden aus `icon-192.svg` / `icon-512.svg` erzeugt. Die PNG-Fassungen sind
-nötig, weil iOS für den Home-Bildschirm kein SVG akzeptiert.
+**Icons:** `icon-192.png` / `icon-512.png` sind das App-Logo. `icon-maskable-512.png` enthält es verkleinert
+im Schutzkreis für Android, `apple-touch-icon.png` vollflächig ohne eigene Rundung für iOS.
+
+**Bilder:** Unter `images/` liegt je ein Motiv pro Kategorie (`category/`), für die Beispielorte (`places/`)
+und die Beispiel-Listen (`trips/`), alle als WebP. `app.js` wählt das Bild anhand von Kategorie, Ort
+bzw. Liste. Eigene Listen übernehmen das Bild ihres ersten Ortes.

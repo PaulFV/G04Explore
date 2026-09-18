@@ -26,8 +26,10 @@ jobs:
       - name: Create runtime configuration
         env:
           GOOGLE_MAPS_BROWSER_KEY: ${{ secrets.GOOGLE_MAPS_BROWSER_KEY }}
+          # Optional: eigene Map-ID als Repository-Variable (kein Geheimnis).
+          GOOGLE_MAPS_MAP_ID: ${{ vars.GOOGLE_MAPS_MAP_ID }}
         run: |
-          node -e "const fs = require('node:fs'); const key = (process.env.GOOGLE_MAPS_BROWSER_KEY || '').trim(); if (!key) throw new Error('Missing repository secret GOOGLE_MAPS_BROWSER_KEY'); fs.writeFileSync('config.js', 'window.G04_CONFIG = ' + JSON.stringify({ googleMapsKey: key }) + ';\\n');"
+          node -e "const fs = require('node:fs'); const key = (process.env.GOOGLE_MAPS_BROWSER_KEY || '').trim(); if (!key) throw new Error('Missing repository secret GOOGLE_MAPS_BROWSER_KEY'); const mapId = (process.env.GOOGLE_MAPS_MAP_ID || '').trim(); fs.writeFileSync('config.js', 'window.G04_CONFIG = ' + JSON.stringify({ googleMapsKey: key, googleMapId: mapId }) + ';\\n');"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .

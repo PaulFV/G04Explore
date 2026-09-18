@@ -6,7 +6,7 @@
  * Deploy weiter die alte Version.
  */
 
-const CACHE = "g04explore-v27";
+const CACHE = "g04explore-v28";
 
 const ASSETS = [
   "./",
@@ -14,17 +14,34 @@ const ASSETS = [
   "./styles.css",
   "./app.js",
   "./manifest.webmanifest",
+  "./privacy.html",
+  "./imprint.html",
+  "./legal.css",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon-maskable-512.png",
   "./icons/apple-touch-icon.png",
-  "./icons/category-hero-art.png",
-  "./icons/category-tile-sprite.png",
-  "./icons/favorites-reference.png",
-  "./icons/trips-reference.png",
-  "./privacy.html",
-  "./imprint.html",
-  "./legal.css",
+  "./icons/category-tile-sprite.webp",
+  "./fonts/dm-sans-latin-ext.woff2",
+  "./fonts/dm-sans-latin.woff2",
+  "./fonts/fonts.css",
+  "./fonts/space-grotesk-latin-ext.woff2",
+  "./fonts/space-grotesk-latin.woff2",
+  "./images/category/cafes.webp",
+  "./images/category/events.webp",
+  "./images/category/hotels.webp",
+  "./images/category/museums.webp",
+  "./images/category/private.webp",
+  "./images/category/restaurants.webp",
+  "./images/category/sights.webp",
+  "./images/category/sport.webp",
+  "./images/places/barberini.webp",
+  "./images/places/kleine-freiheit.webp",
+  "./images/places/riverside-hotel.webp",
+  "./images/places/teufelsberg.webp",
+  "./images/trips/berlin.webp",
+  "./images/trips/munich.webp",
+  "./images/trips/museum.webp",
 ];
 
 self.addEventListener("install", (event) => {
@@ -59,7 +76,9 @@ self.addEventListener("fetch", (event) => {
 
   event.respondWith(
     caches.open(CACHE).then(async (cache) => {
-      const cached = await cache.match(request);
+      // index.html lädt styles.css?v=… und app.js?v=…, vorgeladen sind die Dateien
+      // ohne Query. Der Cachebuster darf den Offline-Treffer nicht verhindern.
+      const cached = await cache.match(request, { ignoreSearch: true });
 
       const fromNetwork = fetch(request)
         .then((response) => {
