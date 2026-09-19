@@ -38,10 +38,26 @@ body {
   margin-bottom: 28px;
 }
 .legal-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
   color: var(--legal-ink);
   font-family: "Space Grotesk", system-ui, sans-serif;
   font-weight: 700;
   text-decoration: none;
+  white-space: nowrap;
+}
+.legal-brand-image {
+  display: block;
+  flex: 0 0 58px;
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+}
+.legal-brand-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .legal-brand-mark {
   display: inline-grid;
@@ -104,6 +120,9 @@ a { color: var(--legal-blue); }
 }
 @media (max-width: 520px) {
   .legal-shell { width: min(100% - 20px, 860px); padding-top: 12px; }
-  .legal-topbar { align-items: flex-start; }
+  .legal-topbar { align-items: center; gap: 12px; }
+  .legal-brand { gap: 9px; font-size: 16px; }
+  .legal-brand-image { flex-basis: 50px; width: 50px; height: 50px; }
+  .legal-back { flex: 0 0 auto; font-size: 14px; }
   .legal-card { border-radius: 16px; padding: 22px 18px; }
 }

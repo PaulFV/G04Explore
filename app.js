@@ -31,6 +31,7 @@ const TRANSLATIONS = {
     "brand.eyebrow": "YOUR EXPLORER SPACE",
     "nav.main": "Main navigation",
     "nav.home": "Overview",
+    "nav.explore": "Explore",
     "nav.search": "Search",
     "nav.saved": "All places",
     "nav.trips": "Travel lists",
@@ -54,6 +55,7 @@ const TRANSLATIONS = {
     "search.photoAlt": "Photo of {{name}}",
     "search.navigation": "↗ Navigation",
     "search.nearby": "⌖ Near me",
+    "search.viewMap": "View map",
     "search.area": "Search this area",
     "search.close": "Close search results",
     "home.nearby": "Near you",
@@ -106,11 +108,14 @@ const TRANSLATIONS = {
     "settings.google": "Google Places",
     "settings.googleHint": "Provided centrally for all users",
     "settings.central": "CENTRAL",
+    "settings.notConnected": "Not connected",
+    "settings.connect": "Connect",
     "settings.language": "Language",
     "settings.languageHint": "Choose your app language",
     "settings.english": "English",
     "settings.german": "German",
     "settings.footer": "G04EX · Your data stays on this device. © 2026 G04Explore.",
+    "settings.reset": "↻ Reset settings",
     "settings.privacy": "Privacy policy",
     "settings.privacyHint": "How G04Explore handles your data",
     "settings.copyright": "Copyright & imprint",
@@ -273,6 +278,7 @@ const TRANSLATIONS = {
     "brand.eyebrow": "DEIN ENTDECKER-SPACE",
     "nav.main": "Hauptnavigation",
     "nav.home": "Übersicht",
+    "nav.explore": "Erkunden",
     "nav.search": "Suchen",
     "nav.saved": "Alle Orte",
     "nav.trips": "Reise-Listen",
@@ -296,6 +302,7 @@ const TRANSLATIONS = {
     "search.photoAlt": "Foto von {{name}}",
     "search.navigation": "↗ Navigation",
     "search.nearby": "⌖ Meine Nähe",
+    "search.viewMap": "Karte anzeigen",
     "search.area": "In diesem Bereich suchen",
     "search.close": "Suchergebnisse schließen",
     "home.nearby": "In deiner Nähe",
@@ -348,11 +355,14 @@ const TRANSLATIONS = {
     "settings.google": "Google Places",
     "settings.googleHint": "Wird zentral für alle Nutzer bereitgestellt",
     "settings.central": "ZENTRAL",
+    "settings.notConnected": "Nicht verbunden",
+    "settings.connect": "Verbinden",
     "settings.language": "Sprache",
     "settings.languageHint": "Wähle die Sprache der App",
     "settings.english": "Englisch",
     "settings.german": "Deutsch",
     "settings.footer": "G04EX · Deine Daten bleiben auf diesem Gerät gespeichert. © 2026 G04Explore.",
+    "settings.reset": "↻ Einstellungen zurücksetzen",
     "settings.privacy": "Datenschutzerklärung",
     "settings.privacyHint": "So verarbeitet G04Explore deine Daten",
     "settings.copyright": "Copyright & Impressum",
@@ -616,7 +626,7 @@ let places = readStore("g04-places", seedPlaces);
 let trips = readStore("g04-trips", seedTrips);
 let activeCategory = null;
 let activeTrip = null;
-let currentView = "home";
+let currentView = "search";
 let googleLoaderPromise = null;
 let googleSearchTimer = null;
 let googleSearchVersion = 0;
@@ -627,6 +637,11 @@ const googlePlaceObjects = new Map();
 let searchMap = null;
 let searchMarkers = [];
 let currentLocation = null;
+let currentLocationAccuracy = null;
+let googleMapLibrariesPromise = null;
+let nearbyMap = null;
+let nearbyLocationMarker = null;
+let nearbyAccuracyCircle = null;
 let lastGoogleQuery = "";
 
 /* ----------------------------------------------------------------- Speicher */
@@ -775,7 +790,9 @@ function render() {
 }
 
 function renderCategories() {
-  $("#category-grid").innerHTML = CATEGORIES.map((category) => {
+  const grid = $("#trips-category-grid");
+  if (!grid) return;
+  grid.innerHTML = CATEGORIES.map((category) => {
     const count = places.filter((place) => place.category === category.name).length;
     const label = categoryText(category.name);
     const size = label.length > 13 ? "wide" : "";
@@ -913,12 +930,13 @@ function renderHomeInsights() {
     .filter((entry) => entry.distance !== null)
     .sort((a, b) => a.distance - b.distance)
     .map((entry) => entry.place);
-  renderInsightList("#nearby-places", nearby, t("empty.nearby"));
+  // Ohne Standortfreigabe bleibt die Explore-Ansicht trotzdem mit den
+  // gespeicherten Beispielkarten gefüllt; nach der Freigabe übernimmt die
+  // echte Entfernungssortierung.
+  renderInsightList("#nearby-places", nearby.length ? nearby : places.slice(0, 3), t("empty.nearby"));
 }
 
 function renderSavedView() {
-  const title = $("#saved-title");
-  const eyebrow = $("#saved-eyebrow");
   const clearButton = $("#clear-filter");
   const savedSearch = $("#saved-search");
   let list = places;
@@ -934,18 +952,11 @@ function renderSavedView() {
 
   if (activeCategory) {
     list = places.filter((place) => place.category === activeCategory);
-    title.textContent = categoryText(activeCategory);
-    eyebrow.textContent = t("saved.categoryEyebrow");
     empty = t("empty.category");
   } else if (activeTrip) {
     const trip = trips.find((t) => t.id === activeTrip);
     list = trip ? places.filter((place) => trip.placeIds.includes(place.id)) : [];
-    title.textContent = trip ? trip.name : t("saved.list");
-    eyebrow.textContent = t("saved.tripEyebrow");
     empty = t("empty.trip");
-  } else {
-    title.textContent = t("saved.title");
-    eyebrow.textContent = t("saved.eyebrow");
   }
 
   const categoryFilter = $("#filter-category")?.value || "";
@@ -992,6 +1003,7 @@ function showView(view, { category = null, trip = null } = {}) {
 
   if (view === "saved") renderSavedView();
   if (view === "trips") renderTrips();
+  if (view === "search") window.setTimeout(() => renderNearbyMap(), 0);
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -1596,6 +1608,117 @@ function loadGooglePlaces() {
   return googleLoaderPromise;
 }
 
+async function loadGoogleMapLibraries() {
+  if (googleMapLibrariesPromise) return googleMapLibrariesPromise;
+  googleMapLibrariesPromise = loadGooglePlaces()
+    .then(async () => {
+      const [{ Map, Circle }, { AdvancedMarkerElement }] = await Promise.all([
+        window.google.maps.importLibrary("maps"),
+        window.google.maps.importLibrary("marker"),
+      ]);
+      return { Map, Circle, AdvancedMarkerElement };
+    })
+    .catch((error) => {
+      googleMapLibrariesPromise = null;
+      throw error;
+    });
+  return googleMapLibrariesPromise;
+}
+
+async function renderNearbyMap() {
+  const container = $("#search-nearby-map");
+  if (!container || $("#search-view")?.classList.contains("hidden")) return;
+  container.setAttribute("aria-busy", "true");
+
+  if (!googlePlacesKey()) {
+    container.classList.remove("is-live");
+    container.innerHTML = `<div class="map-unavailable">${t("search.googleMissing")}</div>`;
+    container.setAttribute("aria-busy", "false");
+    return;
+  }
+
+  try {
+    const { Map, Circle, AdvancedMarkerElement } = await loadGoogleMapLibraries();
+    const fallbackCenter = { lat: 51.1657, lng: 10.4515 };
+    const center = currentLocation || fallbackCenter;
+    const zoom = currentLocation ? 14 : 6;
+    const mapId = window.G04_CONFIG?.googleMapId || "DEMO_MAP_ID";
+
+    container.classList.add("is-live");
+    if (!nearbyMap) {
+      container.innerHTML = "";
+      nearbyMap = new Map(container, {
+        center,
+        zoom,
+        mapId,
+        disableDefaultUI: true,
+        zoomControl: true,
+        gestureHandling: "greedy",
+      });
+    } else {
+      nearbyMap.setCenter(center);
+      nearbyMap.setZoom(zoom);
+    }
+
+    if (nearbyLocationMarker) nearbyLocationMarker.map = null;
+    nearbyLocationMarker = new AdvancedMarkerElement({
+      map: nearbyMap,
+      position: center,
+      title: t("search.mapLabel"),
+    });
+
+    if (nearbyAccuracyCircle) nearbyAccuracyCircle.setMap(null);
+    nearbyAccuracyCircle = null;
+    if (currentLocation && Number.isFinite(currentLocationAccuracy) && Circle) {
+      nearbyAccuracyCircle = new Circle({
+        map: nearbyMap,
+        center,
+        radius: currentLocationAccuracy,
+        fillColor: "#2167e8",
+        fillOpacity: 0.14,
+        strokeColor: "#6da4ff",
+        strokeOpacity: 0.55,
+        strokeWeight: 1,
+      });
+    }
+  } catch (error) {
+    container.classList.remove("is-live");
+    container.innerHTML = `<div class="map-unavailable">${googlePlacesError(error)}</div>`;
+  } finally {
+    container.setAttribute("aria-busy", "false");
+  }
+}
+
+async function requestCurrentLocation({ search = true } = {}) {
+  if (!navigator.geolocation) {
+    announce(t("search.noLocation"));
+    return;
+  }
+  if (!(await askLocationConsent())) return;
+  announce(t("search.locationRequest"));
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      currentLocation = { lat: position.coords.latitude, lng: position.coords.longitude };
+      currentLocationAccuracy = Number.isFinite(position.coords.accuracy) ? position.coords.accuracy : null;
+      renderNearbyMap();
+      if (search) {
+        const query = $("#search").value.trim() || lastGoogleQuery || t("search.nearbyQuery");
+        const localHits = places.filter((place) =>
+          (place.name + " " + place.address + " " + place.category).toLowerCase().includes(query.toLowerCase()),
+        );
+        const version = ++googleSearchVersion;
+        searchGooglePlaces(query, localHits, version);
+      }
+      announce(t("search.locationUsed"));
+    },
+    () => {
+      renderNearbyMap();
+      announce(t("search.locationDenied"));
+    },
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 },
+  );
+}
+
 // Die Suchregion richtet sich nach dem Gerät, nicht nach der UI-Sprache:
 // Wer in Deutschland die englische Oberfläche nutzt, soll keine US-Treffer bekommen.
 function searchRegion() {
@@ -1882,7 +2005,6 @@ function hideSuggestions() {
 function applyTheme(dark) {
   document.body.classList.toggle("dark", dark);
   const toggle = $("#theme-toggle");
-  toggle.textContent = dark ? "☀" : "☾";
   toggle.setAttribute("aria-pressed", String(dark));
   $("#settings-theme").checked = dark;
   const meta = $('meta[name="theme-color"]');
@@ -2103,10 +2225,6 @@ function bindEvents() {
 
   // Suche
   $("#search").oninput = (event) => runSearch(event.target.value);
-  $("#header-nearby").onclick = () => {
-    showView("search");
-    $("#use-location").click();
-  };
   $("#search-filter-toggle").onclick = () => {
     const filters = $(".search-quick-filters");
     const hidden = filters.classList.toggle("hidden");
@@ -2131,25 +2249,7 @@ function bindEvents() {
     searchMarkers = [];
   };
   $("#use-location").onclick = async () => {
-    if (!navigator.geolocation) {
-      announce(t("search.noLocation"));
-      return;
-    }
-    if (!(await askLocationConsent())) return;
-    announce(t("search.locationRequest"));
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        currentLocation = { lat: position.coords.latitude, lng: position.coords.longitude };
-        const query = $("#search").value.trim() || lastGoogleQuery || t("search.nearbyQuery");
-        const localHits = places.filter((place) =>
-          (place.name + " " + place.address + " " + place.category).toLowerCase().includes(query.toLowerCase()),
-        );
-        const version = ++googleSearchVersion;
-        searchGooglePlaces(query, localHits, version);
-        announce(t("search.locationUsed"));
-      },
-      () => announce(t("search.locationDenied"))
-    );
+    await requestCurrentLocation({ search: true });
   };
   $("#search-map-area").onclick = () => {
     if (!searchMap) {
@@ -2165,10 +2265,12 @@ function bindEvents() {
     const version = ++googleSearchVersion;
     searchGooglePlaces(query, localHits, version, bounds);
   };
-  $("#home-location").onclick = () => {
+  const openNearbyMap = () => {
     showView("search");
     $("#use-location").click();
   };
+  $("#home-location").onclick = openNearbyMap;
+  $("#home-location-arrow").onclick = openNearbyMap;
   ["#filter-category", "#filter-status", "#filter-favorites", "#sort-places"].forEach((selector) => {
     $(selector).onchange = () => renderSavedView();
   });
@@ -2177,6 +2279,18 @@ function bindEvents() {
   $("#theme-toggle").onclick = () => applyTheme(!document.body.classList.contains("dark"));
   $("#settings-theme").onchange = (event) => applyTheme(event.target.checked);
   $("#settings-language").onchange = (event) => setLocale(event.target.value);
+  $("#google-places-connect").onclick = () => announce(googlePlacesKey() ? t("google.connected") : t("google.notConfigured"));
+  $("#settings-reset").onclick = async () => {
+    await disableOffline();
+    ["g04-language", "g04-theme", "g04-offline", "g04-notifications"].forEach((key) => {
+      try {
+        localStorage.removeItem(key);
+      } catch {
+        /* Privater Modus: die Ansicht bleibt benutzbar. */
+      }
+    });
+    window.location.reload();
+  };
   $("#header-language")?.querySelectorAll("[data-locale]").forEach((button) => {
     button.onclick = () => setLocale(button.dataset.locale);
   });
@@ -2195,6 +2309,7 @@ function init() {
   bindEvents();
   setupNotificationsToggle();
   setupOfflineToggle();
+  showView("search");
 }
 
 init();

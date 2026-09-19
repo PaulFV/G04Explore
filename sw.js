@@ -6,7 +6,7 @@
  * Deploy weiter die alte Version.
  */
 
-const CACHE = "g04explore-v28";
+const CACHE = "g04explore-v38";
 
 const ASSETS = [
   "./",
@@ -42,6 +42,14 @@ const ASSETS = [
   "./images/trips/berlin.webp",
   "./images/trips/munich.webp",
   "./images/trips/museum.webp",
+  "./images/header/header-logo.png",
+  "./images/header/header-calendar.png",
+  "./images/header/header-theme.png",
+  "./images/nav/nav-explore.png",
+  "./images/nav/nav-heart.png",
+  "./images/nav/nav-search.png",
+  "./images/nav/nav-settings.png",
+  "./images/nav/nav-trips.png",
 ];
 
 self.addEventListener("install", (event) => {
