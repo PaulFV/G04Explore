@@ -14,7 +14,7 @@
     <title>G04Explore — Your places. Your map.</title>
     <!-- Schriften lokal gehostet: beim Laden geht keine IP-Adresse an Google. -->
     <link rel="stylesheet" href="fonts/fonts.css" />
-    <link rel="stylesheet" href="styles.css?v=43" />
+    <link rel="stylesheet" href="styles.css?v=50" />
   </head>
   <body>
     <div class="app-shell">
@@ -119,6 +119,18 @@
                   aria-busy="true"
                 ></div>
                 <div id="nearby-places" class="insight-list"></div>
+                <div class="explore-map-controls" aria-label="Map controls">
+                  <button class="explore-map-control" id="explore-map-layers" type="button" data-i18n-aria-label="search.mapLayers" aria-label="Map layers">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m12 3 8 4-8 4-8-4 8-4Z"/><path d="m4 12 8 4 8-4M4 17l8 4 8-4"/></svg>
+                  </button>
+                  <button class="explore-map-control explore-map-location" id="explore-map-location" type="button" data-i18n-aria-label="search.mapLocation" aria-label="Use my location">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                  </button>
+                  <button class="explore-map-control explore-map-route" id="explore-map-route" type="button" data-i18n-aria-label="search.mapRoute" aria-label="Directions">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 19 14-14M8 5h11v11"/><path d="M5 5h.01M5 19h.01"/></svg>
+                  </button>
+                </div>
+                <span class="explore-map-attribution" aria-hidden="true">Google Maps</span>
               </article>
             </section>
 
@@ -280,6 +292,6 @@
 
     <!-- config.js wird beim GitHub-Pages-Deployment aus dem Repository-Secret erzeugt. -->
     <script src="config.js"></script>
-    <script src="app.js?v=26"></script>
+    <script src="app.js?v=29"></script>
   </body>
 </html>

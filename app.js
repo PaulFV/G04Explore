@@ -238,6 +238,16 @@ const TRANSLATIONS = {
     "search.locationRequest": "Location permission requested.",
     "search.nearbyQuery": "Places near me",
     "search.locationDisclosure": "G04Explore will use your device location only to find nearby places. With your permission, it is sent to Google Places and is not saved by this app. Continue?",
+    "search.mapLayers": "Map layers",
+    "search.mapLocation": "Use my location",
+    "search.mapRoute": "Directions",
+    "search.mapSheetHandle": "Expand map details",
+    "search.mapLocationName": "Heimerdingen",
+    "search.mapWeather": "14°",
+    "search.mapQuality": "LQI",
+    "search.mapExplore": "Explore",
+    "search.mapMyMaps": "My Maps",
+    "search.mapPost": "Contribute",
     "search.locationUsed": "Location used — loading results.",
     "search.locationDenied": "Location not shared. Search also works without it.",
     "search.noLocation": "This browser does not support location.",
@@ -485,6 +495,16 @@ const TRANSLATIONS = {
     "search.locationRequest": "Standortfreigabe wird angefragt.",
     "search.nearbyQuery": "Orte in meiner Nähe",
     "search.locationDisclosure": "G04Explore verwendet deinen Gerätestandort nur, um Orte in deiner Nähe zu finden. Mit deiner Zustimmung wird er an Google Places übermittelt und von dieser App nicht gespeichert. Fortfahren?",
+    "search.mapLayers": "Kartenebenen",
+    "search.mapLocation": "Meinen Standort verwenden",
+    "search.mapRoute": "Route",
+    "search.mapSheetHandle": "Kartendetails öffnen",
+    "search.mapLocationName": "Heimerdingen",
+    "search.mapWeather": "14°",
+    "search.mapQuality": "LQI",
+    "search.mapExplore": "Erkunden",
+    "search.mapMyMaps": "Meine Karten",
+    "search.mapPost": "Beitragen",
     "search.locationUsed": "Standort verwendet — Ergebnisse werden geladen.",
     "search.locationDenied": "Standort nicht freigegeben. Die Suche funktioniert auch ohne Standort.",
     "search.noLocation": "Dieser Browser unterstützt keinen Standort.",
@@ -990,6 +1010,7 @@ function showView(view, { category = null, trip = null } = {}) {
   currentView = view;
   activeCategory = category;
   activeTrip = trip;
+  document.body.classList.toggle("explore-map-mode", view === "search");
 
   $$(".view-panel").forEach((panel) => panel.classList.add("hidden"));
   $("#" + view + "-view").classList.remove("hidden");
@@ -1632,7 +1653,8 @@ async function renderNearbyMap() {
 
   if (!googlePlacesKey()) {
     container.classList.remove("is-live");
-    container.innerHTML = `<div class="map-unavailable">${t("search.googleMissing")}</div>`;
+    container.classList.add("is-fallback");
+    container.innerHTML = exploreFallbackMapMarkup();
     container.setAttribute("aria-busy", "false");
     return;
   }
@@ -1644,6 +1666,7 @@ async function renderNearbyMap() {
     const zoom = currentLocation ? 14 : 6;
     const mapId = window.G04_CONFIG?.googleMapId || "DEMO_MAP_ID";
 
+    container.classList.remove("is-fallback");
     container.classList.add("is-live");
     if (!nearbyMap) {
       container.innerHTML = "";
@@ -1683,10 +1706,39 @@ async function renderNearbyMap() {
     }
   } catch (error) {
     container.classList.remove("is-live");
-    container.innerHTML = `<div class="map-unavailable">${googlePlacesError(error)}</div>`;
+    container.classList.add("is-fallback");
+    container.innerHTML = exploreFallbackMapMarkup();
   } finally {
     container.setAttribute("aria-busy", "false");
   }
+}
+
+// Ruhige Offline-Karte für den Startbildschirm: Wenn kein zentraler
+// Google-Key vorhanden ist, bleibt Erkunden trotzdem wie eine Karten-App
+// benutzbar. Sobald der Key geladen werden kann, ersetzt renderNearbyMap diese
+// Illustration durch die echte Google-Karte.
+function exploreFallbackMapMarkup() {
+  return `<div class="explore-map-fallback" aria-hidden="true">
+    <svg viewBox="0 0 1000 1500" preserveAspectRatio="xMidYMid slice" focusable="false">
+      <rect width="1000" height="1500" fill="#71804f"/>
+      <path fill="#879663" d="M0 0h260l90 210-70 210H0ZM420 0h280l-80 250-250 50-70-160ZM790 0h210v310l-155 68-120-170ZM0 545l220-54 190 132-70 265-340 50ZM520 430l250-120 230 155v260l-260 75-170-140ZM0 1030l250-80 245 120-80 300H0ZM610 920l260-120 130 150v300l-310 80-130-210Z"/>
+      <path fill="#a6a36b" d="M120 40 320 5l-44 170-152 120-95-70Zm520 20 190-44-75 215-160 58Zm-530 610 250-60 56 130-244 135ZM650 530l210-120 112 100-172 178Zm-410 500 178-48 36 150-202 122Zm430-22 250-100 80 115-214 158Z"/>
+      <g fill="none" stroke="#8c8f82" stroke-width="11" opacity=".8">
+        <path d="M-40 1180 120 1010l210-93 170-210 160-36 200-170 210-62"/>
+        <path d="M35 0 164 220l40 244 180 170 120 246 150 122 152 287 240 157"/>
+        <path d="M-20 550 190 500l224 124 216 40 190-65 215 48"/>
+      </g>
+      <g fill="none" stroke="#d4d1bb" stroke-width="3" opacity=".9">
+        <path d="M-40 1180 120 1010l210-93 170-210 160-36 200-170 210-62"/>
+        <path d="M35 0 164 220l40 244 180 170 120 246 150 122 152 287 240 157"/>
+        <path d="M-20 550 190 500l224 124 216 40 190-65 215 48"/>
+      </g>
+      <g fill="#233126" font-family="DM Sans, sans-serif" font-size="25" font-weight="700" letter-spacing="2">
+        <text x="735" y="145">HOCHDORF</text><text x="275" y="1190">HEIMERDINGEN</text><text x="520" y="760" transform="rotate(-28 520 760)">HOCHDORFER STR.</text><text x="820" y="900" transform="rotate(-19 820 900)">HEMMINGER STR.</text>
+      </g>
+      <g transform="translate(515 770)"><circle r="29" fill="#20242b" opacity=".78"/><path d="M0-18 16 15 0 9-16 15Z" fill="#fff" stroke="#fff" stroke-width="3" transform="rotate(35)"/></g>
+    </svg>
+  </div>`;
 }
 
 async function requestCurrentLocation({ search = true } = {}) {
@@ -2012,18 +2064,23 @@ function applyTheme(dark) {
   writeSetting("g04-theme", dark ? "dark" : "light");
 }
 
+let headerClockTimer = null;
+
 function renderToday() {
   const now = new Date();
-  const formatted = new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "de-DE", {
+  const formattedDate = new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "de-DE", {
     weekday: "long",
     day: "numeric",
     month: "long",
   }).format(now);
+  const formattedTime = [now.getHours(), now.getMinutes(), now.getSeconds()]
+    .map((value) => String(value).padStart(2, "0"))
+    .join(":");
   const today = $("#today");
   if (!today) return;
-  today.textContent = formatted.toUpperCase();
-  today.dateTime = now.toISOString().slice(0, 10);
-  today.title = formatted;
+  today.textContent = formattedTime;
+  today.dateTime = now.toISOString();
+  today.title = formattedDate;
 }
 
 function setLocale(nextLocale, announceChange = true) {
@@ -2031,6 +2088,9 @@ function setLocale(nextLocale, announceChange = true) {
   writeSetting("g04-language", locale);
   translateStatic();
   renderToday();
+  if (headerClockTimer === null) {
+    headerClockTimer = window.setInterval(renderToday, 1000);
+  }
   render();
   setupNotificationsToggle();
   setupOfflineToggle();
@@ -2251,6 +2311,14 @@ function bindEvents() {
   $("#use-location").onclick = async () => {
     await requestCurrentLocation({ search: true });
   };
+  $("#explore-map-location").onclick = async () => {
+    await requestCurrentLocation({ search: false });
+  };
+  $("#explore-map-layers").onclick = () => {
+    $("#search-nearby-map")?.classList.toggle("is-satellite");
+    announce(t("search.mapLayers"));
+  };
+  $("#explore-map-route").onclick = () => announce(t("search.mapRoute"));
   $("#search-map-area").onclick = () => {
     if (!searchMap) {
       announce(t("search.mapFirst"));
