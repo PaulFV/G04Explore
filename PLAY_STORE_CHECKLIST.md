@@ -11,8 +11,9 @@ PWA ist eine Trusted Web Activity (TWA) mit Bubblewrap der passende Weg.
 - [ ] Die Datenschutzerklärung öffentlich testen:
       https://paulfv.github.io/G04Explore/privacy.html
 - [ ] Google Maps Platform, Places API (New) und Billing prüfen.
-- [ ] Den Browser-Key nur auf https://paulfv.github.io/G04Explore/* sowie die
-      tatsächlich benötigten APIs beschränken.
+- [ ] Den Browser-Key auf https://paulfv.github.io/* sowie die tatsächlich
+      benötigten APIs beschränken. Der Pfad darf nicht mit hinein: GitHub Pages
+      sendet nur die Domain als Referrer, mit Pfad blockiert Google jede Anfrage.
 - [ ] Store-Beschreibung, Support-E-Mail, App-Icon und mindestens ein Screenshot
       für Telefon und Tablet vorbereiten.
 - [ ] In Play Console die Angaben zu Google Places, optionalem Standort und

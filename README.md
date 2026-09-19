@@ -55,7 +55,11 @@ Die globale Suche unterstützt Google Places Text Search. Damit funktionieren Ei
 `Hotel Bamberg`, `Restaurants Nürnberg` oder `Museen Berlin`.
 
 1. In Google Cloud die **Maps JavaScript API** und **Places API (New)** aktivieren.
-2. Einen Browser-API-Schlüssel erstellen und per HTTP-Referrer auf die eigene GitHub-Pages-Adresse beschränken.
+2. Einen Browser-API-Schlüssel erstellen und unter **Application restrictions → Websites** auf
+   `https://paulfv.github.io/*` beschränken. Wichtig: **ohne Projektpfad.** GitHub Pages sendet an
+   fremde Server nur die Domain als Referrer, nie den vollen Pfad. Ein Eintrag wie
+   `https://paulfv.github.io/G04Explore/*` blockiert deshalb jede Anfrage
+   (`API_KEY_HTTP_REFERRER_BLOCKED`).
 3. Im Repository unter **Settings → Secrets and variables → Actions** ein Secret mit dem Namen
    `GOOGLE_MAPS_BROWSER_KEY` anlegen.
 4. Der GitHub-Pages-Workflow erzeugt beim Deployment daraus automatisch `config.js`. Nutzer müssen
