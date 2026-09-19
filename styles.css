@@ -549,6 +549,7 @@ h2 {
     margin-top: 3px;
   }
 }
+
 @media (min-width: 761px) and (max-width: 1050px) {
   .sidebar {
     width: 210px;
@@ -6891,4 +6892,61 @@ body:not(.dark) .header-right .theme-toggle {
   #settings-view .settings-reset {
     font-size: 12px;
   }
+}
+
+/* Final light-mode corrections for the settings reference layout. The
+   reference cards stay dark in the previous cascade, which makes their
+   labels unreadable on a light page. */
+body:not(.dark) #settings-view .settings-section-title {
+  color: #6a91cf;
+}
+body:not(.dark) #settings-view .settings-section-title::after {
+  background: linear-gradient(90deg, #70a8f6, #70a8f655 70%, transparent);
+}
+body:not(.dark) #settings-view .setting-card-row,
+body:not(.dark) #settings-view .settings-section > .google-setting,
+body:not(.dark) #settings-view .legal-link {
+  border-color: #76aaff;
+  background:
+    radial-gradient(ellipse at 100% 0%, #d5e7ff 0%, transparent 52%),
+    linear-gradient(135deg, #f9fbff 0%, #edf4ff 58%, #e4eeff 100%);
+  color: #182b4a;
+  box-shadow:
+    0 8px 22px #2167e823,
+    inset 0 1px #ffffff,
+    inset 0 -14px 25px #b7d0f833;
+}
+body:not(.dark) #settings-view .setting-card-row::before,
+body:not(.dark) #settings-view .settings-section > .google-setting::before,
+body:not(.dark) #settings-view .legal-link::before {
+  background: #6fa6ff18;
+}
+body:not(.dark) #settings-view .setting-card-row strong,
+body:not(.dark) #settings-view .settings-section > .google-setting strong,
+body:not(.dark) #settings-view .legal-link strong {
+  color: #182b4a;
+}
+body:not(.dark) #settings-view .settings-section > .google-setting .setting-status {
+  color: #203554;
+}
+body:not(.dark) #settings-view .legal-link {
+  color: #182b4a;
+}
+body:not(.dark) #settings-view .settings-note {
+  color: #617895;
+}
+body:not(.dark) #settings-view .switch span {
+  border-color: #7c9cc7;
+  background: linear-gradient(135deg, #edf4ff, #c8d8ed);
+  box-shadow: inset 0 0 0 1px #ffffffaa, 0 2px 10px #2167e82b;
+}
+body:not(.dark) #settings-view .switch input:checked + span {
+  background: linear-gradient(135deg, #1672ff, #2b55e7);
+  box-shadow: 0 0 18px #2167e855, inset 0 1px #ffffff66;
+}
+body:not(.dark) #settings-view .language-select {
+  border-color: #7ba9ed;
+  background: #ffffff;
+  color: #182b4a;
+  box-shadow: inset 0 1px #ffffff, 0 3px 10px #2167e81c;
 }
