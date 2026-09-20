@@ -14,7 +14,7 @@
     <title>G04Explore — Your places. Your map.</title>
     <!-- Schriften lokal gehostet: beim Laden geht keine IP-Adresse an Google. -->
     <link rel="stylesheet" href="fonts/fonts.css" />
-    <link rel="stylesheet" href="styles.css?v=50" />
+    <link rel="stylesheet" href="styles.css?v=51" />
   </head>
   <body>
     <div class="app-shell">
@@ -126,10 +126,39 @@
                   <button class="explore-map-control explore-map-location" id="explore-map-location" type="button" data-i18n-aria-label="search.mapLocation" aria-label="Use my location">
                     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
                   </button>
-                  <button class="explore-map-control explore-map-route" id="explore-map-route" type="button" data-i18n-aria-label="search.mapRoute" aria-label="Directions">
+                  <button class="explore-map-control explore-map-route" id="explore-map-route" type="button" data-i18n-aria-label="search.mapRoute" aria-label="Create a route">
                     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 19 14-14M8 5h11v11"/><path d="M5 5h.01M5 19h.01"/></svg>
                   </button>
                 </div>
+                <section class="map-type-sheet hidden" id="map-type-sheet" aria-label="Map type selection">
+                  <button class="map-type-sheet-backdrop" id="map-type-sheet-backdrop" type="button" aria-label="Close map type selection"></button>
+                  <div class="map-type-sheet-panel" role="dialog" aria-modal="true" aria-labelledby="map-type-sheet-title">
+                    <div class="map-type-sheet-head">
+                      <h2 id="map-type-sheet-title" data-i18n="search.mapType">Map type</h2>
+                      <button class="map-type-sheet-close" id="map-type-sheet-close" type="button" data-i18n-aria-label="search.mapClose" aria-label="Close">×</button>
+                    </div>
+                    <div class="map-type-options" role="group" aria-label="Map type">
+                      <button class="map-type-option selected" type="button" data-map-type="roadmap" aria-pressed="true">
+                        <span class="map-type-thumb map-type-thumb-standard" aria-hidden="true">
+                          <svg viewBox="0 0 96 72" fill="none"><rect width="96" height="72" rx="13" fill="#a8e1ed"/><path d="M-8 53 31 29l30 14 44-29" stroke="#f8e4a0" stroke-width="14"/><path d="M-8 53 31 29l30 14 44-29" stroke="#e9a7a5" stroke-width="3"/><path d="M0 12 27 27l18-2 20 17 39-4" stroke="#6a98c0" stroke-width="3"/></svg>
+                        </span>
+                        <span data-i18n="search.mapStandard">Standard</span>
+                      </button>
+                      <button class="map-type-option" type="button" data-map-type="satellite" aria-pressed="false">
+                        <span class="map-type-thumb map-type-thumb-satellite" aria-hidden="true">
+                          <svg viewBox="0 0 96 72" fill="none"><rect width="96" height="72" rx="13" fill="#697866"/><path d="M-8 15 31 27l28-7 52 25" stroke="#536451" stroke-width="18"/><path d="M-8 15 31 27l28-7 52 25" stroke="#303b39" stroke-width="8"/><path d="M-8 15 31 27l28-7 52 25" stroke="#beb99f" stroke-width="2"/><path d="m4 66 25-20 26 8 43-21" stroke="#2d3c39" stroke-width="3"/></svg>
+                        </span>
+                        <span data-i18n="search.mapSatellite">Satellite</span>
+                      </button>
+                      <button class="map-type-option" type="button" data-map-type="terrain" aria-pressed="false">
+                        <span class="map-type-thumb map-type-thumb-terrain" aria-hidden="true">
+                          <svg viewBox="0 0 96 72" fill="none"><rect width="96" height="72" rx="13" fill="#aeb4ad"/><path d="m-8 63 27-30 16 14 24-28 16 18 28-25 14 51Z" fill="#777d72"/><path d="m4 64 22-25 10 10 24-27 10 12 22-20 10 32Z" fill="#d7d8cb"/><path d="M11 58 36 48l26-10 37-18" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>
+                        </span>
+                        <span data-i18n="search.mapTerrain">Terrain</span>
+                      </button>
+                    </div>
+                  </div>
+                </section>
                 <span class="explore-map-attribution" aria-hidden="true">Google Maps</span>
               </article>
             </section>
@@ -292,6 +321,6 @@
 
     <!-- config.js wird beim GitHub-Pages-Deployment aus dem Repository-Secret erzeugt. -->
     <script src="config.js"></script>
-    <script src="app.js?v=29"></script>
+    <script src="app.js?v=30"></script>
   </body>
 </html>

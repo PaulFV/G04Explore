@@ -239,8 +239,13 @@ const TRANSLATIONS = {
     "search.nearbyQuery": "Places near me",
     "search.locationDisclosure": "G04Explore will use your device location only to find nearby places. With your permission, it is sent to Google Places and is not saved by this app. Continue?",
     "search.mapLayers": "Map layers",
+    "search.mapType": "Map type",
+    "search.mapClose": "Close",
+    "search.mapStandard": "Standard map",
+    "search.mapSatellite": "Satellite view",
+    "search.mapTerrain": "Terrain view",
     "search.mapLocation": "Use my location",
-    "search.mapRoute": "Directions",
+    "search.mapRoute": "Create a route",
     "search.mapSheetHandle": "Expand map details",
     "search.mapLocationName": "Heimerdingen",
     "search.mapWeather": "14°",
@@ -496,8 +501,13 @@ const TRANSLATIONS = {
     "search.nearbyQuery": "Orte in meiner Nähe",
     "search.locationDisclosure": "G04Explore verwendet deinen Gerätestandort nur, um Orte in deiner Nähe zu finden. Mit deiner Zustimmung wird er an Google Places übermittelt und von dieser App nicht gespeichert. Fortfahren?",
     "search.mapLayers": "Kartenebenen",
+    "search.mapType": "Kartentyp",
+    "search.mapClose": "Schließen",
+    "search.mapStandard": "Standardkarte",
+    "search.mapSatellite": "Satellitenansicht",
+    "search.mapTerrain": "Geländeansicht",
     "search.mapLocation": "Meinen Standort verwenden",
-    "search.mapRoute": "Route",
+    "search.mapRoute": "Route erstellen",
     "search.mapSheetHandle": "Kartendetails öffnen",
     "search.mapLocationName": "Heimerdingen",
     "search.mapWeather": "14°",
@@ -660,9 +670,35 @@ let currentLocation = null;
 let currentLocationAccuracy = null;
 let googleMapLibrariesPromise = null;
 let nearbyMap = null;
+let nearbyMapType = "roadmap";
 let nearbyLocationMarker = null;
 let nearbyAccuracyCircle = null;
 let lastGoogleQuery = "";
+
+const NEARBY_MAP_TYPES = [
+  { id: "roadmap", label: "search.mapStandard" },
+  { id: "satellite", label: "search.mapSatellite" },
+  { id: "terrain", label: "search.mapTerrain" },
+];
+
+function setNearbyMapType(nextMapType, shouldAnnounce = true) {
+  const selectedType = NEARBY_MAP_TYPES.find((type) => type.id === nextMapType) || NEARBY_MAP_TYPES[0];
+  nearbyMapType = selectedType.id;
+  const container = $("#search-nearby-map");
+  container?.classList.toggle("is-satellite", nearbyMapType === "satellite");
+  container?.classList.toggle("is-terrain", nearbyMapType === "terrain");
+  nearbyMap?.setOptions({ mapTypeId: nearbyMapType });
+  $("#map-type-sheet")?.querySelectorAll("[data-map-type]").forEach((button) => {
+    const isSelected = button.dataset.mapType === nearbyMapType;
+    button.classList.toggle("selected", isSelected);
+    button.setAttribute("aria-pressed", String(isSelected));
+  });
+  if (shouldAnnounce) announce(t(selectedType.label));
+}
+
+function closeMapTypeSheet() {
+  $("#map-type-sheet")?.classList.add("hidden");
+}
 
 /* ----------------------------------------------------------------- Speicher */
 
@@ -798,6 +834,19 @@ function googleMapsUrl(place, route = true) {
   const path = route ? "dir" : "search";
   const parameter = route ? "destination" : "query";
   return "https://www.google.com/maps/" + path + "/?api=1&" + parameter + "=" + destination;
+}
+
+function googleMapsRoutePlannerUrl() {
+  const origin = currentLocation
+    ? String(currentLocation.lat) + "," + String(currentLocation.lng)
+    : "Current Location";
+  return "https://www.google.com/maps/dir/?api=1&origin=" + encodeURIComponent(origin) + "&travelmode=driving";
+}
+
+function openRoutePlanner() {
+  // Die direkte Navigation erhält auf iPhone/iPad die Chance, die installierte
+  // Google-Maps-App zu öffnen und landet dort direkt im Routenplaner.
+  window.location.assign(googleMapsRoutePlannerUrl());
 }
 
 /* --------------------------------------------------------------- Rendering */
@@ -1674,6 +1723,7 @@ async function renderNearbyMap() {
         center,
         zoom,
         mapId,
+        mapTypeId: nearbyMapType,
         disableDefaultUI: true,
         zoomControl: true,
         gestureHandling: "greedy",
@@ -2315,10 +2365,17 @@ function bindEvents() {
     await requestCurrentLocation({ search: false });
   };
   $("#explore-map-layers").onclick = () => {
-    $("#search-nearby-map")?.classList.toggle("is-satellite");
-    announce(t("search.mapLayers"));
+    $("#map-type-sheet")?.classList.remove("hidden");
   };
-  $("#explore-map-route").onclick = () => announce(t("search.mapRoute"));
+  $("#map-type-sheet-close").onclick = closeMapTypeSheet;
+  $("#map-type-sheet-backdrop").onclick = closeMapTypeSheet;
+  $$("#map-type-sheet [data-map-type]").forEach((button) => {
+    button.onclick = () => {
+      setNearbyMapType(button.dataset.mapType);
+      closeMapTypeSheet();
+    };
+  });
+  $("#explore-map-route").onclick = openRoutePlanner;
   $("#search-map-area").onclick = () => {
     if (!searchMap) {
       announce(t("search.mapFirst"));
