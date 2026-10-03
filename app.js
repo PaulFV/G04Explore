@@ -120,6 +120,16 @@ const TRANSLATIONS = {
     "settings.privacyHint": "How G04Explore handles your data",
     "settings.copyright": "Copyright & imprint",
     "settings.copyrightHint": "Publisher and app rights",
+    "settings.feedbackGroup": "FEEDBACK & SUPPORT",
+    "settings.feedback": "Feedback & ideas",
+    "settings.feedbackHint": "Send feedback or report issues",
+    "settings.sendFeedback": "Send message",
+    "settings.feedbackDescription": "Found a bug, missing feature or have an idea? Send it straight to me on GitHub — no account needed.",
+    "settings.feedbackMessage": "YOUR MESSAGE",
+    "settings.feedbackPlaceholder": "What's on your mind...",
+    "settings.feedbackEmail": "YOUR EMAIL (optional, so I can reply)",
+    "settings.feedbackHint2": "Your feedback will help make G04Explore better.",
+    "settings.feedbackSent": "Thank you! Your feedback has been sent to GitHub.",
     "noscript": "G04Explore needs JavaScript to show your saved places.",
     "category.Restaurants": "Restaurants",
     "category.Hotels": "Hotels",
@@ -382,6 +392,16 @@ const TRANSLATIONS = {
     "settings.privacyHint": "So verarbeitet G04Explore deine Daten",
     "settings.copyright": "Copyright & Impressum",
     "settings.copyrightHint": "Herausgeber und Rechte der App",
+    "settings.feedbackGroup": "FEEDBACK & SUPPORT",
+    "settings.feedback": "Feedback & Ideen",
+    "settings.feedbackHint": "Feedback senden oder Probleme melden",
+    "settings.sendFeedback": "Nachricht senden",
+    "settings.feedbackDescription": "Hast du einen Fehler gefunden, vermisst eine Funktion oder hast eine Idee? Schreib mir direkt auf GitHub — ohne Konto erforderlich.",
+    "settings.feedbackMessage": "DEINE NACHRICHT",
+    "settings.feedbackPlaceholder": "Was ist dir auf dem Herzen...",
+    "settings.feedbackEmail": "DEINE E-MAIL (optional, damit ich antworten kann)",
+    "settings.feedbackHint2": "Dein Feedback hilft mir, G04Explore besser zu machen.",
+    "settings.feedbackSent": "Danke! Dein Feedback wurde zu GitHub gesendet.",
     "noscript": "G04Explore braucht JavaScript, um deine gespeicherten Orte anzuzeigen.",
     "category.Restaurants": "Restaurants",
     "category.Hotels": "Hotels",
@@ -2243,6 +2263,59 @@ function setupNotificationsToggle() {
   };
 }
 
+/* -------------------------------------------------------- Feedback-Modal */
+
+function showFeedbackModal() {
+  openModal(
+    `<div class="modal form-modal">
+      <button class="close" type="button" aria-label="${esc(t("form.close"))}">×</button>
+      <h2>${esc(t("settings.feedback"))}</h2>
+      <p class="form-description">${esc(t("settings.feedbackDescription"))}</p>
+      <form id="feedback-form" novalidate>
+        <div class="field">
+          <label for="feedback-message">${esc(t("settings.feedbackMessage"))}</label>
+          <textarea id="feedback-message" name="message" rows="4" placeholder="${esc(t("settings.feedbackPlaceholder"))}" required></textarea>
+        </div>
+        <div class="field">
+          <label for="feedback-email">${esc(t("settings.feedbackEmail"))}</label>
+          <input id="feedback-email" name="email" type="email" placeholder="you@example.com" />
+        </div>
+        <p class="form-hint" data-i18n="settings.feedbackHint2">Your feedback will help make G04Explore better.</p>
+        <div class="actions">
+          <button class="secondary" type="button" data-cancel>${esc(t("form.cancel"))}</button>
+          <button class="primary" type="submit">${esc(t("settings.sendFeedback"))}</button>
+        </div>
+      </form>
+    </div>`,
+    t("settings.feedback"),
+  );
+
+  const root = $("#modal-root");
+  $(".close", root).onclick = closeModal;
+  $("[data-cancel]", root).onclick = closeModal;
+
+  $("#feedback-form", root).onsubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const message = formData.get("message").trim();
+    const email = formData.get("email").trim();
+
+    if (!message) {
+      announce(t("form.requiredName"));
+      return;
+    }
+
+    // GitHub Issue erstellen über API
+    const issueBody = `**From**: ${email || "Anonymous"}\n\n${message}`;
+    const githubRepo = "paulfv/G04Explore";
+    const githubIssueUrl = `https://github.com/${githubRepo}/issues/new?body=${encodeURIComponent(issueBody)}&title=Feedback:%20${encodeURIComponent(message.substring(0, 50))}`;
+
+    window.open(githubIssueUrl, "_blank");
+    closeModal();
+    announce(t("settings.feedbackSent"));
+  };
+}
+
 /* --------------------------------------------------------------------- Start */
 
 function bindEvents() {
@@ -2405,6 +2478,7 @@ function bindEvents() {
   $("#settings-theme").onchange = (event) => applyTheme(event.target.checked);
   $("#settings-language").onchange = (event) => setLocale(event.target.value);
   $("#google-places-connect").onclick = () => announce(googlePlacesKey() ? t("google.connected") : t("google.notConfigured"));
+  $("#settings-feedback-btn").onclick = () => showFeedbackModal();
   $("#settings-reset").onclick = async () => {
     await disableOffline();
     ["g04-language", "g04-theme", "g04-offline", "g04-notifications"].forEach((key) => {
